@@ -18,6 +18,7 @@ cur.execute("SELECT * FROM your_table")
 results = cur.fetchall()
 
 print("Heartaches!")
+print("BLA BLA")
 # Print the results
 for row in results:
     print(row)
