@@ -4,7 +4,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: Arial, sans-serif;
-    color: #ffffff;
+    color: hsl(0, 0%, 100%);
 }
 
 .container {
@@ -14,7 +14,7 @@ body {
     padding: 50px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    margin-top: 50px;
+    margin-top: 150px;
 }
 
 h1 {
@@ -25,6 +25,7 @@ h1 {
 p {
     font-size: 18px;
     margin-bottom: 20px;
+    font-style: italic;
 }
 
 input[type="text"] {
@@ -45,6 +46,22 @@ input[type="submit"] {
     font-size: 16px;
     cursor: pointer;
 }
+
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+p.contact-info {
+    font-size: 10px;
+    margin-top: 20px;
+    font-style: italic;
+}
+
 
 input[type="submit"]:hover {
     background-color: #0056b3;

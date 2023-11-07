@@ -9,12 +9,15 @@
 <body>
     <div class="container">
         <h1>WELCOME TO SAHA-ATAR</h1>
-        <p>Enter your user ID to login</p>
+        <p>Enter your user info to login</p>
         <form action="/login" method="post">
             <input type="text" name="userID" placeholder="Enter User ID" required>
             <br>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <br>
             <input type="submit" value="Login">
         </form>
+        <p class="contact-info">For login issues contact with +90 XXX XXX XX XX</p>
         <br>
         <div class="button-container">
             <a href="/continue_as_visitor" class="button">Continue as Visitor</a>
