@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://c4.wallpaperflare.com/wallpaper/593/957/270/background-mesh-football-sport-wallpaper-preview.jpg');
+    background-image: url(/images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -12,14 +12,22 @@ body {
     max-width: 600px;
     margin: 0 auto;
     padding: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
-    margin-top: 150px;
+    margin-top: 20px;
+}
+
+.logo{
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 50px;
     margin-bottom: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-shadow: 0 0 3px #32986a, 0 0 5px #0000FF; 
 }
 
 p {
