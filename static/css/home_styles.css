@@ -3,8 +3,10 @@
     padding: 0;
   }
   html{
-    background-image: url(/images/background.jpg);
+    background-image: url('/static/images/background.jpg');
+
   }
+
   main{
  
     padding: 100px 200px 0px 200px;

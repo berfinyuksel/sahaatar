@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/login_styles.css') }}">
+
 </head>
 <body>
     <div class="container">
-        <img src="/images/logo2.png" alt="Logo" class="logo">
+        <img src="static/images/logo2.png" alt="Logo" class="logo">
         <h1>SAHA-ATAR</h1>
         <p>Enter your user info to login</p>
         <form action="/login" method="post">
