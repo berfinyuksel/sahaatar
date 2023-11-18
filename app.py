@@ -1,10 +1,32 @@
-from flask import Flask, render_template, url_for
+from curses import flash
+from flask import Flask, redirect, render_template, request, url_for
+from flask_bcrypt import Bcrypt
+from werkzeug.security import generate_password_hash,check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
 
 @app.route('/')
-def index():
+def home():
     return render_template('home_page.html')
+
+@app.route('/Login', methods = ['GET','POST'])
+def login():
+    if request.method == 'POST':
+        idInput = request.form.get('userID')
+        passwordInput = request.form.get('password')
+        if idInput == "A" and passwordInput == "B":
+            return redirect(url_for('adminhome'))
+        else:
+            flash('Login failed. Check your User ID and password.', 'danger')
+
+    return render_template('login_page.html')
+
+@app.route('/Logout')
+def adminhome():
+    return render_template('admin_home_page.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
