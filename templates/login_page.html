@@ -12,12 +12,12 @@
         <img src="static/images/logo2.png" alt="Logo" class="logo">
         <h1>SAHA-ATAR</h1>
         <p>Enter your user info to login</p>
-        <form action="/login" method="post">
+        <form action="/Login" method="POST">
             <input type="text" name="userID" placeholder="Enter User ID" required>
             <br>
             <input type="password" name="password" placeholder="Enter Password" required>
             <br>
-            <input type="submit" value="Login" onclick="validateAndNavigate()">
+            <input type="submit" value="Login">
         </form>
         <p class="contact-info">For login issues contact with +90 XXX XXX XX XX</p>
         <br>
@@ -25,5 +25,14 @@
             <a href="/" class="button">Continue as Visitor</a>
         </div>
     </div>
+    <!-- {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %} -->
 </body>
 </html>

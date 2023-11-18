@@ -1,9 +1,8 @@
-from curses import flash
+from flask import flash
 from flask import Flask, redirect, render_template, request, url_for
 from flask_bcrypt import Bcrypt
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -19,12 +18,12 @@ def login():
         passwordInput = request.form.get('password')
         if idInput == "A" and passwordInput == "B":
             return redirect(url_for('adminhome'))
-        else:
-            flash('Login failed. Check your User ID and password.', 'danger')
+        # else:
+        #     flash('Your userID or password is incorrect. For login issues contact with +90 XXX XXX XX XX', 'danger')
 
     return render_template('login_page.html')
 
-@app.route('/Logout')
+@app.route('/adminhome')
 def adminhome():
     return render_template('admin_home_page.html')
 
