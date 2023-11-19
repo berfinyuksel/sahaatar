@@ -29,5 +29,9 @@ def adminhome():
 def addfile():
     return render_template('sendfile.html')
 
+@app.route('/fillform')
+def fillform():
+    return render_template('fillform.html')
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/sendfile.css') }}">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/fillform.css') }}">
   </head>
   <body>
     <header>
@@ -32,24 +32,8 @@
         </div>
       </nav>
     </header>
-    
-      <div class="container">
+    <div class="container">
         <h1>ADD GAME PLAN</h1>
-       
-        <div class="download-container">
-            <div class="download">
-                <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
-                    <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
-                    
-                    Download Excel Template
-                </a>
-            </div>
-      </div>
-      
-      <form action="{{ url_for('addfile') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileInput" accept=".xlsx, .xls">
-                  <button type="submit" id="submitButton" disabled>Submit</button>
-      </form>
-
+    </div>
 </body>
 </html>
