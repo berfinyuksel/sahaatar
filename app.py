@@ -25,5 +25,9 @@ def login():
 def adminhome():
     return render_template('admin_home_page.html')
 
+@app.route('/addfile')
+def addfile():
+    return render_template('sendfile.html')
+
 if __name__ == "__main__":
     app.run(debug=True)

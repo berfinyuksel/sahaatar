@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/home_styles.css') }}">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="brand">
+          <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
+        </div>
+        <div class="navbar-pages">
+          <ul class="navigation">
+            <li><a href="adminhome">Homepage</a></li>
+            <li><a href="#calendar">Field Calendar</a></li>
+            <li><a href="Login">Modify Field</a></li>
+            <li class="dropdown">
+              <a class="dropbtn">Add Game</a>
+              <div class="dropdown-content">
+                <a href="addfile">Add File</a>
+                <a href="fillform">Fill Form</a>
+              </div>
+            </li>
+            <li><a href="dashboard">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <a class="btn btn-primary" href="/">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <!-- Excel file template download link -->
+      <div class="container">
+        <h1>ADD GAME PLAN</h1>
+        <!-- Download section -->
+        <div class="download-container">
+            <div class="download">
+                <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
+                    <img src="static/images/excelicon.png" alt="Excel Icon" width="30px">
+                    Download Excel Template
+                </a>
+            </div>
+      </div>
+    <!-- File upload form -->
+    <form action="{{ url_for('addfile') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileInput" accept=".xlsx, .xls">
+        <button type="submit" id="submitButton" disabled>Submit</button>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var fileInput = document.getElementsByName('fileInput')[0];
+
+            if (fileInput.files.length === 0) {
+                e.preventDefault(); // Prevent form submission
+                alert('Please upload the Excel file.');
+            }
+        });
+    </script>
+</body>
+</html>
