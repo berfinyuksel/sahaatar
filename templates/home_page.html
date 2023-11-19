@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/home_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
   </head>
   <body>
     <header>
@@ -14,10 +14,16 @@
         </div>
         <div class="navbar-pages">
           <ul class="navigation">
-            <li><a href="#homepage">Anasayfa</a></li>
-            <li><a href="#calendar">Saha takvimi</a></li>
-            <li><a href="#fieldsettings">Saha Ayarları</a></li>
-            <li><a href="addgame">Maç ekleme</a></li>
+            <li><a href="#homepage">Homepage</a></li>
+            <li><a href="#calendar">Field Calendar</a></li>
+            <li><a href="#fieldsettings">Modify Field</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropbtn">Add Game</a>
+              <div class="dropdown-content">
+                <a href="#">Add File</a>
+                <a href="#">Fill Form</a>
+              </div>
+            </li>
             <li><a href="#dashboard">Dashboard</a></li>
           </ul>
         </div>
