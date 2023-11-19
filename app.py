@@ -1,6 +1,5 @@
 from flask import flash
 from flask import Flask, redirect, render_template, request, url_for
-from flask_bcrypt import Bcrypt
 from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
@@ -17,8 +16,8 @@ def login():
         passwordInput = request.form.get('password')
         if idInput == "A" and passwordInput == "B":
             return redirect(url_for('adminhome'))
-        # else:
-        #     flash('Your userID or password is incorrect. For login issues contact with +90 XXX XXX XX XX', 'danger')
+        else: 
+            flash("Check your login information!")
 
     return render_template('login_page.html')
 

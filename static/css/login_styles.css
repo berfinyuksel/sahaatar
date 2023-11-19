@@ -65,7 +65,7 @@ input[type="password"] {
 }
 
 p.contact-info {
-    font-size: 10px;
+    font-size: 15px;
     margin-top: 20px;
     font-style: italic;
 }
@@ -93,3 +93,13 @@ a.button:hover {
 .button-container {
     margin-top: 20px;
 }
+
+.alert {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
