@@ -14,7 +14,7 @@ def login():
     if request.method == 'POST':
         idInput = request.form.get('userID')
         passwordInput = request.form.get('password')
-        if idInput == "A" and passwordInput == "B":
+        if idInput == "berfin" and passwordInput == "123456":
             return redirect(url_for('adminhome'))
         else: 
             flash("Check your login information!")
