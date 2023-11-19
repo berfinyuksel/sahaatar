@@ -32,24 +32,32 @@
         </div>
       </nav>
     </header>
-    
-      <div class="container">
-        <h1>ADD GAME PLAN</h1>
-       
-        <div class="download-container">
-            <div class="download">
-                <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
-                    <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
-                    
-                    Download Excel Template
-                </a>
-            </div>
+    <div class="container">
+      <h1>ADD GAME PLAN</h1>
+      <div class="download-container">
+        <div class="download">
+          <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
+            <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
+            Download Excel Template
+          </a>
+        </div>
+        <form>
+          <label for="fileInput">Choose a file</label>
+          <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" />
+          <span id="fileName">No file chosen</span>
+          <button type="submit" id="submitButton">Submit</button>
+        </form>
       </div>
-      
-      <form action="{{ url_for('addfile') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileInput" accept=".xlsx, .xls">
-                  <button type="submit" id="submitButton" disabled>Submit</button>
-      </form>
-
+    </div>
+    <script>
+      function displayFileName(input) {
+        const fileNameSpan = document.getElementById('fileName');
+        if (input.files.length > 0) {
+          fileNameSpan.textContent = input.files[0].name;
+        } else {
+          fileNameSpan.textContent = 'No file chosen';
+        }
+      }
+    </script>   
 </body>
 </html>
