@@ -32,8 +32,34 @@
         </div>
       </nav>
     </header>
+
     <div class="container">
-        <h1>ADD GAME PLAN</h1>
-    </div>
+      <div id="title-box">
+        <h1 id="title">ADD GAME PLAN</h1>
+      </div>
+        <form id="game-form">
+
+      <fieldset>
+      <label id="name-label">Name:<input id="name" placeholder="Ex: Maltepespor" type="text" required/></label>
+      <label id="region-label">Region:<input id="region" placeholder="Ex: Maltepe" type="text" required/></label>
+      </fieldset>
+
+      <fieldset><label id="name-label">Name:<input id="name" placeholder="Ex: Tuzlaspor" type="text" required/></label>
+      <label id="region-label">Region:<input id="region" placeholder="Ex: Tuzla" type="text" required/></label>
+      </fieldset>
+      
+      <fieldset>
+      <label for="dropdown">Which League Game is it?</label>
+      <select id="dropdown">
+      <option value="">Select one</option>
+      <option value="1">1. Group</option>
+      <option value="2">2. Group</option>
+      <option value="3">3. Group</option>
+      </label>
+      </select>
+      </fieldset>
+      <input id="submit" type="submit" value="SUBMIT"/></input>
+    </form>
+  </div>
 </body>
 </html>
