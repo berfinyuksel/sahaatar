@@ -16,7 +16,7 @@
           <ul class="navigation">
             <li><a href="adminhome">Homepage</a></li>
             <li><a href="#calendar">Field Calendar</a></li>
-            <li><a href="modifyfield">Modify Field</a></li>
+            <li><a href="#modifyfield">Modify Field</a></li>
             <li class="dropdown">
               <a class="dropbtn">Add Game</a>
               <div class="dropdown-content">
@@ -24,7 +24,7 @@
                 <a href="fillform">Fill Form</a>
               </div>
             </li>
-            <li><a href="dashboard">Dashboard</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
           </ul>
         </div>
         <div>
@@ -42,9 +42,11 @@
           </a>
         </div>
         <form>
-          <label for="fileInput">Choose a file</label>
+          <label for="fileInput">
+            <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon"  width="100px">
           <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" />
           <span id="fileName">No file chosen</span>
+          </label>
           <button type="submit" id="submitButton">Submit</button>
         </form>
       </div>
