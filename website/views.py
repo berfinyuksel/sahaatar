@@ -1,13 +1,15 @@
-from flask import Flask, redirect, render_template, request, url_for, flash
+from flask import Blueprint,render_template,request,redirect,url_for,flash
+from flask_bcrypt import Bcrypt
+from .models import Admin
+from . import db
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
+views = Blueprint('views',__name__)
 
-@app.route('/')
+@views.route('/')
 def home():
     return render_template('home_page.html')
 
-@app.route('/Login', methods = ['GET','POST'])
+@views.route('/Login', methods = ['GET','POST'])
 def login():
     if request.method == 'POST':
         idInput = request.form.get('userID')
@@ -19,17 +21,14 @@ def login():
 
     return render_template('login_page.html')
 
-@app.route('/adminhome')
+@views.route('/adminhome')
 def adminhome():
     return render_template('admin_home_page.html')
 
-@app.route('/addfile')
+@views.route('/addfile')
 def addfile():
     return render_template('sendfile.html')
 
-@app.route('/fillform')
+@views.route('/fillform')
 def fillform():
     return render_template('fillform.html')
-
-if __name__ == "__main__":
-    app.run(debug=True)
