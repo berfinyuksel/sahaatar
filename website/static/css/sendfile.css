@@ -141,6 +141,8 @@ h1 {
     padding: 10px;
     margin-bottom: 10px;
     width: 400px;
+    font-size: large;
+   
 }
 
 .download a:hover {
@@ -149,7 +151,6 @@ h1 {
 }
 
 #submitButton {
-    display: block;
     margin: 20px auto;
     margin-bottom: 0px;
     padding: 10px;
@@ -160,7 +161,9 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: large;
+    font-size: large;   
+    display: block;
+    margin-top: 20px;
 }
 
 #submitButton:hover {
@@ -169,10 +172,12 @@ h1 {
     
 }
 
-form {
- display:inline-block;
-
-}
+/*form {
+   display: flex;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center;
+} */
 
 form input[type="file"] {
   opacity: 0;
@@ -209,3 +214,6 @@ form label:hover {
   color: #dbfe87;
 }
 
+#fileName {
+  font-size: large;
+}
