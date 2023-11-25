@@ -1,13 +1,15 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
 
   html {
-    background-color: white;
+    background-color: white; 
   }
   
   nav {
+    max-width: 100%;
     padding: 0 25px;
     background-color: #505050;
     display: flex;
@@ -20,7 +22,7 @@
     text-decoration: none;
     color: #03B5AA;
     font-size: 20px;
-    align-self: self;
+    align-self: center;
   }
   
   .brand {
@@ -106,6 +108,7 @@
   padding: 50px;
   background-color: rgba(128, 128, 128, 0.4);
   border-radius: 10px;
+  max-height: 500px;
   margin-top: 50px;
 }
 
@@ -163,7 +166,9 @@ h1 {
     cursor: pointer;
     font-size: large;   
     display: block;
-    margin-top: 20px;
+    margin-top: 50px;
+    justify-content: center;
+    
 }
 
 #submitButton:hover {
@@ -171,13 +176,6 @@ h1 {
     color: #1d9375;
     
 }
-
-/*form {
-   display: flex;
-  flex-direction: column;
-  align-items: center; 
-  text-align: center;
-} */
 
 form input[type="file"] {
   opacity: 0;
@@ -217,3 +215,4 @@ form label:hover {
 #fileName {
   font-size: large;
 }
+
