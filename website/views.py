@@ -1,6 +1,8 @@
 from flask import Blueprint,render_template,request,redirect,url_for,flash
 from flask_bcrypt import Bcrypt
-from .models import Admin
+from sqlalchemy.exc import IntegrityError
+from .models import District,League,Match,Team
+import pandas as pd
 from . import db
 
 views = Blueprint('views',__name__)
@@ -15,7 +17,7 @@ def login():
         idInput = request.form.get('userID')
         passwordInput = request.form.get('password')
         if idInput == "berfin" and passwordInput == "123456":
-            return redirect(url_for('adminhome'))
+            return redirect(url_for('views.adminhome'))
         else: 
             flash("Check your login information!")
 
@@ -25,8 +27,36 @@ def login():
 def adminhome():
     return render_template('admin_home_page.html')
 
-@views.route('/addfile')
+@views.route('/addfile', methods=['POST','GET'])
 def addfile():
+    if request.method == 'POST':
+        file = request.files['file']
+        df = pd.read_excel(file)
+        
+        for index, row in df.iterrows():
+            home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
+            away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
+            league = League.query.filter_by(league_name = row['League_name']).first()
+
+            if home_team_to_insert and away_team_to_insert and league:
+                match = Match(home_team_id=home_team_to_insert.team_id, 
+                    away_team_id=away_team_to_insert.team_id,
+                    league_id = league.league_id)
+                try:
+                    db.session.add(match)
+                    db.session.commit()
+                except IntegrityError:
+                    print(f"You have already added this match: {match}")
+                    db.session.rollback()
+                
+
+                
+        db.session.commit()   
+
+
+       
+    
+
     return render_template('sendfile.html')
 
 @views.route('/fillform')
