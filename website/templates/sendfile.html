@@ -44,7 +44,7 @@
         <form action="{{ url_for('views.addfile') }}" method="POST" enctype="multipart/form-data">
           <label for="fileInput">
             <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon"  width="100px">
-          <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" />
+          <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" accept=".xls, .xlsx" />
           <span id="fileName">No file chosen</span>
           </label>
           <button type="submit" id="submitButton">Submit</button>
