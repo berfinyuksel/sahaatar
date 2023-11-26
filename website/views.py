@@ -62,3 +62,7 @@ def addfile():
 @views.route('/fillform')
 def fillform():
     return render_template('fillform.html')
+
+@views.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')

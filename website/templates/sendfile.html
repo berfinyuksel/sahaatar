@@ -24,7 +24,7 @@
                 <a href="fillform">Fill Form</a>
               </div>
             </li>
-            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="dashboard">Dashboard</a></li>
           </ul>
         </div>
         <div>
@@ -38,14 +38,14 @@
         <div class="download">
           <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
             <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
-            Download Excel Template
+            <span id="exceltemp">Download Excel Template</span>
           </a>
         </div>
         <form action="{{ url_for('views.addfile') }}" method="POST" enctype="multipart/form-data">
           <label for="fileInput">
-            <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon"  width="100px">
+            <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon" width="100px">
           <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" accept=".xls, .xlsx" />
-          <span id="fileName">No file chosen</span>
+          <span id="fileName">No File Chosen</span>
           </label>
           <button type="submit" id="submitButton">Submit</button>
         </form>
