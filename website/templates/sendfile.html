@@ -50,6 +50,11 @@
           <button type="submit" id="submitButton">Submit</button>
         </form>
       </div>
+      {% for message in get_flashed_messages() %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+      </div>
+          {% endfor %}
     </div>
     <script>
       function displayFileName(input) {

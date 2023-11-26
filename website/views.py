@@ -27,10 +27,12 @@ def login():
 def adminhome():
     return render_template('admin_home_page.html')
 
+
 @views.route('/addfile', methods=['POST','GET'])
 def addfile():
     if request.method == 'POST':
         file = request.files['file']
+        
         df = pd.read_excel(file)
         
         for index, row in df.iterrows():
@@ -48,14 +50,8 @@ def addfile():
                 except IntegrityError:
                     print(f"You have already added this match: {match}")
                     db.session.rollback()
-                
-
-                
+                       
         db.session.commit()   
-
-
-       
-    
 
     return render_template('sendfile.html')
 

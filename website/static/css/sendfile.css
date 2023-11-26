@@ -216,3 +216,11 @@ form label:hover {
   font-size: large;
 }
 
+.alert {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dc3545;
+  border-radius: 5px;
+  color: #dc3545;
+  background-color: #f8d7da;
+}
