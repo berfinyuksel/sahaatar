@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/home_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/dashboard.css') }}">
   </head>
   <body>
     <header>
@@ -16,7 +16,7 @@
           <ul class="navigation">
             <li><a href="adminhome">Homepage</a></li>
             <li><a href="#calendar">Field Calendar</a></li>
-            <li><a href="#fieldsettings">Modify Field</a></li>
+            <li><a href="#modifyfield">Modify Field</a></li>
             <li class="dropdown">
               <a class="dropbtn">Add Game</a>
               <div class="dropdown-content">
@@ -32,8 +32,27 @@
         </div>
       </nav>
     </header>
-    <main>
-      <div class="main">main page</div>
-    </main>
-  </body>
+    <div class="container">
+      <div id="title">
+        <h1>FIELD DASHBOARD</h1>
+      </div>
+      <div id="a">
+        <h2>Grid Item 3</h2>
+        <p>Content for Grid Item 3 goes here.</p>
+      </div>
+      <div id="dropdown">
+        <select>
+        <option value="">Choose a field</option>
+        <option value="1">A</option>
+        <option value="2">B</option>
+        <option value="3">C</option>
+        <option value="4">D</option>
+        </select>
+    </div>
+      <div>
+        <h2>Grid Item 4</h2>
+        <p>Content for Grid Item 4 goes here.</p>
+      </div>
+    </div>
+</body>
 </html>
