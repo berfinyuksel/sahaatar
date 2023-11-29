@@ -152,6 +152,7 @@ h1 {
 }
 
 #submitButton {
+  display: block;
   width: 60%;
   margin: 1em auto;
   height: 2em;
@@ -159,11 +160,9 @@ h1 {
   color: #dbfe87;
   background-color: #1d9375;
   border-color: #03B5AA;
-  min-width: 100px;
+  min-width: 300px;
   cursor: pointer;
   border-radius: 5px;
-  text-align: center;
-  display: block;
 }
 
 #submitButton:hover {

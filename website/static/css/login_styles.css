@@ -17,7 +17,7 @@ body {
     margin-top: 20px;
 }
 
-.logo{
+.logo {
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
@@ -27,7 +27,7 @@ h1 {
     font-size: 50px;
     margin-bottom: 20px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    text-shadow: 0 0 3px #32986a, 0 0 5px #0000FF; 
+    text-shadow: 0 0 3px #32986a, 0 0 5px #0000FF;
 }
 
 p {
@@ -102,4 +102,3 @@ a.button:hover {
     color: #dc3545;
     background-color: #f8d7da;
 }
-
