@@ -118,7 +118,7 @@ nav a {
     margin-top: 3em;
     margin-bottom: 3em;
     font-size: medium;
-    font-family: Tahoma, Arial, sans-serif;
+
 
 }
 
@@ -137,6 +137,7 @@ h1 {
     -webkit-text-stroke-color: #dbfe87;
     text-align: center;
     margin: 0;
+    font-size: 50px;
 
 }
 
@@ -146,6 +147,7 @@ form {
     min-width: 300px;
     margin: 0 auto;
     padding-bottom: 2em;
+    font-family: Tahoma, Arial, sans-serif;
 
 }
 
