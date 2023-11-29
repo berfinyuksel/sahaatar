@@ -167,6 +167,7 @@ h1 {
   cursor: pointer;
   border-radius: 5px;
   text-align: center;
+  display: block;
 }
 
 #submitButton:hover {
@@ -214,11 +215,13 @@ form label:hover {
   font-size: large;
 }
 
-.alert {
+#deleteButton {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+  border: none;
+  background: none;
   padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #dc3545;
-  border-radius: 5px;
-  color: #dc3545;
-  background-color: #f8d7da;
+  margin: 0 auto;
+  font-size: small;
 }

@@ -32,34 +32,57 @@ def fieldsettings():
     return render_template('fieldsettings.html')
 
 
-@views.route('/addfile', methods=['POST','GET'])
+@views.route('/addfile', methods=['POST', 'GET'])
 def addfile():
     if request.method == 'POST':
-        file = request.files['file']
-        
-        df = pd.read_excel(file)
-        
-        for index, row in df.iterrows():
-            home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
-            away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
-            league = League.query.filter_by(league_name = row['League_name']).first()
+        try:
+            file = request.files['file']
+            if file:
 
-            if home_team_to_insert and away_team_to_insert and league:
-                match = Match(home_team_id=home_team_to_insert.team_id, 
-                    away_team_id=away_team_to_insert.team_id,
-                    league_id = league.league_id)
-                try:
-                    db.session.add(match)
-                    db.session.commit()
-                except IntegrityError:
-                    print(f"You have already added this match: {match}")
-                    db.session.rollback()
-                       
-        db.session.commit()
-        
-    export_match_to_csv()       
+                file_path = 'static/excel/template.xlsx'
+                file.save(file_path)
+
+                df = pd.read_excel(file_path, engine='openpyxl')
+
+                for index, row in df.iterrows():
+                    home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
+                    away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
+                    league = League.query.filter_by(league_name=row['League_name']).first()
+
+                    if home_team_to_insert and away_team_to_insert and league:
+                        match = Match(
+                            home_team_id=home_team_to_insert.team_id,
+                            away_team_id=away_team_to_insert.team_id,
+                            league_id=league.league_id
+                        )
+                        try:
+                            db.session.add(match)
+                            db.session.commit()
+                        except IntegrityError:
+                            print(f"You have already added this match: {match}")
+                            db.session.rollback()
+
+                db.session.commit()
+            else:
+                print("No file uploaded")
+
+        except Exception as e:
+            print(f'Error processing file: {e}')
+
+    export_match_to_csv()
 
     return render_template('sendfile.html')
+
+@views.route('/deletefile', methods=['DELETE'])
+def delete_file():
+    try:
+        file_name = request.json.get('fileName')
+
+
+        return '', 204  # No content, success
+    except Exception as e:
+        print(f'Error deleting file: {e}')
+        return '', 500  # Internal Server Error
 
 @views.route('/fillform')
 def fillform():
@@ -79,4 +102,4 @@ def export_match_to_csv():
     # Veri çerçevesini CSV dosyasına kaydet
     matches_df.to_csv('matches.csv', index=False)
 
-    print("Match verileri CSV dosyasına başarıyla kaydedildi.")
+    print("Match data saved to CSV file successfully.")
