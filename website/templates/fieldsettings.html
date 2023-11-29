@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/field_styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="brand">
+                <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
+            </div>
+            <div class="navbar-pages">
+                <ul class="navigation">
+                    <li><a href="adminhome">Homepage</a></li>
+                    <li><a href="#calendar">Field Calendar</a></li>
+                    <li><a href="fieldsettings">Modify Field</a></li>
+                    <li class="dropdown">
+                        <a class="dropbtn">Add Game</a>
+                        <div class="dropdown-content">
+                            <a href="addfile">Add File</a>
+                            <a href="fillform">Fill Form</a>
+                        </div>
+                    </li>
+                    <li><a href="dashboard">Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="/">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="container">
+        <div id="title-box">
+            <h1 id="title">FIELD SETTINGS</h1>
+        </div>
+        <form id="survey-form">
+            <fieldset>
+                <select id="dropdown">
+                    <option value="">Select a Field</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                </select>
+            </fieldset>
+
+            <fieldset>
+                <label>
+                    Does this field accept teams from other regions?
+                </label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value="area" /> Yes</label>
+                <label for="no"><input id="no" type="radio" class="inline" name="area" value="are" /> No</label>
+            </fieldset>
+
+            <fieldset>
+                <label>Select available time(s) for this field</label>
+                <label for="slot1"><input id="slot1" type="checkbox" class="inline" value="slot1" />Slot1: 08:00 -
+                    11:00</label>
+                <label for="slot2"><input id="slot2" type="checkbox" class="inline" value="slot2" />Slot2: 11:00 -
+                    14:00</label>
+                <label for="slot3"><input id="slot3" type="checkbox" class="inline" value="slot3" />Slot3: 14:00 -
+                    17:00</label>
+                <label for="slot4"><input id="slot4" type="checkbox" class="inline" value="slot4" />Slot4: 17:00 -
+                    20:00</label>
+                <label for="slot5"><input id="slot5" type="checkbox" class="inline" value="slot5" />Slot5: 20:00 -
+                    23:00</label>
+            </fieldset>
+
+            <fieldset>
+                <label>Is this field currently open?</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value="open" />Yes</label>
+                <label for="no"><input id="no" type="radio" class="inline" name="open" value="open" />No</label>
+            </fieldset>
+
+            <input id="submit" type="submit" value="SUBMIT" /></input>
+    </div>
+    </form>
+</body>
+
+</html>

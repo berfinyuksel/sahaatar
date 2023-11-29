@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/fillform.css') }}">
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="brand">
-          <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
-        </div>
-        <div class="navbar-pages">
-          <ul class="navigation">
-            <li><a href="adminhome">Homepage</a></li>
-            <li><a href="#calendar">Field Calendar</a></li>
-            <li><a href="#modifyfield">Modify Field</a></li>
-            <li class="dropdown">
-              <a class="dropbtn">Add Game</a>
-              <div class="dropdown-content">
-                <a href="addfile">Add File</a>
-                <a href="fillform">Fill Form</a>
-              </div>
-            </li>
-            <li><a href="dashboard">Dashboard</a></li>
-          </ul>
-        </div>
-        <div>
-          <a class="btn btn-primary" href="/">Logout</a>
-        </div>
-      </nav>
-    </header>
 
-    <div class="container">
-      <div id="title-box">
-        <h1 id="title">ADD GAME PLAN</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for ('static', filename='css/fillform.css') }}">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="brand">
+        <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
       </div>
-        <form id="game-form">
-          <!-- <fieldset>
+      <div class="navbar-pages">
+        <ul class="navigation">
+          <li><a href="adminhome">Homepage</a></li>
+          <li><a href="#calendar">Field Calendar</a></li>
+          <li><a href="fieldsettings">Modify Field</a></li>
+          <li class="dropdown">
+            <a class="dropbtn">Add Game</a>
+            <div class="dropdown-content">
+              <a href="addfile">Add File</a>
+              <a href="fillform">Fill Form</a>
+            </div>
+          </li>
+          <li><a href="dashboard">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <a class="btn btn-primary" href="/">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div id="title-box">
+      <h1 id="title">ADD GAME PLAN</h1>
+    </div>
+    <form id="game-form">
+      <!-- <fieldset>
             <label id="id-label">Game ID:<input type="number" min=0 id="numericInput" name="numericInput"  pattern="[0-9]+" placeholder="Ex: 00000" required/></label>
             <span class="error-message" id="error"></span>
           </fieldset>
@@ -57,16 +59,16 @@
 
       <fieldset>
         <h2>HOME TEAM</h2>
-        <label id="name-label">Name:<input id="name" placeholder="Ex: Maltepespor" type="text" required/></label>
-        <label id="region-label">Region:<input id="region" placeholder="Ex: Maltepe" type="text" required/></label>
+        <label id="name-label">Name:<input id="name" placeholder="Ex: Maltepespor" type="text" required /></label>
+        <label id="region-label">Region:<input id="region" placeholder="Ex: Maltepe" type="text" required /></label>
       </fieldset>
 
       <fieldset>
         <h2>AWAY TEAM</h2>
-        <label id="name-label">Name:<input id="name" placeholder="Ex: Tuzlaspor" type="text" required/></label>
-        <label id="region-label">Region:<input id="region" placeholder="Ex: Tuzla" type="text" required/></label>
+        <label id="name-label">Name:<input id="name" placeholder="Ex: Tuzlaspor" type="text" required /></label>
+        <label id="region-label">Region:<input id="region" placeholder="Ex: Tuzla" type="text" required /></label>
       </fieldset>
-      
+
       <!-- <fieldset>
       <label for="dropdown">Which League Game is it?</label>
       <select id="dropdown" required>
@@ -77,8 +79,9 @@
       </label>
       </select>
       </fieldset> -->
-      <input id="submit" type="submit" value="SUBMIT"/></input>
+      <input id="submit" type="submit" value="SUBMIT" /></input>
     </form>
   </div>
 </body>
+
 </html>

@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/sendfile.css') }}">
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="brand">
-          <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
-        </div>
-        <div class="navbar-pages">
-          <ul class="navigation">
-            <li><a href="adminhome">Homepage</a></li>
-            <li><a href="#calendar">Field Calendar</a></li>
-            <li><a href="#modifyfield">Modify Field</a></li>
-            <li class="dropdown">
-              <a class="dropbtn">Add Game</a>
-              <div class="dropdown-content">
-                <a href="addfile">Add File</a>
-                <a href="fillform">Fill Form</a>
-              </div>
-            </li>
-            <li><a href="dashboard">Dashboard</a></li>
-          </ul>
-        </div>
-        <div>
-          <a class="btn btn-primary" href="/">Logout</a>
-        </div>
-      </nav>
-    </header>
-    <div class="container">
-      <h1>ADD GAME PLAN</h1>
-      <div class="download-container">
-        <div class="download">
-          <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
-            <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
-            <span id="exceltemp">Download Excel Template</span>
-          </a>
-        </div>
-        <form action="{{ url_for('views.addfile') }}" method="POST" enctype="multipart/form-data">
-          <label for="fileInput">
-            <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon" width="100px">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for ('static', filename='css/sendfile.css') }}">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="brand">
+        <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
+      </div>
+      <div class="navbar-pages">
+        <ul class="navigation">
+          <li><a href="adminhome">Homepage</a></li>
+          <li><a href="#calendar">Field Calendar</a></li>
+          <li><a href="fieldsettings">Modify Field</a></li>
+          <li class="dropdown">
+            <a class="dropbtn">Add Game</a>
+            <div class="dropdown-content">
+              <a href="addfile">Add File</a>
+              <a href="fillform">Fill Form</a>
+            </div>
+          </li>
+          <li><a href="dashboard">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <a class="btn btn-primary" href="/">Logout</a>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>ADD GAME PLAN</h1>
+    <div class="download-container">
+      <div class="download">
+        <a href="{{ url_for('static', filename='template.xlsx') }}" download="template.xlsx">
+          <img src="static/images/excelicon.png" alt="Excel Icon" width="100px">
+          <span id="exceltemp">Download Excel Template</span>
+        </a>
+      </div>
+      <form action="{{ url_for('views.addfile') }}" method="POST" enctype="multipart/form-data">
+        <label for="fileInput">
+          <img id="icon" src="static/images/uploadicon.png" alt="Upload Icon" width="100px">
           <input type="file" id="fileInput" name="file" onchange="displayFileName(this)" accept=".xls, .xlsx" />
           <span id="fileName">No File Chosen</span>
-          </label>
-          <button type="submit" id="submitButton">Submit</button>
-        </form>
-      </div>
-      {% for message in get_flashed_messages() %}
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          {{ message }}
-      </div>
-          {% endfor %}
+        </label>
+        <button type="submit" id="submitButton">Submit</button>
+      </form>
     </div>
-    <script>
-      function displayFileName(input) {
-        const fileNameSpan = document.getElementById('fileName');
-        if (input.files.length > 0) {
-          fileNameSpan.textContent = input.files[0].name;
-        } else {
-          fileNameSpan.textContent = 'No file chosen';
-        }
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  <script>
+    function displayFileName(input) {
+      const fileNameSpan = document.getElementById('fileName');
+      if (input.files.length > 0) {
+        fileNameSpan.textContent = input.files[0].name;
+      } else {
+        fileNameSpan.textContent = 'No file chosen';
       }
-    </script>   
+    }
+  </script>
 </body>
+
 </html>
