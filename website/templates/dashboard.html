@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/dashboard.css') }}">
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="brand">
-          <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
-        </div>
-        <div class="navbar-pages">
-          <ul class="navigation">
-            <li><a href="adminhome">Homepage</a></li>
-            <li><a href="#calendar">Field Calendar</a></li>
-            <li><a href="#modifyfield">Modify Field</a></li>
-            <li class="dropdown">
-              <a class="dropbtn">Add Game</a>
-              <div class="dropdown-content">
-                <a href="addfile">Add File</a>
-                <a href="fillform">Fill Form</a>
-              </div>
-            </li>
-            <li><a href="dashboard">Dashboard</a></li>
-          </ul>
-        </div>
-        <div>
-          <a class="btn btn-primary" href="/">Logout</a>
-        </div>
-      </nav>
-    </header>
-    <div class="container">
-      <div id="title">
-        <h1>FIELD DASHBOARD</h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for ('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="brand">
+        <a href="adminhome"><img src="static/images/logo1.png" alt="" width="120px" /></a>
       </div>
-      <div id="a">
-        <h2>Grid Item 3</h2>
-        <p>Content for Grid Item 3 goes here.</p>
+      <div class="navbar-pages">
+        <ul class="navigation">
+          <li><a href="adminhome">Homepage</a></li>
+          <li><a href="#calendar">Field Calendar</a></li>
+          <li><a href="fieldsettings">Modify Field</a></li>
+          <li class="dropdown">
+            <a class="dropbtn">Add Game</a>
+            <div class="dropdown-content">
+              <a href="addfile">Add File</a>
+              <a href="fillform">Fill Form</a>
+            </div>
+          </li>
+          <li><a href="dashboard">Dashboard</a></li>
+        </ul>
       </div>
-      <div id="dropdown">
-        <select>
+      <div>
+        <a class="btn btn-primary" href="/">Logout</a>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <div id="title">
+      <h1>FIELD DASHBOARD</h1>
+    </div>
+    <div id="a">
+      <h2>Grid Item 3</h2>
+      <p>Content for Grid Item 3 goes here.</p>
+    </div>
+    <div id="dropdown">
+      <select>
         <option value="">Choose a field</option>
         <option value="1">A</option>
         <option value="2">B</option>
         <option value="3">C</option>
         <option value="4">D</option>
-        </select>
+      </select>
     </div>
-      <div>
-        <h2>Grid Item 4</h2>
-        <p>Content for Grid Item 4 goes here.</p>
-      </div>
+    <div>
+      <h2>Grid Item 4</h2>
+      <p>Content for Grid Item 4 goes here.</p>
     </div>
+  </div>
 </body>
+
 </html>

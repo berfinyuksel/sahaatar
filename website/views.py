@@ -27,6 +27,10 @@ def login():
 def adminhome():
     return render_template('admin_home_page.html')
 
+@views.route('/fieldsettings')
+def fieldsettings():
+    return render_template('fieldsettings.html')
+
 
 @views.route('/addfile', methods=['POST','GET'])
 def addfile():
