@@ -51,7 +51,9 @@ def addfile():
                     print(f"You have already added this match: {match}")
                     db.session.rollback()
                        
-        db.session.commit()   
+        db.session.commit()
+        
+    export_match_to_csv()       
 
     return render_template('sendfile.html')
 
@@ -62,3 +64,15 @@ def fillform():
 @views.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+def export_match_to_csv():
+    # Match tablosundaki verileri çek
+    matches = Match.query.all()
+
+    # Match verilerini bir veri çerçevesine dönüştür
+    matches_df = pd.DataFrame([match.home_team_id for match in matches])
+
+    # Veri çerçevesini CSV dosyasına kaydet
+    matches_df.to_csv('matches.csv', index=False)
+
+    print("Match verileri CSV dosyasına başarıyla kaydedildi.")
