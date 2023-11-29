@@ -117,6 +117,8 @@ nav a {
     margin: 0 auto;
     margin-top: 3em;
     margin-bottom: 3em;
+    font-size: medium;
+    font-family: Tahoma, Arial, sans-serif;
 
 }
 
@@ -125,7 +127,8 @@ nav a {
     padding: 10px;
     border-radius: 10px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h1 {
