@@ -71,7 +71,7 @@ def addfile():
 
     export_match_to_csv()
 
-    return render_template('sendfile.html')
+    return render_template('addfile.html')
 
 @views.route('/deletefile', methods=['DELETE'])
 def delete_file():
