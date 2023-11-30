@@ -132,10 +132,9 @@ h1 {
 .download {
   margin-top: 20px;
   margin-bottom: 20px;
-  ;
   margin-left: 0;
   text-align: center;
-  padding-left: 2em;
+  padding-left: 4em;
 
 }
 
@@ -144,8 +143,8 @@ form {
   margin-bottom: 20px;
   margin-left: 0;
   text-align: center;
+  padding-left: 2em;
 }
-
 
 .download a {
   display: flex;
@@ -177,6 +176,7 @@ form {
   cursor: pointer;
   border-radius: 5px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #submitButton:hover {
