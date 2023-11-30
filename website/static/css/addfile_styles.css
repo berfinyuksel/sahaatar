@@ -107,9 +107,15 @@ nav a {
   max-width: 1000px;
   box-sizing: border-box;
   margin: 0 auto;
-  margin-top: 3em;
-  margin-bottom: 3em;
+  margin-top: 5em;
+  margin-bottom: 5em;
   text-align: center;
+  justify-content: space-between;
+}
+
+.align {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 h1 {
@@ -123,16 +129,23 @@ h1 {
   -webkit-text-stroke-color: black;
 }
 
+.download {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  ;
+  margin-left: 0;
+  text-align: center;
+  padding-left: 2em;
 
-.download-container {
+}
+
+form {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 0;
-  display: flex;
-  justify-content: space-between;
   text-align: center;
-
 }
+
 
 .download a {
   display: flex;
@@ -153,7 +166,7 @@ h1 {
 
 #submitButton {
   display: block;
-  width: 60%;
+  width: 30%;
   margin: 1em auto;
   height: 2em;
   font-size: 1.1rem;
@@ -163,6 +176,7 @@ h1 {
   min-width: 300px;
   cursor: pointer;
   border-radius: 5px;
+  margin-top: 20px;
 }
 
 #submitButton:hover {
