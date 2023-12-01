@@ -84,9 +84,27 @@ def delete_file():
         print(f'Error deleting file: {e}')
         return '', 500  # Internal Server Error
 
+@views.route('/submit', methods=['POST'])
+def submit():
+    if request.method == 'POST':
+        home_team_id = request.form.get('home_team')
+        away_team_id = request.form.get('away_team')
+
+        home_team = Team.query.get(home_team_id)
+        away_team = Team.query.get(away_team_id)
+
+        new_match = Match(home_team_id=home_team_id, away_team_id=away_team_id)
+        db.session.add(new_match)
+        db.session.commit()
+
+        return f"Selected Home Team: {home_team.team_name}, Selected Away Team: {away_team.team_name}"
+    else:
+        return "Invalid request method"
+
 @views.route('/fillform')
 def fillform():
-    return render_template('fillform.html')
+    team = Team.query.all()
+    return render_template('fillform.html', team=team)
 
 @views.route('/dashboard')
 def dashboard():

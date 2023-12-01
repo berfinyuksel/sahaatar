@@ -39,20 +39,51 @@
     <div id="title-box">
       <h1 id="title">ADD GAME PLAN</h1>
     </div>
-    <form id="game-form">
+    <form id="game-form" action="/submit" method="post">
 
       <fieldset>
         <h2>HOME TEAM</h2>
-        <label id="name-label">Name:<input id="name" placeholder="Ex: Maltepespor" type="text" required /></label>
+        <label for="home_team"></label>
+        <select name="home_team" id="home_team">
+          <option value="" selected disabled>Select Home Team</option>
+          {% for team in team %}
+          <option value="{{ team.id }}">{{ team.team_name }}</option>
+          {% endfor %}
+        </select>
       </fieldset>
 
       <fieldset>
         <h2>AWAY TEAM</h2>
-        <label id="name-label">Name:<input id="name" placeholder="Ex: Tuzlaspor" type="text" required /></label>
+        <label for="away_team"></label>
+        <select name="away_team" id="away_team">
+          <option value="" selected disabled>Select Away Team</option>
+          {% for team in team %}
+          <option value="{{ team.id }}">{{ team.team_name }}</option>
+          {% endfor %}
+        </select>
       </fieldset>
 
       <input id="submit" type="submit" value="SUBMIT" /></input>
     </form>
+
+    <script>
+      function validateForm() {
+        var homeTeam = document.getElementById("home_team").value;
+        var awayTeam = document.getElementById("away_team").value;
+
+        if (homeTeam === awayTeam) {
+          alert("Home team and away team cannot be the same.");
+          return false;
+        }
+
+        if (homeTeam === "" || awayTeam === "") {
+          alert("Please select both home team and away team.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
   </div>
 </body>
 
