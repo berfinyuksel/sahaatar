@@ -53,15 +53,15 @@ def addfile():
                         try:
                             db.session.add(match)
                             db.session.commit()
+                    # Bunun çalışmama sebebi submit html render'larken submit fonksiyonunu çalıştırması                            
+                    #        return render_template('submit.html')
                         except IntegrityError:
                             print(f"You have already added this match: {match}")
-                            db.session.rollback()
-
-                db.session.commit()
+                            db.session.rollback()                
 
     export_match_to_csv()
 
-    return render_template('submit.html')
+    return render_template('addfile.html')
 
 @views.route('/deletefile', methods=['DELETE'])
 def delete_file():
@@ -90,14 +90,16 @@ def submit():
             try:
                     db.session.add(new_match)
                     db.session.commit()
+                    return render_template("submit.html")
             except IntegrityError:
                     print(f"You have already added this match: {new_match}")
                     db.session.rollback()
-           
-
-            return render_template('submit.html')
+                    # Burada ise maçın zaten girildiğini belirtmesi lazım
+                    return(f"You have already added this match: {new_match}")    
     else:
         return "Invalid request method"
+    # Burada aynı takımların girildiği ile ilgili flash message girmesi lazım
+    return("Enter teams that are in the same league")
 
 @views.route('/fillform')
 def fillform():
