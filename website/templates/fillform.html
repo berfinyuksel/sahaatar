@@ -39,7 +39,7 @@
     <div id="title-box">
       <h1 id="title">ADD GAME PLAN</h1>
     </div>
-    <form id="game-form" action="/submit" method="POST" onsubmit="return validateForm()">
+    <form id="game-form" action="/submit" method="POST", onsubmit="return validateForm()" >
 
       <fieldset>
         <h2>HOME TEAM</h2>
@@ -47,7 +47,7 @@
         <select name="home_team" id="home_team">
           <option value="" selected disabled>Select Home Team</option>
           {% for team in team %}
-          <option value="{{ team.id }}">{{ team.team_name }}</option>
+          <option value="{{ team.team_id }}">{{ team.team_name }}</option>
           {% endfor %}
         </select>
       </fieldset>
@@ -58,7 +58,7 @@
         <select name="away_team" id="away_team">
           <option value="" selected disabled>Select Away Team</option>
           {% for team in team %}
-          <option value="{{ team.id }}">{{ team.team_name }}</option>
+          <option value="{{ team.team_id }}">{{ team.team_name }}</option>
           {% endfor %}
         </select>
       </fieldset>
