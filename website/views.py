@@ -95,7 +95,7 @@ def submit():
                     db.session.rollback()
            
 
-            return f"Selected Home Team: {home_team.team_name}, Selected Away Team: {away_team.team_name}"
+            return render_template('submit.html')
     else:
         return "Invalid request method"
 
