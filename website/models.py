@@ -6,12 +6,12 @@ class Match(db.Model):
     match_id = db.Column(db.Integer, primary_key=True)
     
     
-    home_team_id = db.Column(db.Integer, db.ForeignKey('team.team_id'))
-    away_team_id = db.Column(db.Integer, db.ForeignKey('team.team_id'))
+    home_team_name = db.Column(db.Integer, db.ForeignKey('team.team_name'))
+    away_team_name = db.Column(db.Integer, db.ForeignKey('team.team_name'))
     league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'))  
     # This line makes sure that no duplicates can be inserted
     __table_args__ = (
-        UniqueConstraint('home_team_id', 'away_team_id', 'league_id', name='unique_match'),
+        UniqueConstraint('home_team_name', 'away_team_name', 'league_id', name='unique_match'),
     )
      
 class Venue(db.Model):

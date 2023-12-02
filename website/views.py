@@ -46,8 +46,8 @@ def addfile():
 
                     if home_team_to_insert and away_team_to_insert and league:
                         match = Match(
-                            home_team_id=home_team_to_insert.team_id,
-                            away_team_id=away_team_to_insert.team_id,
+                            home_team_name=home_team_to_insert.team_name,
+                            away_team_name=away_team_to_insert.team_name,
                             league_id=league.league_id
                         )
                         try:
@@ -78,16 +78,24 @@ def delete_file():
 def submit():
     if request.method == 'POST':
         print(request.form)
-        home_team_id = request.form.get("home_team")
-        away_team_id = request.form.get("away_team")
+        home_team_to_insert = request.form.get("home_team")
+        away_team_to_insert = request.form.get("away_team")
+        
+        home_team = Team.query.filter_by(team_name = home_team_to_insert).first()
+        away_team = Team.query.filter_by(team_name = away_team_to_insert).first()
+        match_league_id = Team.query.filter_by(team_name=home_team_to_insert).first().team_league_id
 
-        home_team = Team.query.get(home_team_id)
-        away_team = Team.query.get(away_team_id)
-        print(f"{home_team}  {away_team}")
-        if check_team_Leagues(home_team,away_team):
-            new_match = Match(home_team_id=home_team_id, away_team_id=away_team_id)
-            db.session.add(new_match)
-            db.session.commit()
+        if check_match_condition(home_team,away_team):
+            new_match = Match(home_team_name=home_team.team_name, 
+                              away_team_name=away_team.team_name,
+                              league_id = match_league_id)
+            try:
+                    db.session.add(new_match)
+                    db.session.commit()
+            except IntegrityError:
+                    print(f"You have already added this match: {new_match}")
+                    db.session.rollback()
+           
 
             return f"Selected Home Team: {home_team.team_name}, Selected Away Team: {away_team.team_name}"
     else:
@@ -103,7 +111,7 @@ def dashboard():
     return render_template('dashboard.html')
 
 # İki takımın aynı ligde olup olmadığını karşılaştırıyor
-def check_team_Leagues(team_one: Team, team_two: Team):
+def check_match_condition(team_one: Team, team_two: Team):
     return team_one.team_league_id == team_two.team_league_id
 
 def export_match_to_csv():
@@ -111,7 +119,7 @@ def export_match_to_csv():
     matches = Match.query.all()
 
     # Match verilerini bir veri çerçevesine dönüştür
-    matches_df = pd.DataFrame([match.home_team_id for match in matches])
+    matches_df = pd.DataFrame([match.home_team_name for match in matches])
 
     # Veri çerçevesini CSV dosyasına kaydet
     matches_df.to_csv('matches.csv', index=False)
