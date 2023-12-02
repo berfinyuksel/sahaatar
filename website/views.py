@@ -37,7 +37,7 @@ def addfile():
     if request.method == 'POST':
                 file = request.files['file']
 
-                df = pd.read_excel(file)
+                df = pd.read_excel(file, engine='openpyxl')
 
                 for index, row in df.iterrows():
                     home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
@@ -67,8 +67,6 @@ def addfile():
 def delete_file():
     try:
         file_name = request.json.get('fileName')
-
-
         return '', 204  # No content, success
     except Exception as e:
         print(f'Error deleting file: {e}')
