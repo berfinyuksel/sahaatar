@@ -39,7 +39,7 @@
     <div id="title-box">
       <h1 id="title">ADD GAME PLAN</h1>
     </div>
-    <form id="game-form" action="/submit" method="post">
+    <form id="game-form" action="/submit" method="POST" onsubmit="return validateForm()">
 
       <fieldset>
         <h2>HOME TEAM</h2>
@@ -71,6 +71,8 @@
         var homeTeam = document.getElementById("home_team").value;
         var awayTeam = document.getElementById("away_team").value;
 
+        console.log("Home Team: ", homeTeam);
+        console.log("Away Team: ", awayTeam);
         if (homeTeam === awayTeam) {
           alert("Home team and away team cannot be the same.");
           return false;

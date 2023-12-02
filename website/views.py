@@ -35,14 +35,9 @@ def fieldsettings():
 @views.route('/addfile', methods=['POST', 'GET'])
 def addfile():
     if request.method == 'POST':
-        try:
-            file = request.files['file']
-            if file:
+                file = request.files['file']
 
-                file_path = 'static/excel/template.xlsx'
-                file.save(file_path)
-
-                df = pd.read_excel(file_path, engine='openpyxl')
+                df = pd.read_excel(file)
 
                 for index, row in df.iterrows():
                     home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
@@ -63,11 +58,6 @@ def addfile():
                             db.session.rollback()
 
                 db.session.commit()
-            else:
-                print("No file uploaded")
-
-        except Exception as e:
-            print(f'Error processing file: {e}')
 
     export_match_to_csv()
 
@@ -87,17 +77,19 @@ def delete_file():
 @views.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
-        home_team_id = request.form.get('home_team')
-        away_team_id = request.form.get('away_team')
+        print(request.form)
+        home_team_id = request.form.get("home_team")
+        away_team_id = request.form.get("away_team")
 
         home_team = Team.query.get(home_team_id)
         away_team = Team.query.get(away_team_id)
+        print(f"{home_team}  {away_team}")
+        if check_team_Leagues(home_team,away_team):
+            new_match = Match(home_team_id=home_team_id, away_team_id=away_team_id)
+            db.session.add(new_match)
+            db.session.commit()
 
-        new_match = Match(home_team_id=home_team_id, away_team_id=away_team_id)
-        db.session.add(new_match)
-        db.session.commit()
-
-        return f"Selected Home Team: {home_team.team_name}, Selected Away Team: {away_team.team_name}"
+            return f"Selected Home Team: {home_team.team_name}, Selected Away Team: {away_team.team_name}"
     else:
         return "Invalid request method"
 
@@ -109,6 +101,10 @@ def fillform():
 @views.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+# İki takımın aynı ligde olup olmadığını karşılaştırıyor
+def check_team_Leagues(team_one: Team, team_two: Team):
+    return team_one.team_league_id == team_two.team_league_id
 
 def export_match_to_csv():
     # Match tablosundaki verileri çek
