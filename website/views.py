@@ -53,13 +53,13 @@ def addfile():
                         try:
                             db.session.add(match)
                             db.session.commit()
-                    # Bunun çalışmama sebebi submit html render'larken submit fonksiyonunu çalıştırması                            
-                    #        return render_template('submit.html')
+            
                         except IntegrityError:
                             print(f"You have already added this match: {match}")
                             db.session.rollback()                
 
-    export_match_to_csv()
+                export_match_to_csv()
+                return render_template('submit.html')
 
     return render_template('addfile.html')
 
