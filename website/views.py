@@ -27,10 +27,10 @@ def login():
 def adminhome():
     return render_template('admin_home_page.html')
 
-@views.route('/fieldsettings')
-def fieldsettings():
+@views.route('/venuesettings')
+def venuesettings():
     venue = Venue.query.all()
-    return render_template('fieldsettings.html', venue=venue)
+    return render_template('venuesettings.html', venue=venue)
 
 
 @views.route('/addfile', methods=['POST', 'GET'])
@@ -109,7 +109,8 @@ def fillform():
 
 @views.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    venue = Venue.query.all()
+    return render_template('dashboard.html', venue=venue)
 
 # İki takımın aynı ligde olup olmadığını karşılaştırıyor
 def check_match_condition(team_one: Team, team_two: Team):

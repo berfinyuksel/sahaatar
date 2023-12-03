@@ -17,8 +17,8 @@
             <div class="navbar-pages">
                 <ul class="navigation">
                     <li><a href="adminhome">Homepage</a></li>
-                    <li><a href="#calendar">Field Calendar</a></li>
-                    <li><a href="fieldsettings">Modify Field</a></li>
+                    <li><a href="#calendar">Venue Calendar</a></li>
+                    <li><a href="venuesettings">Modify Venue</a></li>
                     <li class="dropdown">
                         <a class="dropbtn">Add Game</a>
                         <div class="dropdown-content">
@@ -37,12 +37,12 @@
 
     <div id="container">
         <div id="title-box">
-            <h1 id="title">FIELD SETTINGS</h1>
+            <h1 id="title">VENUE SETTINGS</h1>
         </div>
         <form id="survey-form">
             <fieldset>
                 <select id="dropdown">
-                    <option value="" selected disabled>Select A Field</option>
+                    <option value="" selected disabled>Select A Venue</option>
                     {% for venue in venue %}
                     <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
                     {% endfor %}
@@ -51,14 +51,14 @@
 
             <fieldset>
                 <label>
-                    Does this field accept teams from other regions?
+                    Does this venue accept teams from other regions?
                 </label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value="area"/> Yes</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value="area" /> Yes</label>
                 <label for="no"><input id="no" type="radio" class="inline" name="area" value="are" /> No</label>
             </fieldset>
 
             <fieldset>
-                <label>Select available time(s) for this field.</label>
+                <label>Select available time(s) for this venue.</label>
                 <label for="slot1"><input id="slot1" type="checkbox" class="inline" value="slot1" />Slot1: 08:00 -
                     11:00</label>
                 <label for="slot2"><input id="slot2" type="checkbox" class="inline" value="slot2" />Slot2: 11:00 -
@@ -72,7 +72,7 @@
             </fieldset>
 
             <fieldset>
-                <label>Is this field currently open?</label>
+                <label>Is this venue currently open?</label>
                 <label for="yes"><input id="yes" type="radio" class="inline" name="open" value="open" />Yes</label>
                 <label for="no"><input id="no" type="radio" class="inline" name="open" value="open" />No</label>
             </fieldset>

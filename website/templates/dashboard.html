@@ -17,8 +17,8 @@
       <div class="navbar-pages">
         <ul class="navigation">
           <li><a href="adminhome">Homepage</a></li>
-          <li><a href="#calendar">Field Calendar</a></li>
-          <li><a href="fieldsettings">Modify Field</a></li>
+          <li><a href="#calendar">Venue Calendar</a></li>
+          <li><a href="venuesettings">Modify Venue</a></li>
           <li class="dropdown">
             <a class="dropbtn">Add Game</a>
             <div class="dropdown-content">
@@ -36,7 +36,7 @@
   </header>
   <div class="container">
     <div id="title">
-      <h1>FIELD DASHBOARD</h1>
+      <h1>VENUE DASHBOARD</h1>
     </div>
     <div id="a">
       <h2>Grid Item 3</h2>
@@ -44,11 +44,10 @@
     </div>
     <div id="dropdown">
       <select>
-        <option value="">Choose a field</option>
-        <option value="1">A</option>
-        <option value="2">B</option>
-        <option value="3">C</option>
-        <option value="4">D</option>
+        <option value="" selected disabled>Choose a Venue</option>
+        {% for venue in venue %}
+        <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
+        {% endfor %}
       </select>
     </div>
     <div>
