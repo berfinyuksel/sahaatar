@@ -1,7 +1,7 @@
 from flask import Blueprint,render_template,request,redirect,url_for,flash
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
-from .models import District,League,Match,Team
+from .models import District,League,Match,Team,Venue
 import pandas as pd
 from . import db
 
@@ -29,7 +29,8 @@ def adminhome():
 
 @views.route('/fieldsettings')
 def fieldsettings():
-    return render_template('fieldsettings.html')
+    venue = Venue.query.all()
+    return render_template('fieldsettings.html', venue=venue)
 
 
 @views.route('/addfile', methods=['POST', 'GET'])

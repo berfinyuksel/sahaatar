@@ -42,11 +42,10 @@
         <form id="survey-form">
             <fieldset>
                 <select id="dropdown">
-                    <option value="">Select a Field</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                    <option value="3">C</option>
-                    <option value="4">D</option>
+                    <option value="" selected disabled>Select A Field</option>
+                    {% for venue in venue %}
+                    <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
+                    {% endfor %}
                 </select>
             </fieldset>
 
@@ -54,7 +53,7 @@
                 <label>
                     Does this field accept teams from other regions?
                 </label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value="area" /> Yes</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value="area"/> Yes</label>
                 <label for="no"><input id="no" type="radio" class="inline" name="area" value="are" /> No</label>
             </fieldset>
 
