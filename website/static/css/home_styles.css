@@ -131,3 +131,47 @@ nav a {
 /* .main {
   padding: 50px;
 } */
+
+h1 {
+  color: #03b5aa;
+}
+
+
+table {
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#home,
+#away {
+  width: auto;
+}
+
+th,
+td {
+  height: 50px;
+  min-width: 150px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: black;
+}
+
+th {
+  text-align: center;
+
+}
+
+thead {
+  th {
+    background-color: #DBFE87;
+  }
+}
+
+tbody {
+  tr {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}

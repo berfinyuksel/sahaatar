@@ -1,15 +1,33 @@
-from flask import Blueprint,render_template,request,redirect,url_for,flash
+from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
 from .models import District,League,Match,Team,Venue
 import pandas as pd
+import os
 from . import db
 
 views = Blueprint('views',__name__)
 
 @views.route('/')
 def home():
-    return render_template('home_page.html')
+    # file_name = 'Matches.xlsx'
+    # file_path = os.path.join(current_app.root_path, '..', file_name)
+    file_path = 'website/static/excel/Matches.xlsx'
+
+    df = pd.read_excel(file_path)
+
+    # Sadece belirli sütunları seç
+    selected_columns = ["home_team", "away_team", "League_name"]
+    df_selected = df[selected_columns]
+
+    # Her sütunu ayrı ayrı HTML sayfalarına gönder
+    home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
+    away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
+    league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+    return render_template('home_page.html',  home=home_team_html,
+                           away=away_team_html,
+                           league=league_name_html,
+                           data=df_selected.to_html(header=False,index=False))
 
 @views.route('/Login', methods = ['GET','POST'])
 def login():
@@ -25,7 +43,22 @@ def login():
 
 @views.route('/adminhome')
 def adminhome():
-    return render_template('admin_home_page.html')
+    file_path = 'website/static/excel/Matches.xlsx'
+
+    df = pd.read_excel(file_path)
+
+    # Sadece belirli sütunları seç
+    selected_columns = ["home_team", "away_team", "League_name"]
+    df_selected = df[selected_columns]
+
+    # Her sütunu ayrı ayrı HTML sayfalarına gönder
+    home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
+    away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
+    league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+    return render_template('admin_home_page.html', home=home_team_html,
+                           away=away_team_html,
+                           league=league_name_html,
+                           data=df_selected.to_html(header=False,index=False))
 
 @views.route('/venuesettings')
 def venuesettings():
@@ -127,3 +160,8 @@ def export_match_to_csv():
     matches_df.to_csv('matches.csv', index=False)
 
     print("Match data saved to CSV file successfully.")
+
+@views.route('/calendar')
+def calendar():
+    venue = Venue.query.all()
+    return render_template('calendar.html', venue=venue)

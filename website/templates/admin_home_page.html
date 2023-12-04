@@ -17,7 +17,7 @@
       <div class="navbar-pages">
         <ul class="navigation">
           <li><a href="adminhome">Homepage</a></li>
-          <li><a href="#calendar">Venue Calendar</a></li>
+          <li><a href="calendar">Venue Calendar</a></li>
           <li><a href="venuesettings">Modify Venue</a></li>
           <li class="dropdown">
             <a class="dropbtn">Add Game</a>
@@ -35,7 +35,34 @@
     </nav>
   </header>
   <main>
-    <div class="main">main page</div>
+    <main>
+      <div class="main">
+        <h1>Excel Verileri</h1>
+
+        <div class="container">
+          <table>
+            <thead>
+              <tr>
+                <th>HOME</th>
+                <th>AWAY</th>
+                <th>LEAGUE</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td id="home">{{ home | safe }}</td>
+
+                <td id="away">{{ away | safe }}</td>
+
+                <td id="league">{{ league | safe }}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   </main>
 </body>
 

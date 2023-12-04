@@ -1,39 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="brand">
-          <a href="/"><img src="static/images/logo1.png" alt="" width="120px" /></a>
-        </div>
-        <div class="navbar-pages">
-          <ul class="navigation">
-            <li><a href="/">Homepage</a></li>
-            <li><a href="#calendar">Venue Calendar</a></li>
-            <li><a href="Login">Modify Venue</a></li>
-            <li class="dropdown">
-              <a class="dropbtn">Add Game</a>
-              <div class="dropdown-content">
-                <a href="Login">Add File</a>
-                <a href="Login">Fill Form</a>
-              </div>
-            </li>
-            <li><a href="dashboard">Dashboard</a></li>
-          </ul>
-        </div>
-        <div>
-          <a class="btn btn-primary" href="Login">Login</a>
-        </div>
-      </nav>
-    </header>
-    <main>
-      <div class="main">main page</div>
-    </main>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="brand">
+        <a href="/"><img src="static/images/logo1.png" alt="" width="120px" /></a>
+      </div>
+      <div class="navbar-pages">
+        <ul class="navigation">
+          <li><a href="/">Homepage</a></li>
+          <li><a href="calendar">Venue Calendar</a></li>
+          <li><a href="Login">Modify Venue</a></li>
+          <li class="dropdown">
+            <a class="dropbtn">Add Game</a>
+            <div class="dropdown-content">
+              <a href="Login">Add File</a>
+              <a href="Login">Fill Form</a>
+            </div>
+          </li>
+          <li><a href="dashboard">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <a class="btn btn-primary" href="Login">Login</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div class="main">
+      <h1>Excel Verileri</h1>
+
+      <div class="container">
+        <table>
+          <thead>
+            <tr>
+              <th>HOME</th>
+              <th>AWAY</th>
+              <th>LEAGUE</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td id="home">{{ home | safe }}</td>
+
+              <td id="away">{{ away | safe }}</td>
+
+              <td id="league">{{ league | safe }}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+
 </html>
