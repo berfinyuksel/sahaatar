@@ -72,28 +72,31 @@ def addfile():
                 file = request.files['file']
 
                 df = pd.read_excel(file, engine='openpyxl')
+                try:
+                    for index, row in df.iterrows():
+                        home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
+                        away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
+                        league = League.query.filter_by(league_name=row['League_name']).first()
 
-                for index, row in df.iterrows():
-                    home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
-                    away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
-                    league = League.query.filter_by(league_name=row['League_name']).first()
-
-                    if home_team_to_insert and away_team_to_insert and league:
-                        match = Match(
-                            home_team_name=home_team_to_insert.team_name,
-                            away_team_name=away_team_to_insert.team_name,
-                            league_id=league.league_id
-                        )
-                        try:
-                            db.session.add(match)
-                            db.session.commit()
+                        if home_team_to_insert and away_team_to_insert and league:
+                            match = Match(
+                                home_team_name=home_team_to_insert.team_name,
+                                away_team_name=away_team_to_insert.team_name,
+                                league_id=league.league_id
+                            )
+                            try:
+                                db.session.add(match)
+                                db.session.commit()
             
-                        except IntegrityError:
-                            print(f"You have already added this match: {match}")
-                            db.session.rollback()                
+                            except IntegrityError:
+                                print(f"You have already added this match: {match}")
+                                db.session.rollback()                
 
-                export_match_to_csv()
-                return render_template('submit.html')
+                    export_match_to_csv()
+                    return render_template('submit.html')
+                except KeyError:
+                     # Burası için bir flash implemente edilmeli 
+                     return "Please enter the matches from the designated template"
 
     return render_template('addfile.html')
 
