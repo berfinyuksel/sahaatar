@@ -88,8 +88,12 @@ def insert_initial_data(app):
                         venue_availability= venue['venue_availablity'],
                         accepts_outside_teams = venue['accepts_outside_teams'],
                         available_time_start = datetime.strptime(venue["available_time_start"], "%H:%M").time(),
-                        available_time_end = datetime.strptime(venue["available_time_end"], "%H:%M").time()
-
+                        available_time_end = datetime.strptime(venue["available_time_end"], "%H:%M").time(),
+                        slot_one = venue['slot_one'],
+                        slot_two = venue['slot_two'],
+                        slot_three = venue['slot_three'],
+                        slot_four = venue['slot_four'],
+                        slot_five = venue['slot_five']
                     )
                     db.session.add(new_venue)
                 else:

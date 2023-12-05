@@ -24,6 +24,12 @@ class Venue(db.Model):
     available_time_start = db.Column(Time)
     available_time_end = db.Column(Time)
 
+    slot_one = db.Column(Boolean,default = True)
+    slot_two = db.Column(Boolean,default = True)
+    slot_three = db.Column(Boolean,default = True)
+    slot_four = db.Column(Boolean,default = True)
+    slot_five = db.Column(Boolean,default = True)
+
     venue_district_id = db.Column(db.Integer, db.ForeignKey('district.district_id'))
 
 class League(db.Model):
