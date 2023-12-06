@@ -37,6 +37,7 @@
   <div class="container">
     <div id="title">
       <h1>ADD GAME PLAN</h1>
+      <p>Please ensure that the file you upload is the template that you can download from this page.</p>
     </div>
 
     <div class="align">
@@ -55,9 +56,23 @@
           <button id="deleteButton" onclick="deleteFile()" disabled>Delete File</button>
         </label>
     </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="alert-container">
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
     <button type="submit" id="submitButton" onclick="return validateForm()">SUBMIT</button>
     </form>
   </div>
+
   <script>
     function validateForm() {
       var fileName = document.getElementById('fileName').textContent;

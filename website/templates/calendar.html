@@ -25,8 +25,8 @@
             <div class="navbar-pages">
                 <ul class="navigation">
                     <li><a href="/">Homepage</a></li>
-                    <li><a href="calendar">Field Calendar</a></li>
-                    <li><a href="Login">Modify Field</a></li>
+                    <li><a href="calendar">Venue Calendar</a></li>
+                    <li><a href="Login">Modify Venue</a></li>
                     <li class="dropdown">
                         <a class="dropbtn">Add Game</a>
                         <div class="dropdown-content">
@@ -42,11 +42,10 @@
             </div>
         </nav>
     </header>
-
     <main>
         <div class="main">
+            <h1>VENUE CALENDAR</h1>
             <div id="dropdown">
-                <h1 id="fields_label">Choose a fields :</h1>
                 <select id="dropdown">
                     <option value="" selected disabled>Select A Venue</option>
                     {% for venue in venue %}

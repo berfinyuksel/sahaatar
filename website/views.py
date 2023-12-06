@@ -93,10 +93,11 @@ def addfile():
                                 db.session.rollback()                
 
                     export_match_to_csv()
-                    return render_template('submit.html')
+                   
+                    return redirect(url_for("views.addfile"))
                 except KeyError:
-                     # Burası için bir flash implemente edilmeli 
-                     return "Please enter the matches from the designated template"
+                    flash("Please enter the matches from the designated template!", "danger")
+                    return redirect(url_for("views.addfile"))
 
     return render_template('addfile.html')
 
@@ -116,27 +117,35 @@ def submit():
         home_team_to_insert = request.form.get("home_team")
         away_team_to_insert = request.form.get("away_team")
         
-        home_team = Team.query.filter_by(team_name = home_team_to_insert).first()
-        away_team = Team.query.filter_by(team_name = away_team_to_insert).first()
+        home_team = Team.query.filter_by(team_name=home_team_to_insert).first()
+        away_team = Team.query.filter_by(team_name=away_team_to_insert).first()
         match_league_id = Team.query.filter_by(team_name=home_team_to_insert).first().team_league_id
 
-        if check_match_condition(home_team,away_team):
-            new_match = Match(home_team_name=home_team.team_name, 
-                              away_team_name=away_team.team_name,
-                              league_id = match_league_id)
+        if home_team_to_insert == away_team_to_insert:
+            flash("Home team and away team cannot be the same.", "danger")
+            return redirect(url_for("views.fillform"))
+
+        if check_match_condition(home_team, away_team):
+            new_match = Match(
+                home_team_name=home_team.team_name,
+                away_team_name=away_team.team_name,
+                league_id=match_league_id
+            )
             try:
-                    db.session.add(new_match)
-                    db.session.commit()
-                    return render_template("submit.html")
+                db.session.add(new_match)
+                db.session.commit()
+                flash("Submitted Successfully!", "success")
+                return redirect(url_for("views.fillform"))
             except IntegrityError:
-                    print(f"You have already added this match: {new_match}")
-                    db.session.rollback()
-                    # Burada ise maçın zaten girildiğini belirtmesi lazım
-                    return(f"You have already added this match: {new_match}")    
+                db.session.rollback()
+                flash("You have already added this match.", "danger")
+                return redirect(url_for("views.fillform"))
     else:
-        return "Invalid request method"
-    # Burada aynı takımların girildiği ile ilgili flash message girmesi lazım
-    return("Enter teams that are in the same league")
+        flash("Invalid request method", "danger")
+        return redirect(url_for("views.fillform"))
+    
+    flash("Enter teams that are in the same league.", "danger")
+    return redirect(url_for("views.fillform"))
 
 @views.route('/fillform')
 def fillform():

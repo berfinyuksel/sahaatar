@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/login_styles.css') }}">
 </head>
+
 <body>
     <div class="container">
         <img src="static/images/logo2.png" alt="Logo" class="logo">
@@ -21,9 +23,9 @@
         <p class="contact-info">For login issues contact with +90 XXX XXX XX XX</p>
         <br>
         {% for message in get_flashed_messages() %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ message }}
-    </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
         {% endfor %}
         <br>
         <div class="button-container">
@@ -31,4 +33,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -125,6 +125,7 @@
            border: 1px solid #ccc;
            width: auto;
            height: 100px;
+           text-align: center;
        }
 
        .days {
@@ -136,21 +137,23 @@
 
        #dropdown {
            grid-area: dropdown;
+           margin-bottom: 20px;
+           width: 100%;
        }
 
        select {
-           width: 250px;
+           width: 100%;
            min-height: 2em;
            background-color: white;
            padding: 8px;
            box-sizing: border-box;
        }
 
-       #fields_label {
-           display: inline-block;
-           padding-right: 25px;
-           /* Choose a fields ile drop-dawn arasındaki boşluğu belirler */
-           color: #03b5aa;
-           margin-bottom: 30px;
-           /*tablo ile seçim ekranı arasındaki boşluğu belirler*/
+       h1 {
+           color: #1d9375;
+           font-size: 80px;
+           margin-bottom: 20px;
+           padding-left: 0;
+           -webkit-text-stroke-width: 0.3px;
+           -webkit-text-stroke-color: black;
        }

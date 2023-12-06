@@ -63,7 +63,20 @@
         </select>
       </fieldset>
 
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="alert-container">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
       <input id="submit" type="submit" value="SUBMIT" /></input>
+
     </form>
 
     <script>
@@ -73,10 +86,6 @@
 
         console.log("Home Team: ", homeTeam);
         console.log("Away Team: ", awayTeam);
-        if (homeTeam === awayTeam) {
-          alert("Home team and away team cannot be the same.");
-          return false;
-        }
 
         if (homeTeam === "" || awayTeam === "") {
           alert("Please select both home team and away team.");
