@@ -5,6 +5,7 @@ from .models import District,League,Match,Team,Venue
 import pandas as pd
 import os
 from . import db
+from ast import literal_eval
 
 views = Blueprint('views',__name__)
 
@@ -64,9 +65,43 @@ def adminhome():
                            venue=venue_name_html,
                            data=df_selected.to_html(header=False,index=False))
 
-@views.route('/venuesettings')
+@views.route('/venuesettings',methods=['GET','POST'])
 def venuesettings():
     venue = Venue.query.all()
+
+    if request.method == "POST":
+        selected_venue_name = request.form.get('venue_name')
+        accept_input = request.form.get('area')
+        open_input = request.form.get('open')
+
+        slot_one_input = 'slot1' in request.form
+        slot_two_input = 'slot2' in request.form
+        slot_three_input = 'slot3' in request.form
+        slot_four_input = 'slot4' in request.form
+        slot_five_input = 'slot5' in request.form
+
+        if selected_venue_name and accept_input and open_input:
+            venue_to_update = Venue.query.filter_by(venue_name = selected_venue_name).first()
+
+            venue_to_update.accepts_outside_teams = literal_eval(accept_input)
+            venue_to_update.venue_availability = literal_eval(open_input)
+            venue_to_update.slot_one = slot_one_input
+            venue_to_update.slot_two = slot_two_input
+            venue_to_update.slot_three = slot_three_input
+            venue_to_update.slot_four = slot_four_input
+            venue_to_update.slot_five = slot_five_input
+
+            db.session.commit()
+
+        else:
+            # Buraya flash message gelmesi lazım
+            return "Please select the buttons before submitting"    
+
+        
+
+
+        return render_template('venuesettings.html', venue=venue)
+        
     return render_template('venuesettings.html', venue=venue)
 
 
