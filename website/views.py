@@ -17,16 +17,18 @@ def home():
     df = pd.read_excel(file_path)
 
     # Sadece belirli sütunları seç
-    selected_columns = ["home_team", "away_team", "League_name"]
+    selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
     df_selected = df[selected_columns]
 
     # Her sütunu ayrı ayrı HTML sayfalarına gönder
     home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
     away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
     league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+    venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
     return render_template('home_page.html',  home=home_team_html,
                            away=away_team_html,
                            league=league_name_html,
+                           venue=venue_name_html,
                            data=df_selected.to_html(header=False,index=False))
 
 @views.route('/Login', methods = ['GET','POST'])
@@ -48,16 +50,18 @@ def adminhome():
     df = pd.read_excel(file_path)
 
     # Sadece belirli sütunları seç
-    selected_columns = ["home_team", "away_team", "League_name"]
+    selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
     df_selected = df[selected_columns]
 
     # Her sütunu ayrı ayrı HTML sayfalarına gönder
     home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
     away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
     league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+    venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
     return render_template('admin_home_page.html', home=home_team_html,
                            away=away_team_html,
                            league=league_name_html,
+                           venue=venue_name_html,
                            data=df_selected.to_html(header=False,index=False))
 
 @views.route('/venuesettings')
@@ -93,7 +97,7 @@ def addfile():
                                 db.session.rollback()                
 
                     export_match_to_csv()
-                   
+                    flash("Submitted Successfully!", "success")
                     return redirect(url_for("views.addfile"))
                 except KeyError:
                     flash("Please enter the matches from the designated template!", "danger")

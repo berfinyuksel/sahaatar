@@ -35,34 +35,35 @@
     </nav>
   </header>
   <main>
-    <main>
-      <div class="main">
-        <h1>Excel Verileri</h1>
+    <div class="main">
+      <h1>EXCEL VERILERI</h1>
 
-        <div class="container">
-          <table>
-            <thead>
-              <tr>
-                <th>HOME</th>
-                <th>AWAY</th>
-                <th>LEAGUE</th>
-              </tr>
-            </thead>
-            <tbody>
+      <div class="container">
+        <table>
+          <thead>
+            <tr>
+              <th>HOME TEAM</th>
+              <th>AWAY TEAM</th>
+              <th>LEAGUE</th>
+              <th>VENUE</th>
+            </tr>
+          </thead>
+          <tbody>
 
-              <tr>
-                <td id="home">{{ home | safe }}</td>
+            <tr>
+              <td id="home">{{ home | safe }}</td>
 
-                <td id="away">{{ away | safe }}</td>
+              <td id="away">{{ away | safe }}</td>
 
-                <td id="league">{{ league | safe }}</td>
-              </tr>
+              <td id="league">{{ league | safe }}</td>
 
-            </tbody>
-          </table>
-        </div>
+              <td id="venue">{{ venue | safe }}</td>
+            </tr>
+
+          </tbody>
+        </table>
       </div>
-    </main>
+    </div>
   </main>
 </body>
 

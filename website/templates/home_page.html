@@ -36,15 +36,16 @@
   </header>
   <main>
     <div class="main">
-      <h1>Excel Verileri</h1>
+      <h1>EXCEL VERILERI</h1>
 
       <div class="container">
         <table>
           <thead>
             <tr>
-              <th>HOME</th>
-              <th>AWAY</th>
+              <th>HOME TEAM</th>
+              <th>AWAY TEAM</th>
               <th>LEAGUE</th>
+              <th>VENUE</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +56,8 @@
               <td id="away">{{ away | safe }}</td>
 
               <td id="league">{{ league | safe }}</td>
+
+              <td id="venue">{{ venue | safe }}</td>
             </tr>
 
           </tbody>
