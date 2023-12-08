@@ -208,3 +208,14 @@ input[type="submit"]:hover {
     text-align: center;
     animation: fadeOut 10s forwards;
 }
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
