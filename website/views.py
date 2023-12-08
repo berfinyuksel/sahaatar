@@ -92,18 +92,10 @@ def venuesettings():
             venue_to_update.slot_five = slot_five_input
 
             db.session.commit()
+        flash("Changes saved Successfully!", "success")
+        return redirect(url_for("views.venuesettings"))
 
-        else:
-            # Buraya flash message gelmesi lazım
-            return "Please select the buttons before submitting"    
-
-        
-
-
-        return render_template('venuesettings.html', venue=venue)
-        
     return render_template('venuesettings.html', venue=venue)
-
 
 @views.route('/addfile', methods=['POST', 'GET'])
 def addfile():

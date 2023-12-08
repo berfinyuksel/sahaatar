@@ -195,3 +195,16 @@ input[type="submit"]:hover {
     margin: 0 0.5em 0 0;
     vertical-align: middle;
 }
+
+.alert-success {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #155724;
+    border-radius: 5px;
+    color: #155724;
+    background-color: #d4edda;
+    margin: 0 auto;
+    max-width: 500px;
+    text-align: center;
+    animation: fadeOut 10s forwards;
+}

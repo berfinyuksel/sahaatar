@@ -41,7 +41,7 @@
         </div>
         <form id="survey-form" method="POST">
             <fieldset>
-                <select id="dropdown" name ="venue_name">
+                <select id="dropdown" name="venue_name" required>
                     <option value="" selected disabled>Select A Venue</option>
                     {% for venue in venue %}
                     <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
@@ -53,29 +53,50 @@
                 <label>
                     Does this venue accept teams from other regions?
                 </label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value= True /> Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="area" value= False /> No</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value=True required />
+                    Yes</label>
+                <label for="no"><input id="no" type="radio" class="inline" name="area" value=False required />
+                    No</label>
             </fieldset>
 
             <fieldset>
                 <label>Select available time(s) for this venue.</label>
-                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" />Slot1: 08:00 -
+                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" />Slot1:
+                    08:00 -
                     11:00</label>
-                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" />Slot2: 11:00 -
+                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" />Slot2:
+                    11:00 -
                     14:00</label>
-                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" />Slot3: 14:00 -
+                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" />Slot3:
+                    14:00 -
                     17:00</label>
-                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" />Slot4: 17:00 -
+                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" />Slot4:
+                    17:00 -
                     20:00</label>
-                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" />Slot5: 20:00 -
+                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" />Slot5:
+                    20:00 -
                     23:00</label>
             </fieldset>
 
             <fieldset>
                 <label>Is this venue currently open?</label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value=True />Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="open" value=False />No</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value=True
+                        required />Yes</label>
+                <label for="no"><input id="no" type="radio" class="inline" name="open" value=False required />No</label>
             </fieldset>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
 
             <input id="submit" type="submit" value="SUBMIT" /></input>
     </div>
