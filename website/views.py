@@ -55,27 +55,6 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('views.home'))
 
-# @views.route('/adminhome')
-# def adminhome():
-#     file_path = 'website/static/excel/Matches.xlsx'
-
-#     df = pd.read_excel(file_path)
-
-#     # Sadece belirli sütunları seç
-#     selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
-#     df_selected = df[selected_columns]
-
-#     # Her sütunu ayrı ayrı HTML sayfalarına gönder
-#     home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
-#     away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
-#     league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
-#     venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
-#     return render_template('admin_home_page.html', home=home_team_html,
-#                            away=away_team_html,
-#                            league=league_name_html,
-#                            venue=venue_name_html,
-#                            data=df_selected.to_html(header=False,index=False))
-
 @views.route('/venuesettings',methods=['GET','POST'])
 def venuesettings():
     venue = Venue.query.all()
