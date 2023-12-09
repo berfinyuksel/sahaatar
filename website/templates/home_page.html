@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Home Page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
 </head>
 
@@ -18,19 +18,23 @@
         <ul class="navigation">
           <li><a href="/">Homepage</a></li>
           <li><a href="calendar">Venue Calendar</a></li>
-          <li><a href="Login">Modify Venue</a></li>
+          <li><a href="venuesettings">Modify Venue</a></li>
           <li class="dropdown">
             <a class="dropbtn">Add Game</a>
             <div class="dropdown-content">
-              <a href="Login">Add File</a>
-              <a href="Login">Fill Form</a>
+              <a href="addfile">Add File</a>
+              <a href="fillform">Fill Form</a>
             </div>
           </li>
           <li><a href="dashboard">Dashboard</a></li>
         </ul>
       </div>
       <div>
-        <a class="btn btn-primary" href="Login">Login</a>
+        {% if 'logged_in' in session %}
+        <a class="btn btn-primary" href="{{ url_for('views.logout') }}">Logout</a>
+        {% else %}
+        <a class="btn btn-primary" href="{{ url_for('views.login') }}">Login</a>
+        {% endif %}
       </div>
     </nav>
   </header>

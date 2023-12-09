@@ -16,7 +16,7 @@
       </div>
       <div class="navbar-pages">
         <ul class="navigation">
-          <li><a href="adminhome">Homepage</a></li>
+          <li><a href="/">Homepage</a></li>
           <li><a href="calendar">Venue Calendar</a></li>
           <li><a href="venuesettings">Modify Venue</a></li>
           <li class="dropdown">
@@ -30,7 +30,11 @@
         </ul>
       </div>
       <div>
-        <a class="btn btn-primary" href="/">Logout</a>
+        {% if 'logged_in' in session %}
+        <a class="btn btn-primary" href="{{ url_for('views.logout') }}">Logout</a>
+        {% else %}
+        <a class="btn btn-primary" href="{{ url_for('views.login') }}">Login</a>
+        {% endif %}
       </div>
     </nav>
   </header>

@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app
+from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app, session
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
 from .models import District,League,Match,Team,Venue
@@ -9,10 +9,15 @@ from ast import literal_eval
 
 views = Blueprint('views',__name__)
 
+@views.before_request
+def login_control():
+    admin_pages = ['/venuesettings', '/addfile', '/fillform']
+
+    if request.path in admin_pages and 'logged_in' not in session:
+        return redirect(url_for('views.login'))
+
 @views.route('/')
 def home():
-    # file_name = 'Matches.xlsx'
-    # file_path = os.path.join(current_app.root_path, '..', file_name)
     file_path = 'website/static/excel/Matches.xlsx'
 
     df = pd.read_excel(file_path)
@@ -32,38 +37,44 @@ def home():
                            venue=venue_name_html,
                            data=df_selected.to_html(header=False,index=False))
 
-@views.route('/Login', methods = ['GET','POST'])
+@views.route('/Login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         idInput = request.form.get('userID')
         passwordInput = request.form.get('password')
         if idInput == "berfin" and passwordInput == "123456":
-            return redirect(url_for('views.adminhome'))
-        else: 
+            session['logged_in'] = True
+            return redirect(url_for('views.home'))
+        else:
             flash("Check your login information!")
 
     return render_template('login_page.html')
 
-@views.route('/adminhome')
-def adminhome():
-    file_path = 'website/static/excel/Matches.xlsx'
+@views.route('/Logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('views.home'))
 
-    df = pd.read_excel(file_path)
+# @views.route('/adminhome')
+# def adminhome():
+#     file_path = 'website/static/excel/Matches.xlsx'
 
-    # Sadece belirli sütunları seç
-    selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
-    df_selected = df[selected_columns]
+#     df = pd.read_excel(file_path)
 
-    # Her sütunu ayrı ayrı HTML sayfalarına gönder
-    home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
-    away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
-    league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
-    venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
-    return render_template('admin_home_page.html', home=home_team_html,
-                           away=away_team_html,
-                           league=league_name_html,
-                           venue=venue_name_html,
-                           data=df_selected.to_html(header=False,index=False))
+#     # Sadece belirli sütunları seç
+#     selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
+#     df_selected = df[selected_columns]
+
+#     # Her sütunu ayrı ayrı HTML sayfalarına gönder
+#     home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
+#     away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
+#     league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+#     venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
+#     return render_template('admin_home_page.html', home=home_team_html,
+#                            away=away_team_html,
+#                            league=league_name_html,
+#                            venue=venue_name_html,
+#                            data=df_selected.to_html(header=False,index=False))
 
 @views.route('/venuesettings',methods=['GET','POST'])
 def venuesettings():
