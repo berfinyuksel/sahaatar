@@ -55,71 +55,118 @@
             </div>
             <hr />
             <br />
-            <div class="schedule1">
-                <div class="days" id="slotlar">Slots</div>
-                <div class="slots">08:00-11:00</div>
-                <div class="slots">11:00-14:00</div>
-                <div class="slots">14:00-17:00</div>
-                <div class="slots">17:00-20:00</div>
-                <div class="slots">20:00-23:00</div>
+            <div class="week-navigation">
+                <div class="navigation-box">
+                    <span class="navigation-arrows" onclick="prevWeek()">&#x2190;</span>
+                </div>
+                <div class="navigation-box">
+                    <span class="navigation-arrows" onclick="nextWeek()">&#x2192;</span>
+                </div>
+                <div id="current-week" class="current-date"></div>
             </div>
-            <div class="schedule1" id="Pazartesi">
-                <div class="days">Pazartesi</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Salı">
-                <div class="days">Salı</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Carsamba">
-                <div class="days">Carsamba</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Persembe">
-                <div class="days">Persembe</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Cuma">
-                <div class="days">Cuma</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Cumartesi">
-                <div class="days">Cumartesi</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
-            </div>
-            <div class="schedule1" id="Pazar">
-                <div class="days">Pazar</div>
-                <div class="slots" id="slot1">Extra 1</div>
-                <div class="slots" id="slot2">Extra 2</div>
-                <div class="slots" id="slot3">Extra 3</div>
-                <div class="slots" id="slot4">Extra 4</div>
-                <div class="slots" id="slot5">Extra 5</div>
+
+            <div id="calendar">
+                <div class="schedule1">
+                    <div class="days" id="slotlar">Slots</div>
+                    <div class="slots">08:00-11:00</div>
+                    <div class="slots">11:00-14:00</div>
+                    <div class="slots">14:00-17:00</div>
+                    <div class="slots">17:00-20:00</div>
+                    <div class="slots">20:00-23:00</div>
+                </div>
+                <div class="schedule1" id="Pazartesi">
+                    <div class="days">Pazartesi</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Salı">
+                    <div class="days">Salı</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Carsamba">
+                    <div class="days">Carsamba</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Persembe">
+                    <div class="days">Persembe</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Cuma">
+                    <div class="days">Cuma</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Cumartesi">
+                    <div class="days">Cumartesi</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
+                <div class="schedule1" id="Pazar">
+                    <div class="days">Pazar</div>
+                    <div class="slots" id="slot1">Extra 1</div>
+                    <div class="slots" id="slot2">Extra 2</div>
+                    <div class="slots" id="slot3">Extra 3</div>
+                    <div class="slots" id="slot4">Extra 4</div>
+                    <div class="slots" id="slot5">Extra 5</div>
+                </div>
             </div>
         </div>
+
+        <script>
+            var currentDate = new Date();
+
+            function updateCurrentDate() {
+                var currentWeek = getWeekRangeString(currentDate);
+                document.getElementById("current-week").innerText = "Current Week: " + currentWeek;
+            }
+
+            function prevWeek() {
+                currentDate.setDate(currentDate.getDate() - 7);
+                updateCurrentDate();
+            }
+
+            function nextWeek() {
+                currentDate.setDate(currentDate.getDate() + 7);
+                updateCurrentDate();
+            }
+
+            function getWeekRangeString(date) {
+                //Start from Monday
+                var startOfWeek = new Date(date);
+                startOfWeek.setDate(date.getDate() - (date.getDay() + 6) % 7);
+
+                //End on Sunday
+                var endOfWeek = new Date(date);
+                endOfWeek.setDate(date.getDate() + (7 - date.getDay()));
+
+                var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return startOfWeek.toLocaleDateString(undefined, options) + " - " +
+                    endOfWeek.toLocaleDateString(undefined, options);
+            }
+            updateCurrentDate();
+        </script>
+
     </main>
 </body>
 
