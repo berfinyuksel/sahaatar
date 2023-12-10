@@ -128,6 +128,7 @@
            width: auto;
            height: 100px;
            text-align: center;
+           line-height: 100px;
        }
 
        .days {
@@ -136,6 +137,7 @@
            color: #fff;
            font-size: 20px;
            text-align: center;
+           line-height: 50px;
        }
 
        #dropdown {
