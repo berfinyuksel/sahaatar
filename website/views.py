@@ -13,18 +13,12 @@ views = Blueprint('views',__name__)
 def login_control():
     admin_pages = ['/venuesettings', '/addfile', '/fillform']
 
-    # Allow access to the login page without being logged in
-    if request.path == '/Login':
-        return
-
-    # Redirect to login page if trying to access admin pages without being logged in
     if request.path in admin_pages and 'logged_in' not in session:
         return redirect(url_for('views.login'))
 
-    # Redirect to login page for any other page if not logged in
-    if request.path != '/' and 'logged_in' not in session:
-        return redirect(url_for('views.login'))
-
+    # Check if the user is not logged in and trying to access other pages
+    # if request.path != '/' and 'logged_in' not in session:
+    #     return redirect(url_for('views.login'))
 
 @views.route('/')
 def home():

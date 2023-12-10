@@ -156,13 +156,13 @@
             }
 
             function getWeekRangeString(date) {
-                //Start from Monday
+                // Start from Monday
                 var startOfWeek = new Date(date);
                 startOfWeek.setDate(date.getDate() - (date.getDay() + 6) % 7);
 
-                //End on Sunday
-                var endOfWeek = new Date(date);
-                endOfWeek.setDate(date.getDate() + (7 - date.getDay()));
+                // End on Sunday
+                var endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
 
                 var options = { year: 'numeric', month: 'long', day: 'numeric' };
                 return startOfWeek.toLocaleDateString(undefined, options) + " - " +
