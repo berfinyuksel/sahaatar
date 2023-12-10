@@ -201,4 +201,6 @@ def export_match_to_csv():
 @views.route('/calendar')
 def calendar():
     venue = Venue.query.all()
+    venue_name = request.form.get("venue_name")
+    print(venue_name)
     return render_template('calendar.html', venue=venue)

@@ -87,8 +87,6 @@ def insert_initial_data(app):
                         venue_district_id= district.district_id,
                         venue_availability= venue['venue_availablity'],
                         accepts_outside_teams = venue['accepts_outside_teams'],
-                        available_time_start = datetime.strptime(venue["available_time_start"], "%H:%M").time(),
-                        available_time_end = datetime.strptime(venue["available_time_end"], "%H:%M").time(),
                         slot_one = venue['slot_one'],
                         slot_two = venue['slot_two'],
                         slot_three = venue['slot_three'],
