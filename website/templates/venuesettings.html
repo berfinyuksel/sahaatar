@@ -60,6 +60,13 @@
             </fieldset>
 
             <fieldset>
+                <label>Is this venue currently open?</label>
+                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value=True
+                        required />Yes</label>
+                <label for="no"><input id="no" type="radio" class="inline" name="open" value=False required />No</label>
+            </fieldset>
+
+            <fieldset>
                 <label>Select available time(s) for this venue.</label>
                 <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" />Slot1:
                     08:00 -
@@ -77,14 +84,6 @@
                     20:00 -
                     23:00</label>
             </fieldset>
-
-            <fieldset>
-                <label>Is this venue currently open?</label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value=True
-                        required />Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="open" value=False required />No</label>
-            </fieldset>
-
 
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
