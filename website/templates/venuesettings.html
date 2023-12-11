@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/field_styles.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var openYes = document.getElementById("yes_open");
+            var openNo = document.getElementById("no_open");
+            var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+            openYes.addEventListener("change", updateCheckboxStatus);
+            openNo.addEventListener("change", updateCheckboxStatus);
+
+            function updateCheckboxStatus() {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.disabled = openNo.checked;
+                });
+            }
+
+            updateCheckboxStatus();
+        });
+    </script>
 </head>
 
 <body>
@@ -62,9 +80,10 @@
 
             <fieldset>
                 <label>Is this venue currently open?</label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="open" value=True
+                <label for="yes_open"><input id="yes_open" type="radio" class="inline" name="open" value=True
                         required />Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="open" value=False required />No</label>
+                <label for="no_open"><input id="no_open" type="radio" class="inline" name="open" value=False
+                        required />No</label>
             </fieldset>
 
             <fieldset>
