@@ -26,7 +26,7 @@ class AssignedMatch(db.Model):
     match_date = db.Column(Date)
     # This line makes sure that no duplicates can be inserted
     __table_args__ = (
-        UniqueConstraint('home_team_name', 'away_team_name', 'league_id', name='unique_match'),
+        UniqueConstraint('match_slot','match_venue','match_date', name='unique_match'),
     )    
      
 class Venue(db.Model):

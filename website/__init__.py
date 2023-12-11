@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import pandas as pd
 from os import path
-from .models import Venue,District,Team,League,Match
+from .models import Venue,District,Team,League,Match,AssignedMatch
 from .extensions import db
 from .data import districts,groups,teams_data,venue_data
 from datetime import datetime, time
+from sqlalchemy.exc import IntegrityError
 
 DB_NAME = "database.db"
 
@@ -95,7 +97,38 @@ def insert_initial_data(app):
                     )
                     db.session.add(new_venue)
                 else:
-                    print(f"Could not find district or league for team: {venue['venue_name']}")       
+                    print(f"Could not find district or league for team: {venue['venue_name']}")
+
+        file_path = 'website/static/excel/AssignedMatches.xlsx'
+        df = pd.read_excel(file_path)
+        for index, row in df.iterrows():
+            try:
+                home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
+                away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
+                league = League.query.filter_by(league_name=row['League_name']).first()
+                venue = Venue.query.filter_by(venue_name=row['Venue']).first()
+
+                if home_team_to_insert and away_team_to_insert and league and venue:
+                    match = AssignedMatch(
+                        home_team_name = home_team_to_insert.team_name,
+                        away_team_name = away_team_to_insert.team_name,
+                        league_id = league.league_id,
+                        match_venue = venue.venue_name,
+                        match_day = row['Day'],
+                        match_slot = row['Slots'],
+                        match_date = row['Date']
+                    )
+
+                    try:
+                        db.session.add(match)
+                        db.session.commit()
+                    except IntegrityError:
+                        print(f"You have already added this match: {match.home_team_name}")
+                        db.session.rollback()
+
+            except KeyError as e:
+                print(f"KeyError in row {index}: {e}")
+                print("Please enter the right template!")                  
 
         db.session.commit()
 
