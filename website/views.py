@@ -11,7 +11,7 @@ views = Blueprint('views',__name__)
 
 @views.before_request
 def login_control():
-    admin_pages = ['/venuesettings', '/addfile', '/fillform']
+    admin_pages = ['/venuesettings', '/addfile', '/fillform', '/optimize']
 
     if request.path in admin_pages and 'logged_in' not in session:
         return redirect(url_for('views.login'))
@@ -204,3 +204,7 @@ def calendar():
     venue_name = request.form.get("venue_name")
     print(venue_name)
     return render_template('calendar.html', venue=venue)
+
+@views.route('/optimize')
+def optimize():
+    return render_template('optimize.html')
