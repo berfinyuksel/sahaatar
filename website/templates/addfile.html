@@ -73,52 +73,50 @@
     <button type="submit" id="submitButton" onclick="return validateForm()">SUBMIT</button>
     </form>
   </div>
-
-  <script>
-    function validateForm() {
-      var fileName = document.getElementById('fileName').textContent;
-
-      if (fileName === 'No File Chosen') {
-        alert('Please choose a file before submitting.');
-        return false;
-      }
-      return true;
-    }
-
-    function deleteFile() {
-      fetch('/deletefile', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileName: document.getElementById('fileName').textContent,
-        }),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('File deletion failed');
-          }
-          document.getElementById('fileName').textContent = 'No File Chosen';
-          document.getElementById('fileInput').value = '';
-        })
-        .catch(error => {
-          console.error('Error deleting file:', error);
-        });
-    }
-
-    function displayFileName(input) {
-      const fileNameSpan = document.getElementById('fileName');
-      var deleteButton = document.getElementById('deleteButton');
-      if (input.files.length > 0) {
-        fileNameSpan.textContent = input.files[0].name;
-      } else {
-        fileNameSpan.textContent = 'No file chosen';
-      }
-      deleteButton.disabled = fileNameSpan.textContent === 'No File Chosen';
-    }
-  </script>
-
 </body>
+<script>
+  function validateForm() {
+    var fileName = document.getElementById('fileName').textContent;
+
+    if (fileName === 'No File Chosen') {
+      alert('Please choose a file before submitting.');
+      return false;
+    }
+    return true;
+  }
+
+  function deleteFile() {
+    fetch('/deletefile', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fileName: document.getElementById('fileName').textContent,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('File deletion failed');
+        }
+        document.getElementById('fileName').textContent = 'No File Chosen';
+        document.getElementById('fileInput').value = '';
+      })
+      .catch(error => {
+        console.error('Error deleting file:', error);
+      });
+  }
+
+  function displayFileName(input) {
+    const fileNameSpan = document.getElementById('fileName');
+    var deleteButton = document.getElementById('deleteButton');
+    if (input.files.length > 0) {
+      fileNameSpan.textContent = input.files[0].name;
+    } else {
+      fileNameSpan.textContent = 'No file chosen';
+    }
+    deleteButton.disabled = fileNameSpan.textContent === 'No File Chosen';
+  }
+</script>
 
 </html>

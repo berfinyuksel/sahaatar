@@ -6,24 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/field_styles.css') }}">
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var openYes = document.getElementById("yes_open");
-            var openNo = document.getElementById("no_open");
-            var checkboxes = document.querySelectorAll("input[type='checkbox']");
-
-            openYes.addEventListener("change", updateCheckboxStatus);
-            openNo.addEventListener("change", updateCheckboxStatus);
-
-            function updateCheckboxStatus() {
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.disabled = openNo.checked;
-                });
-            }
-
-            updateCheckboxStatus();
-        });
-    </script>
 </head>
 
 <body>
@@ -121,5 +103,23 @@
     </div>
     </form>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var openYes = document.getElementById("yes_open");
+        var openNo = document.getElementById("no_open");
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+        openYes.addEventListener("change", updateCheckboxStatus);
+        openNo.addEventListener("change", updateCheckboxStatus);
+
+        function updateCheckboxStatus() {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.disabled = openNo.checked;
+            });
+        }
+
+        updateCheckboxStatus();
+    });
+</script>
 
 </html>

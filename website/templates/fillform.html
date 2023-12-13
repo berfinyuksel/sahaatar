@@ -85,24 +85,23 @@
       <input id="submit" type="submit" value="SUBMIT" /></input>
 
     </form>
-
-    <script>
-      function validateForm() {
-        var homeTeam = document.getElementById("home_team").value;
-        var awayTeam = document.getElementById("away_team").value;
-
-        console.log("Home Team: ", homeTeam);
-        console.log("Away Team: ", awayTeam);
-
-        if (homeTeam === "" || awayTeam === "") {
-          alert("Please select both home team and away team.");
-          return false;
-        }
-
-        return true;
-      }
-    </script>
   </div>
 </body>
+<script>
+  function validateForm() {
+    var homeTeam = document.getElementById("home_team").value;
+    var awayTeam = document.getElementById("away_team").value;
+
+    console.log("Home Team: ", homeTeam);
+    console.log("Away Team: ", awayTeam);
+
+    if (homeTeam === "" || awayTeam === "") {
+      alert("Please select both home team and away team.");
+      return false;
+    }
+
+    return true;
+  }
+</script>
 
 </html>

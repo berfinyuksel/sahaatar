@@ -137,42 +137,40 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            var currentDate = new Date();
-
-            function updateCurrentDate() {
-                var currentWeek = getWeekRangeString(currentDate);
-                document.getElementById("current-week").innerText = "Week: " + currentWeek;
-            }
-
-            function prevWeek() {
-                currentDate.setDate(currentDate.getDate() - 7);
-                updateCurrentDate();
-            }
-
-            function nextWeek() {
-                currentDate.setDate(currentDate.getDate() + 7);
-                updateCurrentDate();
-            }
-
-            function getWeekRangeString(date) {
-                // Start from Monday
-                var startOfWeek = new Date(date);
-                startOfWeek.setDate(date.getDate() - (date.getDay() + 6) % 7);
-
-                // End on Sunday
-                var endOfWeek = new Date(startOfWeek);
-                endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-                var options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return startOfWeek.toLocaleDateString(undefined, options) + " - " +
-                    endOfWeek.toLocaleDateString(undefined, options);
-            }
-            updateCurrentDate();
-        </script>
-
     </main>
 </body>
+<script>
+    var currentDate = new Date();
+
+    function updateCurrentDate() {
+        var currentWeek = getWeekRangeString(currentDate);
+        document.getElementById("current-week").innerText = "Week: " + currentWeek;
+    }
+
+    function prevWeek() {
+        currentDate.setDate(currentDate.getDate() - 7);
+        updateCurrentDate();
+    }
+
+    function nextWeek() {
+        currentDate.setDate(currentDate.getDate() + 7);
+        updateCurrentDate();
+    }
+
+    function getWeekRangeString(date) {
+        // Start from Monday
+        var startOfWeek = new Date(date);
+        startOfWeek.setDate(date.getDate() - (date.getDay() + 6) % 7);
+
+        // End on Sunday
+        var endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return startOfWeek.toLocaleDateString(undefined, options) + " - " +
+            endOfWeek.toLocaleDateString(undefined, options);
+    }
+    updateCurrentDate();
+</script>
 
 </html>
