@@ -27,15 +27,18 @@ def home():
     df = pd.read_excel(file_path)
 
     # Sadece belirli sütunları seç
-    selected_columns = ["home_team", "away_team", "League_name", "venue_name"]
+    selected_columns = ["date","home_team", "away_team", "League_name", "venue_name"]
     df_selected = df[selected_columns]
 
     # Her sütunu ayrı ayrı HTML sayfalarına gönder
+    date_html = df_selected['date'].to_frame().to_html(header=False,index=False)
     home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
     away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
     league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
     venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
-    return render_template('home_page.html',  home=home_team_html,
+    return render_template('home_page.html',  
+                           date=date_html,
+                           home=home_team_html,
                            away=away_team_html,
                            league=league_name_html,
                            venue=venue_name_html,
@@ -205,6 +208,8 @@ def calendar():
     print(venue_name)
     return render_template('calendar.html', venue=venue)
 
-@views.route('/optimize')
+@views.route('/optimize', methods=['GET','POST'])
 def optimize():
-    return render_template('optimize.html')
+    league= League.query.all()
+    league_name = request.form.get("league_name")
+    return render_template('optimize.html', league=league)

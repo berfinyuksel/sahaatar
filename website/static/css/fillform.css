@@ -235,3 +235,8 @@ input[type="submit"]:hover {
     visibility: hidden;
   }
 }
+
+input,
+label {
+  margin: 0.4rem 0;
+}

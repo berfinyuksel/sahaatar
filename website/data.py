@@ -1,6 +1,6 @@
-groups = ["1.GRUP",
-"2.GRUP",
-"3.GRUP"
+groups = ["1.GROUP",
+"2.GROUP",
+"3.GROUP"
 ]
 
 districts = ["Adalar",

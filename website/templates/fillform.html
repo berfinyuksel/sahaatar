@@ -64,6 +64,12 @@
         </select>
       </fieldset>
 
+      <fieldset>
+        <h2>DATE</h2>
+        <label for="start"></label>
+        <input type="date" id="start" name="trip-start" value="2023-12-22" min="2023-12-01" max="2028-12-31" />
+      </fieldset>
+
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       <div class="alert-container">

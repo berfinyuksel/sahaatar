@@ -45,34 +45,34 @@
     <main>
         <div class="main">
             <h1>OPTIMIZE VENUES</h1>
-            <div class="container px-1 px-sm-5 mx-auto">
-                <form autocomplete="off">
-                    <div class="flex-row d-flex justify-content-center">
-                        <div class="col-lg-6 col-11 px-1">
-                            <div class="input-group input-daterange">
-                                <input type="text" id="start" class="form-control text-left mr-2" />
-                                <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start Date</label>
-                                <span class="fa fa-calendar" id="fa-1"></span>
-                                <input type="text" id="end" class="form-control text-left ml-2" />
-                                <label class="ml-3 form-control-placeholder" id="end-p" for="end">End Date</label>
-                                <span class="fa fa-calendar" id="fa-2"></span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+
+            <div id="group">
+                <select id="dropdown" name="group_name" required>
+                    <option value="" selected disabled>Select A League</option>
+                    {% for league in league %}
+                    <option value="{{ league.leagu_name }}">{{ league.league_name }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <script>
-                $(document).ready(function () {
-                    $(".input-daterange").datepicker({
-                        format: "dd-mm-yyyy",
-                        autoclose: true,
-                        calendarWeeks: true,
-                        clearBtn: true,
-                        disableTouchKeyboard: true,
-                    });
-                });
-            </script>
+            <div id="date" class="center">
+                <div class="calendar-input">
+                    <label for="startDate">START:</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+
+                <div class="calendar-input">
+                    <label for="endDate">END:</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+            </div>
+            <button type="submit" id="submitButton">OPTIMIZE</button>
     </main>
+    <script>
+        document.getElementById('startDate').addEventListener('change', function () {
+            var startDateValue = document.getElementById('startDate').value;
+            document.getElementById('endDate').min = startDateValue;
+        });
+    </script>
 </body>
 
 </html>
