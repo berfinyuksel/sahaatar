@@ -30,6 +30,7 @@ def home():
     selected_columns = ["date","home_team", "away_team", "League_name", "venue_name"]
     df_selected = df[selected_columns]
     df_selected['date'] = pd.to_datetime(df_selected['date']).dt.strftime('%d/%m/%Y')
+    df_selected = df_selected.sort_values(by='date', ascending=False)
 
     # Her sütunu ayrı ayrı HTML sayfalarına gönder
     date_html = df_selected['date'].to_frame().to_html(header=False,index=False)
