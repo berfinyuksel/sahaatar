@@ -202,11 +202,14 @@ def export_match_to_csv():
 
     print("Match data saved to CSV file successfully.")
 
-@views.route('/calendar')
+@views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
+    if request.method == 'POST':
+        venue_name = request.form.get("venue_name")
+
+    df = pd.read_excel('website/static/excel/assignedMatches.xlsx')
     venue = Venue.query.all()
-    venue_name = request.form.get("venue_name")
-    print(venue_name)
+
     return render_template('calendar.html', venue=venue)
 
 @views.route('/optimize', methods=['GET','POST'])
