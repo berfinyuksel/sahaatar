@@ -45,7 +45,7 @@
       <fieldset>
         <h2>HOME TEAM</h2>
         <label for="home_team"></label>
-        <select name="home_team" id="home_team">
+        <select name="home_team" id="home_team" required>
           <option value="" selected disabled>Select Home Team</option>
           {% for team in team %}
           <option value="{{ team.team_name }}">{{ team.team_name }}</option>
@@ -56,7 +56,7 @@
       <fieldset>
         <h2>AWAY TEAM</h2>
         <label for="away_team"></label>
-        <select name="away_team" id="away_team">
+        <select name="away_team" id="away_team" required>
           <option value="" selected disabled>Select Away Team</option>
           {% for team in team %}
           <option value="{{ team.team_name }}">{{ team.team_name }}</option>
@@ -67,7 +67,7 @@
       <fieldset>
         <h2>DATE</h2>
         <label for="start"></label>
-        <input type="date" id="start" name="trip-start" value="2023-12-22" min="2023-12-01" max="2028-12-31" />
+        <input type="date" id="start" name="trip-start" required />
       </fieldset>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
