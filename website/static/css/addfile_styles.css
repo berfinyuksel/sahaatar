@@ -113,11 +113,6 @@ nav a {
   justify-content: space-between;
 }
 
-.align {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
 h1 {
   text-align: center;
   color: #1d9375;
@@ -135,21 +130,17 @@ p {
   margin-bottom: 20px;
 }
 
+.align {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .download {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 0;
   text-align: center;
   padding-left: 4em;
-
-}
-
-form {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 0;
-  text-align: center;
-  padding-left: 2em;
 }
 
 .download a {
@@ -161,12 +152,15 @@ form {
   margin-bottom: 10px;
   width: 400px;
   font-size: large;
-
 }
 
 .download a:hover {
   background-color: #1d9375;
   color: #dbfe87;
+}
+
+.download a img {
+  margin-right: 10px;
 }
 
 #submitButton {
@@ -188,7 +182,14 @@ form {
 #submitButton:hover {
   background-color: #dbfe87;
   color: #1d9375;
+}
 
+form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 0;
+  text-align: center;
+  padding-left: 2em;
 }
 
 form input[type="file"] {
