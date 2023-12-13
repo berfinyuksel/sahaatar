@@ -8,22 +8,25 @@
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/field_styles.css') }}">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            var dropdown = document.getElementById("dropdown");
             var openYes = document.getElementById("yes_open");
             var openNo = document.getElementById("no_open");
             var checkboxes = document.querySelectorAll("input[type='checkbox']");
-
+    
+            dropdown.addEventListener("change", updateCheckboxStatus);
             openYes.addEventListener("change", updateCheckboxStatus);
             openNo.addEventListener("change", updateCheckboxStatus);
-
+    
             function updateCheckboxStatus() {
                 checkboxes.forEach(function (checkbox) {
-                    checkbox.disabled = openNo.checked;
+                    checkbox.disabled = openNo.checked || dropdown.value !== 'Yes';
                 });
             }
-
+    
             updateCheckboxStatus();
         });
     </script>
+    
 </head>
 
 <body>
@@ -58,7 +61,7 @@
         <div id="title-box">
             <h1 id="title">VENUE SETTINGS</h1>
         </div>
-        <form id="survey-form" method="POST">
+        <form id="survey-form" method="POST" action="{{ url_for('views.venuesettings') }}">
             <fieldset>
                 <select id="dropdown" name="venue_name" required>
                     <option value="" selected disabled>Select A Venue</option>
@@ -72,39 +75,38 @@
                 <label>
                     Does this venue accept teams from other regions?
                 </label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value=True required />
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value=True {% if venue_to_update and venue_to_update.accepts_outside_teams %}checked{% endif %} required />
                     Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="area" value=False required />
+                <label for="no"><input id="no" type="radio" class="inline" name="area" value=False {% if venue_to_update and not venue_to_update.accepts_outside_teams %}checked{% endif %} required />
                     No</label>
             </fieldset>
 
             <fieldset>
                 <label>Is this venue currently open?</label>
-                <label for="yes_open"><input id="yes_open" type="radio" class="inline" name="open" value=True
+                <label for="yes_open"><input id="yes_open" type="radio" class="inline" name="open" value=True {% if venue_to_update and venue_to_update.venue_availability %}checked{% endif %}
                         required />Yes</label>
-                <label for="no_open"><input id="no_open" type="radio" class="inline" name="open" value=False
+                <label for="no_open"><input id="no_open" type="radio" class="inline" name="open" value=False {% if venue_to_update and not venue_to_update.venue_availability %}checked{% endif %}
                         required />No</label>
             </fieldset>
 
             <fieldset>
                 <label>Select available time(s) for this venue.</label>
-                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" />Slot1:
+                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" {% if venue_to_update and venue_to_update.slot_one %}checked{% endif %} />Slot1:
                     08:00 -
                     11:00</label>
-                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" />Slot2:
+                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" {% if venue_to_update and venue_to_update.slot_two %}checked{% endif %}/>Slot2:
                     11:00 -
                     14:00</label>
-                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" />Slot3:
+                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" {% if venue_to_update and venue_to_update.slot_three %}checked{% endif %}/>Slot3:
                     14:00 -
                     17:00</label>
-                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" />Slot4:
+                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" {% if venue_to_update and venue_to_update.slot_four %}checked{% endif %}/>Slot4:
                     17:00 -
                     20:00</label>
-                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" />Slot5:
+                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" {% if venue_to_update and venue_to_update.slot_five %}checked{% endif %}/>Slot5:
                     20:00 -
                     23:00</label>
             </fieldset>
-
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             <div class="alert-container">
@@ -119,6 +121,7 @@
 
             <input id="submit" type="submit" value="SUBMIT" /></input>
     </div>
+    
     </form>
 </body>
 
