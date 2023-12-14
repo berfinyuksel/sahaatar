@@ -51,12 +51,20 @@
         <div class="main">
             <h1>VENUE CALENDAR</h1>
             <div id="dropdown">
-                <select id="dropdown" name="venue_name" required>
-                    <option value="" selected disabled>Select A Venue</option>
-                    {% for venue in venue %}
-                    <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
-                    {% endfor %}
-                </select>
+                <form action="{{ url_for('views.handle_venue_selection') }}" method="post">
+                    <select id="dropdown" name="selected_venue" onchange="submitForm()">
+                        <option value="" selected disabled>Select A Venue</option>
+                        {% for venue in venue %}
+                        <option value="{{ venue.venue_name }}" {% if selected_venue==venue.venue_name %}selected{% endif
+                            %}>{{ venue.venue_name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <script>
+                    function submitForm() {
+                        document.forms[0].submit();
+                    }
+                </script>
             </div>
             <hr />
             <br />
@@ -68,6 +76,8 @@
                     <span class="navigation-arrows" onclick="nextWeek()">&#x2192;</span>
                 </div>
                 <div id="current-week" class="current-date"></div>
+                <h2>{{selected_venue_name}}</h2>
+                <!-- <p>{{mondayMatch[0]}}</p> -->
             </div>
 
             <div id="calendar">

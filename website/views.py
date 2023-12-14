@@ -1,7 +1,7 @@
 from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app, session
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
-from .models import District,League,Match,Team,Venue
+from .models import District,League,Match,Team,Venue, AssignedMatch
 import pandas as pd
 import os
 from . import db
@@ -205,13 +205,25 @@ def export_match_to_csv():
 
 @views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
-    if request.method == 'POST':
-        venue_name = request.form.get("venue_name")
-
-    df = pd.read_excel('website/static/excel/assignedMatches.xlsx')
     venue = Venue.query.all()
+    selected_venue_name = request.args.get('selected_venue')  # URL parametresinden seçili mekan adını al
+    print("**")
 
-    return render_template('calendar.html', venue=venue)
+    mondayMatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name).all()
+
+
+    for slot1 in mondayMatch:
+        print(slot1)
+        print("mac")
+
+    print("----------------------------------------------------------------------------------")
+
+    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,mondayMatch=mondayMatch)
+@views.route('/handle_venue_selection', methods=['POST'])
+def handle_venue_selection():
+    # Formdan seçili mekanı al
+    selected_venue_name = request.form['selected_venue']
+    return redirect(url_for('views.calendar', selected_venue=selected_venue_name))
 
 @views.route('/optimize', methods=['GET','POST'])
 def optimize():
