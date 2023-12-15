@@ -45,15 +45,15 @@
     <main>
         <div class="main">
             <h1>OPTIMIZE VENUES</h1>
-
-            <div id="group">
+            <p>Select a time interval for the matches you want to assign venues.</p>
+            <!-- <div id="group">
                 <select id="dropdown" name="group_name" required>
                     <option value="" selected disabled>Select A League</option>
                     {% for league in league %}
                     <option value="{{ league.leagu_name }}">{{ league.league_name }}</option>
                     {% endfor %}
                 </select>
-            </div>
+            </div> -->
             <div id="date" class="center">
                 <div class="calendar-input">
                     <label for="startDate">START:</label>
@@ -65,7 +65,7 @@
                     <input type="date" id="endDate" name="endDate" required>
                 </div>
             </div>
-            <button type="submit" id="submitButton">OPTIMIZE</button>
+            <button type="submit" id="submitButton">ASSIGN VENUES</button>
     </main>
 </body>
 <script>

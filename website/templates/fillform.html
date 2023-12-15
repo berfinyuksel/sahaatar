@@ -70,6 +70,23 @@
         <input type="date" id="start" name="trip-start" required />
       </fieldset>
 
+      <fieldset>
+        <h2>TIME</h2>
+        <div id="radio-slot">
+          <label for="time"></label>
+          <label for="slot1"><input id="slot1" type="radio" class="inline" name="area" value=True required />
+            08:00</label>
+          <label for="slot2"><input id="slot2" type="radio" class="inline" name="area" value=False required />
+            11:00</label>
+          <label for="slot3"><input id="slot3" type="radio" class="inline" name="area" value=False required />
+            14:00</label>
+          <label for="slot4"><input id="slot4" type="radio" class="inline" name="area" value=False required />
+            17:00</label>
+          <label for="slot4"><input id="slot4" type="radio" class="inline" name="area" value=False required />
+            20:00</label>
+        </div>
+      </fieldset>
+
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       <div class="alert-container">

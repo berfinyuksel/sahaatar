@@ -45,6 +45,7 @@
       <table>
         <thead>
           <tr>
+            <th>TIME</th>
             <th>DATE</th>
             <th>HOME TEAM</th>
             <th>AWAY TEAM</th>
@@ -55,6 +56,8 @@
         <tbody>
 
           <tr>
+            <td id="time">{{ time | safe }}</td>
+
             <td id="date">{{ date | safe }}</td>
 
             <td id="home">{{ home | safe }}</td>

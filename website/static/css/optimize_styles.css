@@ -173,3 +173,10 @@ label {
 input[type="date"] {
     font-size: 16px;
 }
+
+p {
+    font-style: italic;
+    size: small;
+    margin-bottom: 20px;
+    text-align: center;
+}
