@@ -40,49 +40,58 @@
         <div id="title-box">
             <h1 id="title">VENUE SETTINGS</h1>
         </div>
-        <form id="survey-form" method="POST">
+        <form action="{{ url_for('views.venue_settings_selection') }}" id="select-form" method="POST">
             <fieldset>
-                <select id="dropdown" name="venue_name" required>
+                <select id="dropdown" name="venue_name" required onchange="submitForm()">
                     <option value="" selected disabled>Select A Venue</option>
                     {% for venue in venue %}
                     <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
                     {% endfor %}
                 </select>
             </fieldset>
-
+        </form>
+        <script>
+            function submitForm() {
+                document.forms[0].submit();
+            }
+        </script>
+        <form id="survey-form" method="POST">
+            <h2> <label id = "ali_cengiz" value = {{selected_venue.venue_name}} >
+                {{selected_venue.venue_name}}
+            </label> </h2>
             <fieldset>
                 <label>
                     Does this venue accept teams from other regions?
                 </label>
-                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value=True required />
+                <label for="yes"><input id="yes" type="radio" class="inline" name="area" value=True {% if selected_venue.accepts_outside_teams %}checked{% endif %} required />
                     Yes</label>
-                <label for="no"><input id="no" type="radio" class="inline" name="area" value=False required />
+                <label for="no"><input id="no" type="radio" class="inline" name="area" value=False {% if not selected_venue.accepts_outside_teams %}checked{% endif %} required />
                     No</label>
             </fieldset>
 
             <fieldset>
                 <label>Is this venue currently open?</label>
-                <label for="yes_open"><input id="yes_open" type="radio" class="inline" name="open" value=True
+                <label for="yes_open"><input id="yes_open" type="radio" class="inline" name="open" value=True {% if selected_venue.venue_availability %}checked{% endif %}
                         required />Yes</label>
-                <label for="no_open"><input id="no_open" type="radio" class="inline" name="open" value=False
+                <label for="no_open"><input id="no_open" type="radio" class="inline" name="open" value=False {% if not selected_venue.venue_availability %}checked{% endif %}
                         required />No</label>
             </fieldset>
 
             <fieldset>
                 <label>Select available time(s) for this venue.</label>
-                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" />Slot1:
+                <label for="slot1"><input id="slot1" type="checkbox" class="inline" name="slot1" value="slot1" {% if selected_venue.slot_one %}checked{% endif %} />Slot1:
                     08:00 -
                     11:00</label>
-                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" />Slot2:
+                <label for="slot2"><input id="slot2" type="checkbox" class="inline" name="slot2" value="slot2" {% if selected_venue.slot_two %}checked{% endif %} />Slot2:
                     11:00 -
                     14:00</label>
-                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" />Slot3:
+                <label for="slot3"><input id="slot3" type="checkbox" class="inline" name="slot3" value="slot3" {% if selected_venue.slot_three %}checked{% endif %} />Slot3:
                     14:00 -
                     17:00</label>
-                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" />Slot4:
+                <label for="slot4"><input id="slot4" type="checkbox" class="inline" name="slot4" value="slot4" {% if selected_venue.slot_four %}checked{% endif %} />Slot4:
                     17:00 -
                     20:00</label>
-                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" />Slot5:
+                <label for="slot5"><input id="slot5" type="checkbox" class="inline" name="slot5" value="slot5" {% if selected_venue.slot_five %}checked{% endif %}/>Slot5:
                     20:00 -
                     23:00</label>
             </fieldset>
@@ -98,27 +107,25 @@
             </div>
             {% endif %}
             {% endwith %}
-
+            <input type="hidden" id="selected_venue_name" name="ali_cengiz" value="{{ selected_venue.venue_name }}">
             <input id="submit" type="submit" value="SUBMIT" /></input>
     </div>
     </form>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var openYes = document.getElementById("yes_open");
-        var openNo = document.getElementById("no_open");
-        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+    
 
-        openYes.addEventListener("change", updateCheckboxStatus);
-        openNo.addEventListener("change", updateCheckboxStatus);
+    document.addEventListener('DOMContentLoaded', function () {
+        var aliCengizLabel = document.getElementById('ali_cengiz');
+        var selectedVenueNameInput = document.getElementById('selected_venue_name');
 
-        function updateCheckboxStatus() {
-            checkboxes.forEach(function (checkbox) {
-                checkbox.disabled = openNo.checked;
-            });
-        }
+        // Set the initial value
+        selectedVenueNameInput.value = aliCengizLabel.innerText;
 
-        updateCheckboxStatus();
+        // Update the value before form submission
+        document.getElementById('survey-form').addEventListener('submit', function () {
+            selectedVenueNameInput.value = aliCengizLabel.innerText;
+        });
     });
 </script>
 
