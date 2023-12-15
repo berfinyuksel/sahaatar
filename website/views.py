@@ -112,7 +112,10 @@ def addfile():
                             match = Match(
                                 home_team_name=home_team_to_insert.team_name,
                                 away_team_name=away_team_to_insert.team_name,
-                                league_id=league.league_id
+                                league_id=league.league_id,
+                                match_day = row['Day'],
+                                match_slot = row['Slots'],
+                                match_date = row['Date']
                             )
                             try:
                                 db.session.add(match)

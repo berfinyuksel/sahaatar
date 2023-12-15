@@ -132,4 +132,4 @@ def insert_initial_data(app):
 
         db.session.commit()
 
-        print("Inserted initial data into the database!")
+        print("Inserted initial data into the database!")      
