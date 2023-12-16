@@ -1,5 +1,6 @@
 from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app, session
 from flask_bcrypt import Bcrypt
+from datetime import datetime 
 from sqlalchemy.exc import IntegrityError
 from .models import District,League,Match,Team,Venue, AssignedMatch
 import pandas as pd
@@ -163,6 +164,8 @@ def submit():
         print(request.form)
         home_team_to_insert = request.form.get("home_team")
         away_team_to_insert = request.form.get("away_team")
+        selected_date = request.form.get("trip-start")
+        selected_slot = request.form.get("area")
         
         home_team = Team.query.filter_by(team_name=home_team_to_insert).first()
         away_team = Team.query.filter_by(team_name=away_team_to_insert).first()
@@ -176,8 +179,13 @@ def submit():
             new_match = Match(
                 home_team_name=home_team.team_name,
                 away_team_name=away_team.team_name,
-                league_id=match_league_id
+                league_id=match_league_id,
+                match_date = datetime.strptime(selected_date, '%Y-%m-%d').date(),
+                match_slot = selected_slot,
+                match_day = datetime.strptime(selected_date,"%Y-%m-%d").strftime('%A').upper()
+
             )
+            # 2023-12-21
             try:
                 db.session.add(new_match)
                 db.session.commit()

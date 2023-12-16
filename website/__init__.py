@@ -123,7 +123,6 @@ def insert_initial_data(app):
                         db.session.add(match)
                         db.session.commit()
                     except IntegrityError:
-                        print(f"You have already added this match: {match.home_team_name}")
                         db.session.rollback()
 
             except KeyError as e:
