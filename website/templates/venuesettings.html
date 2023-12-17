@@ -42,7 +42,7 @@
         </div>
         <form action="{{ url_for('views.venue_settings_selection') }}" id="select-form" method="POST">
             <fieldset>
-                <select id="dropdown" name="venue_name" required onchange="submitForm()">
+                <select id="dropdown" name="venue_name" onchange="submitForm()" required>
                     <option value="" selected disabled>Select A Venue</option>
                     {% for venue in venue %}
                     <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
@@ -119,7 +119,7 @@
     </div>
     </form>
 </body>
-<script>
+<script>     
 
 
     document.addEventListener('DOMContentLoaded', function () {

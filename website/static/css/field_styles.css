@@ -202,7 +202,18 @@ input[type="submit"]:hover {
     margin: 0 0.5em 0 0;
     vertical-align: middle;
 }
-
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    color: #dc3545;
+    background-color: #f8d7da;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 500px;
+    animation: fadeOut 10s forwards;
+  }
 .alert-success {
     padding: 10px;
     margin-bottom: 20px;

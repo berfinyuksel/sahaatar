@@ -97,7 +97,9 @@ def venuesettings():
             venue_to_update.slot_five = slot_five_input
 
             db.session.commit()
-        flash("Changes saved Successfully!", "success")
+            flash("Changes saved Successfully!", "success")
+        elif not selected_venue_name:
+            flash("Select a Venue from the menu please!", "error")
         return redirect(url_for("views.venuesettings"))
     
     selected_venue = Venue.query.filter_by(venue_name = request.args.get('selected_venue')).first()
