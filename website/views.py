@@ -232,27 +232,102 @@ def export_match_to_csv():
 
     print("Match data saved to CSV file successfully.")
 
+    
+#tarih aralığını alma
+def getWeekRangeString(date):
+    start_of_week = date - timedelta(days=date.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    current_week=[start_of_week.strftime("%d/%m/%Y") , end_of_week.strftime("%d/%m/%Y")]
+    return current_week
+#seçili haftanın maç takviminin oluşturulması
+def getWeekMatches(selected_venue_name, current_week):
+    monday = ["-", "-", "-", "-", "-"]
+    tuesday = ["-", "-", "-", "-", "-"]
+    wednesday = ["-", "-", "-", "-", "-"]
+    thursday = ["-", "-", "-", "-", "-"]
+    friday = ["-", "-", "-", "-", "-"]
+    saturday = ["-", "-", "-", "-", "-"]
+    sunday = ["-", "-", "-", "-", "-"]
+
+    week = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+    gunler = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY","SUNDAY"]
+
+    gun=0
+
+    for day in week:
+        fake_day=getDayMatches(selected_venue_name,current_week,gun)
+        gun +=1
+        for slot in fake_day:
+            print(slot[2])
+            if slot[2] == "SLOT1":
+                day[0] = slot[0] + " - " + slot[1]
+                print(day[0])
+            elif slot[2] == "SLOT2":
+                day[1] = slot[0] + " - " + slot[1]
+            elif slot[2] == "SLOT3":
+                day[2] = slot[0] + " - " + slot[1]
+            elif slot[2] == "SLOT4":
+                day[3] = slot[0] + " - " + slot[1]
+            elif slot[2] == "SLOT5":
+                day[4] = slot[0] + " - " + slot[1]
+
+        
+
+    return week
+#seçili günün maç takviminin oluşturulması
+def getDayMatches(selected_venue_name, current_week,gun):
+    gunler = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY","SUNDAY"]
+    print("gun : "+ gunler[gun])
+    print(current_week[0] + " - " + current_week[1])
+
+    #match günlerini istenilen formata çevirme
+    start_date = datetime.strptime(current_week[0], '%d/%m/%Y').strftime('%Y-%m-%d')
+    end_date = datetime.strptime(current_week[1], '%d/%m/%Y').strftime('%Y-%m-%d')
+
+    #query ile seçili gündeki maçları çekme
+    daymatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day==gunler[gun],    AssignedMatch.match_date.between(start_date, end_date)).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
+    
+    
+    return daymatch
+
+#önceki hafta geçme
+@views.route('/prev_week', methods=['GET'])
+def prev_week():
+    global current_week
+    current_week[0] = (datetime.strptime(current_week[0], "%d/%m/%Y") - timedelta(days=7)).strftime("%d/%m/%Y")
+    current_week[1] = (datetime.strptime(current_week[1], "%d/%m/%Y") - timedelta(days=7)).strftime("%d/%m/%Y")
+    return redirect(url_for('views.calendar', selected_venue=request.args.get('selected_venue'), current_week=current_week))
+
+#sonraki hafya geçme
+@views.route('/next_week', methods=['GET'])
+def next_week():
+    global current_week
+    current_week[0] = (datetime.strptime(current_week[0], "%d/%m/%Y") + timedelta(days=7)).strftime("%d/%m/%Y")
+    current_week[1] = (datetime.strptime(current_week[1], "%d/%m/%Y") + timedelta(days=7)).strftime("%d/%m/%Y")
+    return redirect(url_for('views.calendar', selected_venue=request.args.get('selected_venue'), current_week=current_week))
+
+current_week = getWeekRangeString(datetime.now())
+
 @views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
+    global current_week
     venue = Venue.query.all()
-    selected_venue_name = request.args.get('selected_venue') 
-    print("**")
+    selected_venue_name = request.args.get('selected_venue')  # URL parametresinden seçili mekan adını al
 
-    mondayMatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name).all()
+    #mondayMatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day=="MONDAY").with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
+    weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
 
-    for slot1 in mondayMatch:
-        print(slot1)
-        print("mac")
+    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
 
-    print("----------------------------------------------------------------------------------")
-
-    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,mondayMatch=mondayMatch)
-    
 @views.route('/handle_venue_selection', methods=['POST'])
 def handle_venue_selection():
+    # formdan seçili mekanı alma
     selected_venue_name = request.form['selected_venue']
-    return redirect(url_for('views.calendar', selected_venue=selected_venue_name))
+    global current_week
+    current_week = getWeekRangeString(datetime.now())
+    return redirect(url_for('views.calendar', selected_venue=selected_venue_name, current_week=current_week))
 
+    
 @views.route('/optimize', methods=['GET','POST'])
 def optimize():
     league= League.query.all()
