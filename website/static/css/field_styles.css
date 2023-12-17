@@ -131,12 +131,19 @@ h1 {
     -webkit-text-stroke-color: black;
 }
 
+h2 {
+    color: black;
+    font-size: large;
+    padding-left: 0;
+    -webkit-text-stroke-width: 0.3px;
+    -webkit-text-stroke-color: #dbfe87;
+}
+
 form {
     width: 60vw;
     max-width: 500px;
     min-width: 300px;
     margin: 0 auto;
-    padding-bottom: 2em;
     font-family: Tahoma, Arial, sans-serif;
 
 }

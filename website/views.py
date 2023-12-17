@@ -72,7 +72,7 @@ def venuesettings():
     venue = Venue.query.all()
 
     if request.method == "POST":
-        selected_venue_name = request.form.get('ali_cengiz')
+        selected_venue_name = request.form.get('venue')
         accept_input = request.form.get('area')
         open_input = request.form.get('open')
 
