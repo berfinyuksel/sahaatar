@@ -56,9 +56,23 @@
             }
         </script>
         <form id="survey-form" method="POST">
-            <h2> <label id="venue" value={{selected_venue.venue_name}}>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <h2>
+                <label id="venue" value={{selected_venue.venue_name}}>
                     {{selected_venue.venue_name}}
-                </label> </h2>
+                </label>
+            </h2>
             <fieldset>
                 <label>
                     Does this venue accept teams from other regions?
@@ -103,17 +117,6 @@
                     23:00</label>
             </fieldset>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="alert-container">
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
             <input type="hidden" id="selected_venue_name" name="venue" value="{{ selected_venue.venue_name }}">
             <input id="submit" type="submit" value="SUBMIT" /></input>
     </div>
@@ -125,11 +128,23 @@
     document.addEventListener('DOMContentLoaded', function () {
         var venueLabel = document.getElementById('venue');
         var selectedVenueNameInput = document.getElementById('selected_venue_name');
+        var openYes = document.getElementById("yes_open");
+        var openNo = document.getElementById("no_open");
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
 
-        // Set the initial value
+        openYes.addEventListener("change", updateCheckboxStatus);
+        openNo.addEventListener("change", updateCheckboxStatus);
+
+        function updateCheckboxStatus() {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.disabled = openNo.checked;
+            });
+        }
+
+        updateCheckboxStatus();
+
         selectedVenueNameInput.value = venueLabel.innerText;
 
-        // Update the value before form submission
         document.getElementById('survey-form').addEventListener('submit', function () {
             selectedVenueNameInput.value = venueLabel.innerText;
         });

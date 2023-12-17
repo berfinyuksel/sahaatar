@@ -227,6 +227,19 @@ input[type="submit"]:hover {
     animation: fadeOut 10s forwards;
 }
 
+.alert-warning {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    color: #dc3545;
+    background-color: #f8d7da;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 500px;
+    animation: fadeOut 10s forwards;
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;
