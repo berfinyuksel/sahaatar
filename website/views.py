@@ -72,9 +72,13 @@ def venuesettings():
     venue = Venue.query.all()
 
     if request.method == "POST":
-        selected_venue_name = request.form.get('venue')
-        accept_input = request.form.get('area')
-        open_input = request.form.get('open')
+        selected_venue_name = request.form.get('venue', '')
+        accept_input = request.form.get('area', 'False')
+        open_input = request.form.get('open', 'False')
+
+        if not selected_venue_name:
+            flash("Venue is not selected. Please choose a venue.", "warning")
+            return redirect(url_for("views.venuesettings"))
 
         slot_one_input = 'slot1' in request.form
         slot_two_input = 'slot2' in request.form
@@ -87,9 +91,9 @@ def venuesettings():
         if selected_venue_name and accept_input and open_input:
             venue_to_update = Venue.query.filter_by(venue_name = selected_venue_name).first()
             print(venue_to_update)
-
-            venue_to_update.accepts_outside_teams = literal_eval(accept_input)
-            venue_to_update.venue_availability = literal_eval(open_input)
+        
+            venue_to_update.accepts_outside_teams = accept_input == 'True'
+            venue_to_update.venue_availability = open_input == 'True'
             venue_to_update.slot_one = slot_one_input
             venue_to_update.slot_two = slot_two_input
             venue_to_update.slot_three = slot_three_input
@@ -105,11 +109,9 @@ def venuesettings():
 
 @views.route('/venue_settings_selection', methods=['POST'])
 def venue_settings_selection():
-    # Formdan seçili mekanı al
+    #Select venue from form
     selected_venue_name = request.form['venue_name']
     return redirect(url_for('views.venuesettings', selected_venue=selected_venue_name))
-
-
 
 @views.route('/addfile', methods=['POST', 'GET'])
 def addfile():
