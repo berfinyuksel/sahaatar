@@ -233,11 +233,10 @@ def export_match_to_csv():
 @views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     venue = Venue.query.all()
-    selected_venue_name = request.args.get('selected_venue')  # URL parametresinden seçili mekan adını al
+    selected_venue_name = request.args.get('selected_venue') 
     print("**")
 
     mondayMatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name).all()
-
 
     for slot1 in mondayMatch:
         print(slot1)
@@ -246,9 +245,9 @@ def calendar():
     print("----------------------------------------------------------------------------------")
 
     return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,mondayMatch=mondayMatch)
+    
 @views.route('/handle_venue_selection', methods=['POST'])
 def handle_venue_selection():
-    # Formdan seçili mekanı al
     selected_venue_name = request.form['selected_venue']
     return redirect(url_for('views.calendar', selected_venue=selected_venue_name))
 
