@@ -4,17 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ url_for ('static', filename='css/calendar_styles.css') }}">
-        <title>Document</title>
-    </head>
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/calendar_styles.css') }}">
+    <title>Calendar Page</title>
+</head>
 
 <body>
     <header>
@@ -66,7 +58,10 @@
                     }
                 </script>
             </div>
-
+            <h2>{{selected_venue_name}}</h2>
+            <br>
+            <p>Week : {{current_week[0]}} - {{current_week[1]}}</p>
+            <br>
             <div class="week-navigation">
                 <div class="navigation-box">
                     <a href="{{ url_for('views.prev_week', selected_venue=selected_venue_name) }}">
@@ -78,9 +73,7 @@
                         <button class="navigation-arrows">&#x2192;</button>
                     </a>
                 </div>
-                <p>Week : {{current_week[0]}} - {{current_week[1]}}</p>
-                <br>
-                <h2>{{selected_venue_name}}</h2>
+            </div>
             <div id="calendar">
                 <div class="schedule1">
                     <div class="days" id="slotlar">Slots</div>
