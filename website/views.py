@@ -228,6 +228,16 @@ def export_match_to_csv():
 
     print("Match data saved to CSV file successfully.")
    
+@views.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    global current_week
+    venue = Venue.query.all()
+    selected_venue_name = request.args.get('selected_venue', '')  # URL parametresinden seçili mekan adını al
+
+    weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
+
+    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
+
 #tarih aralığını alma
 def getWeekRangeString(date):
     start_of_week = date - timedelta(days=date.weekday())
@@ -276,7 +286,9 @@ def getDayMatches(selected_venue_name, current_week,gun):
     end_date = datetime.strptime(current_week[1], '%d/%m/%Y').strftime('%Y-%m-%d')
 
     #query ile seçili gündeki maçları çekme
-    daymatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day==gunler[gun],    AssignedMatch.match_date.between(start_date, end_date)).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
+    daymatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day==gunler[gun],    
+    AssignedMatch.match_date.between(start_date, end_date)).with_entities(AssignedMatch.home_team_name,
+    AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
     
     return daymatch
 
@@ -297,16 +309,6 @@ def next_week():
     return redirect(url_for('views.calendar', selected_venue=request.args.get('selected_venue'), current_week=current_week))
 
 current_week = getWeekRangeString(datetime.now())
-
-@views.route('/calendar', methods=['GET', 'POST'])
-def calendar():
-    global current_week
-    venue = Venue.query.all()
-    selected_venue_name = request.args.get('selected_venue', '')  # URL parametresinden seçili mekan adını al
-
-    weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
-
-    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
 
 @views.route('/handle_venue_selection', methods=['POST'])
 def handle_venue_selection():
