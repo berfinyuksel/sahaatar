@@ -129,7 +129,7 @@
            height: 100px;
            text-align: center;
            font-size: smaller;
-           /* line-height: 100px; */
+           line-height: 100px;
        }
 
        .days {
@@ -178,7 +178,7 @@
            width: 92%;
        }
 
-       p {
+       p.current-week {
            color: black;
            font-size: large;
            padding-left: 0;
@@ -216,27 +216,35 @@
        }
 
        .hoverme {
-           /* width: 50px; */
+           width: 100px;
            height: 50px;
-           margin: auto;
-           /* position: relative; */
-           /* background: #1d9375; */
-           /* border-radius: 25px; */
+           margin: 0 auto;
+           position: relative;
            outline: 0;
            cursor: pointer;
-           /* top: 40vh; */
            transition: all .3s ease;
-       }
 
-
-       .hoverme {
            &:hover {
-               background: rgba(#f6f6f6, .3);
 
                &>.pop {
+                   display: flex;
                    opacity: 1;
-                   width: 200px;
-                   height: 200px;
+                   padding: 15px 10px;
+                   width: 100%;
+                   height: 100%;
+                   text-align: center;
+                   line-height: 20px;
+                   padding: 10px;
+                   padding-bottom: 10px;
+                   padding-right: 10px;
+                   color: #fff;
+                   position: absolute;
+                   top: 0;
+                   left: 50%;
+                   transform: translateX(-50%);
+                   z-index: 1;
+                   align-items: center;
+                   justify-content: center;
                }
            }
        }
@@ -245,14 +253,24 @@
            opacity: 0;
            width: 0;
            height: 0;
-           background: #ffffff;
-           border-radius: 100%;
-           z-index: -1;
+           background: #1d9375;
+           padding: 15px 10px;
+           border-radius: 10%;
+           color: #fff;
+           z-index: 1;
            margin: auto;
            transition: all .3s ease;
 
-           &>p {
-               color: #353535;
+           &>p.text {
+               color: #fff;
                font-size: 10px;
+               line-height: 1;
            }
+       }
+
+       p.match-link {
+           font-size: small;
+           line-height: 100px;
+           color: blue;
+           text-decoration: underline;
        }

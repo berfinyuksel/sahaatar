@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ url_for ('static', filename='css/calendar_styles.css') }}">
-        <title>Calendar Page</title>
-    </head>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/calendar_styles.css') }}">
+    <title>Calendar Page</title>
+</head>
 
 <body>
     <header>
@@ -38,6 +39,7 @@
             </div>
         </nav>
     </header>
+
     <main>
         <div class="main">
             <h1>VENUE CALENDAR</h1>
@@ -59,7 +61,7 @@
             </div>
             <h2>{{selected_venue_name}}</h2>
             <br>
-            <p>Week : {{current_week[0]}} - {{current_week[1]}}</p>
+            <p class="current_week">Week : {{current_week[0]}} - {{current_week[1]}}</p>
             <br>
             <div class="week-navigation">
                 <div class="navigation-box">
@@ -561,14 +563,13 @@
                     <div class="hoverme">
                         <p class="match-link" data="{{ weeklyMatchlist[6][4] }}">MATCH</p>
                         <div class="pop">
-                            <p class="text">{{ weeklyMatchlist[6][4] }} </p>
+                            <p class="text">
+                                {{ weeklyMatchlist[6][4] }} </p>
                         </div>
                     </div>
                     {% endif %}
                 </div>
             </div>
-        </div>
-        </div>
         </div>
     </main>
 </body>
