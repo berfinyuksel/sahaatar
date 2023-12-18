@@ -128,7 +128,7 @@
            width: auto;
            height: 100px;
            text-align: center;
-           /* line-height: 100px; */
+           line-height: 100px;
            font-size: smaller;
        }
 
@@ -144,11 +144,12 @@
        #dropdown {
            grid-area: dropdown;
            margin-bottom: 20px;
-           width: 100%;
+           width: 96%;
+           margin: 20px auto;
        }
 
        select {
-           width: 100%;
+           width: 96%;
            min-height: 2em;
            background-color: white;
            padding: 8px;
@@ -166,11 +167,30 @@
            text-align: center;
        }
 
+       h2 {
+           color: #fff;
+           font-size: 30px;
+           padding-left: 0;
+           text-align: center;
+           background-color: #1d9375;
+           text-align: center;
+           margin: 0 auto;
+           width: 92%;
+       }
+
+       p {
+           color: black;
+           font-size: large;
+           padding-left: 0;
+           -webkit-text-stroke-width: 0.3px;
+           -webkit-text-stroke-color: #1d9375;
+       }
+
        #calendar {
            width: 100%;
            margin: 0 auto;
            margin-bottom: 2em;
-           margin-top: 2em;
+           margin-top: 1em;
        }
 
        .week-navigation {
@@ -182,8 +202,6 @@
            margin-right: 10px;
            margin-bottom: 10px;
            background-color: #eaeaea;
-           padding-left: 10px;
-           padding-right: 10px;
            border-radius: 5px;
        }
 

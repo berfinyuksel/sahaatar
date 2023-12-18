@@ -148,6 +148,11 @@ form {
 
 }
 
+#dropdown {
+    width: 44vw;
+    margin: 0.5rem 0;
+}
+
 fieldset {
     border: none;
     padding: 1rem 0;
@@ -202,6 +207,7 @@ input[type="submit"]:hover {
     margin: 0 0.5em 0 0;
     vertical-align: middle;
 }
+
 .alert {
     padding: 10px;
     margin-bottom: 20px;
@@ -213,7 +219,8 @@ input[type="submit"]:hover {
     margin: 0 auto;
     max-width: 500px;
     animation: fadeOut 10s forwards;
-  }
+}
+
 .alert-success {
     padding: 10px;
     margin-bottom: 20px;

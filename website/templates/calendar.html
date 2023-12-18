@@ -13,7 +13,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{{ url_for ('static', filename='css/calendar_styles.css') }}">
-        <title>Document</title>
+        <title>Calendar Page</title>
     </head>
 
 <body>
@@ -66,8 +66,10 @@
                     }
                 </script>
             </div>
-            <hr />
-            <br />
+            <h2>{{selected_venue_name}}</h2>
+            <br>
+            <p>Week : {{current_week[0]}} - {{current_week[1]}}</p>
+            <br>
             <div class="week-navigation">
                 <div class="navigation-box">
                     <a href="{{ url_for('views.prev_week', selected_venue=selected_venue_name) }}">
@@ -79,10 +81,10 @@
                         <button class="navigation-arrows">&#x2192;</button>
                     </a>
                 </div>
-                <p>Week : {{current_week[0]}} - {{current_week[1]}}</p>
-                <br>
-                <h2>{{selected_venue_name}}</h2>
+            </div>
+
             <div id="calendar">
+
                 <div class="schedule1">
                     <div class="days" id="slotlar">Slots</div>
                     <div class="slots timeslot">08:00-11:00</div>
@@ -91,64 +93,318 @@
                     <div class="slots timeslot">17:00-20:00</div>
                     <div class="slots timeslot">20:00-23:00</div>
                 </div>
+
                 <div class="schedule1" id="Pazartesi">
                     <div class="days">Monday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[0][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[0][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[0][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[0][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[0][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[0][0] == '-' %}
+                        {{ weeklyMatchlist[0][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[0][1] == '-' %}
+                        {{ weeklyMatchlist[0][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[0][2] == '-' %}
+                        {{ weeklyMatchlist[0][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[0][3] == '-' %}
+                        {{ weeklyMatchlist[0][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[0][4] == '-' %}
+                        {{ weeklyMatchlist[0][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Salı">
                     <div class="days">Tuesday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[1][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[1][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[1][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[1][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[1][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[1][0] == '-' %}
+                        {{ weeklyMatchlist[1][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[1][0] }}"
+                            data-away-team="{{ weeklyMatchlist[1][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[1][1] == '-' %}
+                        {{ weeklyMatchlist[1][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[1][0] }}"
+                            data-away-team="{{ weeklyMatchlist[1][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[1][2] == '-' %}
+                        {{ weeklyMatchlist[1][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[1][3] == '-' %}
+                        {{ weeklyMatchlist[1][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[0][0] }}"
+                            data-away-team="{{ weeklyMatchlist[0][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[1][4] == '-' %}
+                        {{ weeklyMatchlist[1][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[1][0] }}"
+                            data-away-team="{{ weeklyMatchlist[1][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Carsamba">
                     <div class="days">Wednesday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[2][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[2][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[2][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[2][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[2][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[2][0] == '-' %}
+                        {{ weeklyMatchlist[2][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[2][0] }}"
+                            data-away-team="{{ weeklyMatchlist[2][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[2][1] == '-' %}
+                        {{ weeklyMatchlist[2][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[2][0] }}"
+                            data-away-team="{{ weeklyMatchlist[2][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[2][2] == '-' %}
+                        {{ weeklyMatchlist[2][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[2][0] }}"
+                            data-away-team="{{ weeklyMatchlist[2][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[2][3] == '-' %}
+                        {{ weeklyMatchlist[2][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[2][0] }}"
+                            data-away-team="{{ weeklyMatchlist[2][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[2][4] == '-' %}
+                        {{ weeklyMatchlist[2][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[2][0] }}"
+                            data-away-team="{{ weeklyMatchlist[2][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Persembe">
                     <div class="days">Thursday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[3][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[3][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[3][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[3][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[3][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[3][0] == '-' %}
+                        {{ weeklyMatchlist[3][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[3][0] }}"
+                            data-away-team="{{ weeklyMatchlist[3][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[3][1] == '-' %}
+                        {{ weeklyMatchlist[3][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[3][0] }}"
+                            data-away-team="{{ weeklyMatchlist[3][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[3][2] == '-' %}
+                        {{ weeklyMatchlist[3][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[3][0] }}"
+                            data-away-team="{{ weeklyMatchlist[3][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[3][3] == '-' %}
+                        {{ weeklyMatchlist[3][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[3][0] }}"
+                            data-away-team="{{ weeklyMatchlist[3][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[3][4] == '-' %}
+                        {{ weeklyMatchlist[3][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[3][0] }}"
+                            data-away-team="{{ weeklyMatchlist[3][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Cuma">
                     <div class="days">Friday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[4][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[4][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[4][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[4][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[4][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[4][0] == '-' %}
+                        {{ weeklyMatchlist[4][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[4][0] }}"
+                            data-away-team="{{ weeklyMatchlist[4][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[4][1] == '-' %}
+                        {{ weeklyMatchlist[4][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[4][0] }}"
+                            data-away-team="{{ weeklyMatchlist[4][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[4][2] == '-' %}
+                        {{ weeklyMatchlist[4][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[4][0] }}"
+                            data-away-team="{{ weeklyMatchlist[4][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[4][3] == '-' %}
+                        {{ weeklyMatchlist[4][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[4][0] }}"
+                            data-away-team="{{ weeklyMatchlist[4][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[4][4] == '-' %}
+                        {{ weeklyMatchlist[4][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[4][0] }}"
+                            data-away-team="{{ weeklyMatchlist[4][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Cumartesi">
                     <div class="days">Saturday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[5][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[5][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[5][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[5][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[5][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[5][0] == '-' %}
+                        {{ weeklyMatchlist[5][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[5][0] }}"
+                            data-away-team="{{ weeklyMatchlist[5][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[5][1] == '-' %}
+                        {{ weeklyMatchlist[5][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[5][0] }}"
+                            data-away-team="{{ weeklyMatchlist[5][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[5][2] == '-' %}
+                        {{ weeklyMatchlist[5][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[5][0] }}"
+                            data-away-team="{{ weeklyMatchlist[5][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[5][3] == '-' %}
+                        {{ weeklyMatchlist[5][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[5][0] }}"
+                            data-away-team="{{ weeklyMatchlist[5][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[5][4] == '-' %}
+                        {{ weeklyMatchlist[5][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[5][0] }}"
+                            data-away-team="{{ weeklyMatchlist[5][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="schedule1" id="Pazar">
                     <div class="days">Sunday</div>
-                    <div class="slots" id="slot1">{{weeklyMatchlist[6][0]}}</div>
-                    <div class="slots" id="slot2">{{weeklyMatchlist[6][1]}}</div>
-                    <div class="slots" id="slot3">{{weeklyMatchlist[6][2]}}</div>
-                    <div class="slots" id="slot4">{{weeklyMatchlist[6][3]}}</div>
-                    <div class="slots" id="slot5">{{weeklyMatchlist[6][4]}}</div>
+                    <div class="slots" id="slot1">
+                        {% if weeklyMatchlist[6][0] == '-' %}
+                        {{ weeklyMatchlist[6][0] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[6][0] }}"
+                            data-away-team="{{ weeklyMatchlist[6][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot2">
+                        {% if weeklyMatchlist[6][1] == '-' %}
+                        {{ weeklyMatchlist[6][1] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[6][0] }}"
+                            data-away-team="{{ weeklyMatchlist[6][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot3">
+                        {% if weeklyMatchlist[6][2] == '-' %}
+                        {{ weeklyMatchlist[6][2] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[6][0] }}"
+                            data-away-team="{{ weeklyMatchlist[6][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot4">
+                        {% if weeklyMatchlist[6][3] == '-' %}
+                        {{ weeklyMatchlist[6][3] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[6][0] }}"
+                            data-away-team="{{ weeklyMatchlist[6][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
+                    <div class="slots" id="slot5">
+                        {% if weeklyMatchlist[6][4] == '-' %}
+                        {{ weeklyMatchlist[6][4] }}
+                        {% else %}
+                        <a href="#" class="match-link" data-home-team="{{ weeklyMatchlist[6][0] }}"
+                            data-away-team="{{ weeklyMatchlist[6][1] }}">MATCH</a>
+                        {% endif %}
+                    </div>
                 </div>
+
             </div>
         </div>
     </main>
 </body>
+
 </html>
