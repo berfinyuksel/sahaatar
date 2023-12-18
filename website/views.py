@@ -18,10 +18,6 @@ def login_control():
     if request.path in admin_pages and 'logged_in' not in session:
         return redirect(url_for('views.login'))
 
-    # Check if the user is not logged in and trying to access other pages
-    # if request.path != '/' and 'logged_in' not in session:
-    #     return redirect(url_for('views.login'))
-
 @views.route('/')
 def home():
     file_path = 'website/static/excel/Matches.xlsx'
@@ -190,7 +186,6 @@ def submit():
                 match_day = datetime.strptime(selected_date,"%Y-%m-%d").strftime('%A').upper()
 
             )
-            # 2023-12-21
             try:
                 db.session.add(new_match)
                 db.session.commit()
@@ -232,8 +227,7 @@ def export_match_to_csv():
     matches_df.to_csv('matches.csv', index=False)
 
     print("Match data saved to CSV file successfully.")
-
-    
+   
 #tarih aralığını alma
 def getWeekRangeString(date):
     start_of_week = date - timedelta(days=date.weekday())
@@ -272,14 +266,10 @@ def getWeekMatches(selected_venue_name, current_week):
             elif slot[2] == "SLOT5":
                 day[4] = slot[0] + " - " + slot[1]
 
-        
-
     return week
 #seçili günün maç takviminin oluşturulması
 def getDayMatches(selected_venue_name, current_week,gun):
     gunler = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY","SUNDAY"]
-    print("gun : "+ gunler[gun])
-    print(current_week[0] + " - " + current_week[1])
 
     #match günlerini istenilen formata çevirme
     start_date = datetime.strptime(current_week[0], '%d/%m/%Y').strftime('%Y-%m-%d')
@@ -287,7 +277,6 @@ def getDayMatches(selected_venue_name, current_week,gun):
 
     #query ile seçili gündeki maçları çekme
     daymatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day==gunler[gun],    AssignedMatch.match_date.between(start_date, end_date)).with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
-    
     
     return daymatch
 
@@ -313,9 +302,8 @@ current_week = getWeekRangeString(datetime.now())
 def calendar():
     global current_week
     venue = Venue.query.all()
-    selected_venue_name = request.args.get('selected_venue')  # URL parametresinden seçili mekan adını al
+    selected_venue_name = request.args.get('selected_venue', '')  # URL parametresinden seçili mekan adını al
 
-    #mondayMatch = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue_name, AssignedMatch.match_day=="MONDAY").with_entities(AssignedMatch.home_team_name,AssignedMatch.away_team_name,AssignedMatch.match_slot).order_by(AssignedMatch.match_slot).all()
     weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
 
     return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
@@ -328,7 +316,6 @@ def handle_venue_selection():
     current_week = getWeekRangeString(datetime.now())
     return redirect(url_for('views.calendar', selected_venue=selected_venue_name, current_week=current_week))
 
-    
 @views.route('/optimize', methods=['GET','POST'])
 def optimize():
     league= League.query.all()
