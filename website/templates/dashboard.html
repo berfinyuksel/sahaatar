@@ -43,20 +43,29 @@
     <div id="title">
       <h1>VENUE DASHBOARD</h1>
     </div>
-    <div id="a">
-      <h2>Grid Item 3</h2>
-      <p>Content for Grid Item 3 goes here.</p>
-    </div>
     <div id="dropdown">
-      <select>
-        <option value="" selected disabled>Choose a Venue</option>
-        {% for venue in venue %}
-        <option value="{{ venue.venue_name }}">{{ venue.venue_name }}</option>
-        {% endfor %}
-      </select>
+      <form action="{{ url_for('views.dashboard_venue_selection') }}" method="post">
+        <select id="dropdown" name="selected_venue" onchange="submitForm()" style="background-color: white;">
+            <option value="" selected disabled>Select A Venue</option>
+            {% for venue in venue %}
+            <option value="{{ venue.venue_name }}" {% if selected_venue==venue.venue_name %}selected{% endif
+                %}>{{ venue.venue_name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <script>
+        function submitForm() {
+            document.forms[0].submit();
+        }
+    </script>
     </div>
+    <div id="a">
+      <h2>{{selected_venue}}</h2>
+      <p>{{selected_venue}}'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır.</p>
+    </div>
+    
     <div>
-      <h2>Grid Item 4</h2>
+      <h2>Grid Item</h2>
       <p>Content for Grid Item 4 goes here.</p>
     </div>
   </div>

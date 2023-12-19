@@ -120,12 +120,10 @@ nav a {
 }
 
 #title {
-  background-color: #03B5AA;
   grid-area: title;
 }
 
 #dropdown {
-  background-color: #1d9375;
   grid-area: dropdown;
 }
 
@@ -134,9 +132,12 @@ nav a {
 
 }
 
+
 h1 {
   color: #1d9375;
-  font-size: 40px;
+  font-size: 48px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   padding-left: 0;
   -webkit-text-stroke-width: 0.3px;
   -webkit-text-stroke-color: black;
@@ -156,7 +157,7 @@ select {
   min-height: 2em;
   margin-bottom: 10px;
   background-color: white;
-  border: 1px solid #1d9375;
+  border: 1px solid white;
   padding: 8px;
   box-sizing: border-box;
 }

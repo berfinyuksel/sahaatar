@@ -207,10 +207,23 @@ def fillform():
     team = Team.query.all()
     return render_template('fillform.html', team=team)
 
-@views.route('/dashboard')
+@views.route('/dashboard' , methods=['GET'])
 def dashboard():
+    #saha verilerini veritabanından alınması
     venue = Venue.query.all()
-    return render_template('dashboard.html', venue=venue)
+
+    #seçilen sahanın URL parametresinden alınması
+    selected_venue = request.args.get('selected_venue', '')
+
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue)
+
+#dropdown menuden saha seçiminin aktarımı
+@views.route('/dashboard_venue_selection', methods=['POST'])
+def dashboard_venue_selection():
+    selected_venue_name = request.form['selected_venue']
+
+    return redirect(url_for('views.dashboard', selected_venue=selected_venue_name))
+
 
 # İki takımın aynı ligde olup olmadığını karşılaştırıyor
 def check_match_condition(team_one: Team, team_two: Team):
