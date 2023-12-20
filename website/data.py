@@ -1,6 +1,13 @@
 groups = ["1.GRUP",
 "2.GRUP",
-"3.GRUP"
+"3.GRUP",
+"4.GRUP",
+"5.GRUP",
+"6.GRUP",
+"7.GRUP",
+"8.GRUP",
+"9.GRUP",
+"10.GRUP",
 ]
 
 districts = ["Adalar",

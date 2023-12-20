@@ -56,24 +56,29 @@ def insert_initial_data(app):
                 new_group = League(league_name=group_name)
                 db.session.add(new_group)
 
-        for team in teams_to_insert:
-            # Check if the team already exists
-            existing_team = Team.query.filter_by(team_name=team["name"]).first()
+        team_path = 'website/static/excel/Teams.xlsx'
+        df_team = pd.read_excel(team_path)
+        for index, row in df_team.iterrows():
+            try:
+                team_to_insert = row["team_name"]
+                league = League.query.filter_by(league_name=row['League_name']).first()
+                team_location = District.query.filter_by(district_name=row['team_location']).first()
 
-            if not existing_team:
-                # Find district and league by name
-                district = District.query.filter_by(district_name=team["district"]).first()
-                league = League.query.filter_by(league_name=team["group"]).first()
-
-                if district and league:
-                    new_team = Team(
-                        team_name=team["name"],
-                        team_district_id=district.district_id,
-                        team_league_id=league.league_id
+                if team_to_insert and team_location and league:
+                    team = Team(
+                        team_name = team_to_insert,
+                        team_league_id = league.league_id,
+                        team_district_id = team_location.district_id
                     )
-                    db.session.add(new_team)
-                else:
-                    print(f"Could not find district or league for team: {team['name']}")
+                    try:
+                        db.session.add(team)
+                        db.session.commit()
+                    except IntegrityError as e:
+                        db.session.rollback()            
+            except KeyError as e:
+                print(f"KeyError in row {index}: {e}")
+                print("Please enter the right template!")
+
         for venue in venues_to_insert:
             # Check if the venue already exists
             existing_venue = Venue.query.filter_by(venue_name=venue['venue_name']).first()
@@ -99,9 +104,9 @@ def insert_initial_data(app):
                 else:
                     print(f"Could not find district or league for team: {venue['venue_name']}")
 
-        file_path = 'website/static/excel/AssignedMatches.xlsx'
-        df = pd.read_excel(file_path)
-        for index, row in df.iterrows():
+        match_path = 'website/static/excel/AssignedMatches.xlsx'
+        df_match = pd.read_excel(match_path)
+        for index, row in df_match.iterrows():
             try:
                 home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
                 away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()

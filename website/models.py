@@ -66,6 +66,9 @@ class Team(db.Model):
     team_name = db.Column(db.String(150))
     team_district_id = db.Column(db.Integer, db.ForeignKey('district.district_id'))
     team_league_id = db.Column(db.Integer,db.ForeignKey('league.league_id'))  
+    __table_args__ = (
+        UniqueConstraint('team_name','team_district_id','team_league_id', name='unique_team'),
+    )    
 
 class Admin(db.Model,UserMixin):
     admin_id = db.Column(db.Integer,primary_key = True)
