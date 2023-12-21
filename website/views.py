@@ -141,7 +141,6 @@ def addfile():
                                 print(f"You have already added this match: {match}")
                                 db.session.rollback()                
 
-                    export_match_to_csv()
                     flash("Submitted Successfully!", "success")
                     return redirect(url_for("views.addfile"))
                 except KeyError:
@@ -234,12 +233,49 @@ def export_match_to_csv():
     matches = Match.query.all()
 
     # Match verilerini bir veri çerçevesine dönüştür
-    matches_df = pd.DataFrame([match.home_team_name for match in matches])
+    matches_df = pd.DataFrame({
+        'match_id': [match.match_id for match in matches],
+        'home_team': [match.home_team_name for match in matches],
+        'away_team': [match.away_team_name for match in matches],
+        'League_name': [match.league_id for match in matches],
+        'Day': [match.match_day for match in matches],
+        'Slots': [match.match_slot for match in matches],
+        'Date': [str(match.match_date.strftime("%d/%m/%Y")) for match in matches]
+    })
+    match_list= []
+    # Convert each row to a list of values
+    rows_as_lists = matches_df.values.tolist()
+    for rows in rows_as_lists:
+        match_list.append(rows)
 
-    # Veri çerçevesini CSV dosyasına kaydet
-    matches_df.to_csv('matches.csv', index=False)
+    # Write each row to the CSV file with double square brackets
+    with open('matches.csv', 'w') as csv_file:
+        csv_file.write(str(match_list))
 
-    print("Match data saved to CSV file successfully.")
+def export_venue_to_csv():
+    venues = Venue.query.all()
+
+    #Venue name , Venue availability, slot1 , slot2,slot3,slot4,slot5
+    venues_df = pd.DataFrame (
+        {
+            "venue_id" : [venue.venue_id for venue in venues],
+            "venue_name" : [venue.venue_name for venue in venues],
+            "venue_availability" : [venue.venue_availability for venue in venues],
+            "slot_one" : [venue.slot_one for venue in venues],
+            "slot_two" : [venue.slot_two for venue in venues],
+            "slot_three" : [venue.slot_three for venue in venues],
+            "slot_four" : [venue.slot_four for venue in venues],
+            "slot_five" : [venue.slot_five for venue in venues],
+        }
+    )
+    rows_as_lists = venues_df.values.tolist()
+    venue_list = []
+
+    for rows in rows_as_lists:
+        venue_list.append(rows)
+
+    with open('venues.csv', 'w') as csv_file:
+        csv_file.write(str(venue_list))
    
 @views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
@@ -335,4 +371,7 @@ def handle_venue_selection():
 def optimize():
     league= League.query.all()
     league_name = request.form.get("league_name")
+    if request.method == 'POST':
+        export_match_to_csv()
+        export_venue_to_csv()
     return render_template('optimize.html', league=league)

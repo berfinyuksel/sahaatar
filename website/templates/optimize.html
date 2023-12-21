@@ -54,6 +54,7 @@
                     {% endfor %}
                 </select>
             </div> -->
+        <form id="optimize-form" action="/optimize" method="POST" enctype="multipart/form-data">
             <div id="date" class="center">
                 <div class="calendar-input">
                     <label for="startDate">START:</label>
@@ -66,6 +67,7 @@
                 </div>
             </div>
             <button type="submit" id="submitButton">ASSIGN VENUES</button>
+        </form>
     </main>
 </body>
 <script>
