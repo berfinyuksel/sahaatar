@@ -116,21 +116,24 @@ nav a {
   grid-area: title;
 }
 
-.column{
-display: flex;
-padding-bottom: 10px;
+.column {
+  display: flex;
+  padding-bottom: 10px;
 
 }
-#dropdown{
+
+#dropdown {
   margin-left: 45px;
 }
-.venue_info{
+
+.venue_info {
   padding-left: 100px;
   width: 40%;
 }
+
 h1 {
   color: #1d9375;
-  font-size: 48px;
+  font-size: 5vw;
   margin-bottom: 20px;
   margin-top: 20px;
   padding-left: 0;
@@ -153,27 +156,28 @@ select {
   margin-bottom: 10px;
   background-color: white;
   border: 1px solid white;
-  padding: 8px;  
+  padding: 8px;
 }
 
 .first-row {
   display: flex;
   justify-content: center;
-  padding-bottom: 50px; 
+  padding-bottom: 50px;
   padding-top: 40px;
 }
 
 .second-row {
   display: flex;
   justify-content: center;
-  padding-bottom: 50px; 
+  padding-bottom: 50px;
 }
 
 .third-row {
   display: flex;
   justify-content: center;
-  padding-bottom: 50px; 
+  padding-bottom: 50px;
 }
+
 /* Style the counter cards */
 .card200x200 {
   width: 200px;
@@ -183,6 +187,7 @@ select {
   background-color: #f1f1f1;
   border-radius: 10px;
 }
+
 .card200x300 {
   width: 200px;
   height: 300px;
@@ -191,6 +196,7 @@ select {
   background-color: #f1f1f1;
   border-radius: 10px;
 }
+
 .card800x300 {
   width: 800px;
   height: 300px;
@@ -200,6 +206,7 @@ select {
   border-radius: 10px;
 
 }
+
 .card500x300 {
   width: 500px;
   height: 300px;
@@ -218,9 +225,11 @@ select {
   font-size: 22px;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .header-content {
   text-align: center;
 }
+
 .card-content {
   padding: 20px;
 }
