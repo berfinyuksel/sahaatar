@@ -54,20 +54,20 @@
                     {% endfor %}
                 </select>
             </div> -->
-        <form id="optimize-form" action="/optimize" method="POST" enctype="multipart/form-data">
-            <div id="date" class="center">
-                <div class="calendar-input">
-                    <label for="startDate">START:</label>
-                    <input type="date" id="startDate" name="startDate" required>
-                </div>
+            <form id="optimize-form" action="/optimize" method="POST" enctype="multipart/form-data">
+                <div id="date" class="center">
+                    <div class="calendar-input">
+                        <label for="startDate">START:</label>
+                        <input type="date" id="startDate" name="startDate" min="2024-01-01" required>
+                    </div>
 
-                <div class="calendar-input">
-                    <label for="endDate">END:</label>
-                    <input type="date" id="endDate" name="endDate" required>
+                    <div class="calendar-input">
+                        <label for="endDate">END:</label>
+                        <input type="date" id="endDate" name="endDate" min="2024-01-02" required>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" id="submitButton">ASSIGN VENUES</button>
-        </form>
+                <button type="submit" id="submitButton">ASSIGN VENUES</button>
+            </form>
     </main>
 </body>
 <script>
