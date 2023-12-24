@@ -8,6 +8,7 @@ import os
 from . import db
 from ast import literal_eval
 from datetime import datetime, timedelta
+from .gurobi_test import run_gurobi
 
 views = Blueprint('views',__name__)
 
@@ -374,4 +375,5 @@ def optimize():
     if request.method == 'POST':
         export_match_to_csv()
         export_venue_to_csv()
+        run_gurobi()
     return render_template('optimize.html', league=league)
