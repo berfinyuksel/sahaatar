@@ -22,30 +22,63 @@ def login_control():
 @views.route('/')
 def home():
     file_path = 'website/static/excel/Matches.xlsx'
+    assigned_matches = AssignedMatch.query.all()
+    if assigned_matches:
+        df_assigned = pd.DataFrame([{'time': match.match_slot, 
+                                     'date': match.match_date, 
+                                     'home_team': match.home_team_name, 
+                                     'away_team': match.away_team_name, 
+                                     'League_name': match.league_id, 
+                                     'venue_name': match.match_venue} for match in assigned_matches])
+        # Format the 'date' column
+        df_assigned['date'] = pd.to_datetime(df_assigned['date']).dt.strftime('%d/%m/%Y')
 
-    df = pd.read_excel(file_path)
+        # Sort the DataFrame based on the 'date' column
+        df_assigned = df_assigned.sort_values(by='date', ascending=False)
 
-    # Sadece belirli sütunları seç
-    selected_columns = ["time", "date","home_team", "away_team", "League_name", "venue_name"]
-    df_selected = df[selected_columns]
-    df_selected['date'] = pd.to_datetime(df_selected['date']).dt.strftime('%d/%m/%Y')
-    df_selected = df_selected.sort_values(by='date', ascending=False)
+        return render_template('home_page.html',
+                           time=df_assigned['time'].to_frame().to_html(header=False, index=False),
+                           date=df_assigned['date'].to_frame().to_html(header=False, index=False),
+                           home=df_assigned['home_team'].to_frame().to_html(header=False, index=False),
+                           away=df_assigned['away_team'].to_frame().to_html(header=False, index=False),
+                           league=df_assigned['League_name'].to_frame().to_html(header=False, index=False),
+                           venue=df_assigned['venue_name'].to_frame().to_html(header=False, index=False),
+                           data=df_assigned.to_html(header=False, index=False))
 
-    # Her sütunu ayrı ayrı HTML sayfalarına gönder
-    time_html = df_selected['time'].to_frame().to_html(header=False,index=False)
-    date_html = df_selected['date'].to_frame().to_html(header=False,index=False)
-    home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
-    away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
-    league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
-    venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
-    return render_template('home_page.html',  
-                           time=time_html,
-                           date=date_html,
-                           home=home_team_html,
-                           away=away_team_html,
-                           league=league_name_html,
-                           venue=venue_name_html,
-                           data=df_selected.to_html(header=False,index=False))
+    else :
+        try:
+            df = pd.read_excel(file_path)
+            # Sadece belirli sütunları seç
+            selected_columns = ["time", "date","home_team", "away_team", "League_name", "venue_name"]
+            df_selected = df[selected_columns]
+            df_selected['date'] = pd.to_datetime(df_selected['date']).dt.strftime('%d/%m/%Y')
+            df_selected = df_selected.sort_values(by='date', ascending=False)
+
+           # Her sütunu ayrı ayrı HTML sayfalarına gönder
+            time_html = df_selected['time'].to_frame().to_html(header=False,index=False)
+            date_html = df_selected['date'].to_frame().to_html(header=False,index=False)
+            home_team_html = df_selected['home_team'].to_frame().to_html(header=False,index=False)
+            away_team_html = df_selected['away_team'].to_frame().to_html(header=False,index=False)
+            league_name_html = df_selected['League_name'].to_frame().to_html(header=False,index=False)
+            venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False,index=False)
+
+            return render_template('home_page.html',  
+                                  time=time_html,
+                                  date=date_html,
+                                  home=home_team_html,
+                                  away=away_team_html,
+                                  league=league_name_html,
+                                   venue=venue_name_html,
+                                  data=df_selected.to_html(header=False,index=False))
+        except FileNotFoundError:
+            return render_template('home_page.html',
+                                   time="Empty",
+                                   date="Empty",
+                                   home="Empty",
+                                   away="Empty",
+                                   league="Empty",
+                                   venue="Empty",
+                                   data="Empty")
 
 @views.route('/Login', methods=['GET', 'POST'])
 def login():
