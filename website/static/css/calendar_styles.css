@@ -115,7 +115,7 @@ nav a {
 
 .schedule1 {
     display: inline-block;
-    width: calc(100% / 9);
+    width: calc(100% / 8);
     box-sizing: border-box;
     border: 1px solid #ccc;
     text-align: center;
@@ -218,7 +218,7 @@ p {
 }
 
 #matches {
-    font-size: 0.6vw;
+    font-size: 0.7vw;
     text-align: center;
     margin: 40px auto;
 }
