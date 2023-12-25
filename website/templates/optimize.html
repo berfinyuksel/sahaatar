@@ -46,24 +46,17 @@
         <div class="main">
             <h1>OPTIMIZE VENUES</h1>
             <p>Select a time interval for the matches you want to assign venues.</p>
-            <!-- <div id="group">
-                <select id="dropdown" name="group_name" required>
-                    <option value="" selected disabled>Select A League</option>
-                    {% for league in league %}
-                    <option value="{{ league.leagu_name }}">{{ league.league_name }}</option>
-                    {% endfor %}
-                </select>
-            </div> -->
+
             <form id="optimize-form" action="/optimize" method="POST" enctype="multipart/form-data">
                 <div id="date" class="center">
                     <div class="calendar-input">
                         <label for="startDate">START:</label>
-                        <input type="date" id="startDate" name="startDate" min="2024-01-01" required>
+                        <input type="date" id="startDate" name="startDate" required>
                     </div>
 
                     <div class="calendar-input">
                         <label for="endDate">END:</label>
-                        <input type="date" id="endDate" name="endDate" min="2024-01-02" required>
+                        <input type="date" id="endDate" name="endDate" required>
                     </div>
                 </div>
                 <button type="submit" id="submitButton">ASSIGN VENUES</button>
@@ -75,6 +68,8 @@
         var startDateValue = document.getElementById('startDate').value;
         document.getElementById('endDate').min = startDateValue;
     });
+    //Set the minimum date to the current date
+    document.getElementById('startDate').min = new Date().toISOString().split('T')[0];
 </script>
 
 </html>

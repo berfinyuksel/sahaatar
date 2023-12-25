@@ -67,22 +67,22 @@
       <fieldset>
         <h2>DATE</h2>
         <label for="start"></label>
-        <input type="date" id="start" name="start" min="2024-01-01" required />
+        <input type="date" id="start" name="start" required />
       </fieldset>
 
       <fieldset>
         <h2>TIME</h2>
         <div id="radio-slot">
           <label for="time"></label>
-          <label for="slot1"><input id="slot1" type="radio" class="inline" name="area" value= "SLOT1" required />
+          <label for="slot1"><input id="slot1" type="radio" class="inline" name="area" value="SLOT1" required />
             08:00</label>
-          <label for="slot2"><input id="slot2" type="radio" class="inline" name="area" value= "SLOT2" required />
+          <label for="slot2"><input id="slot2" type="radio" class="inline" name="area" value="SLOT2" required />
             11:00</label>
-          <label for="slot3"><input id="slot3" type="radio" class="inline" name="area" value= "SLOT3" required />
+          <label for="slot3"><input id="slot3" type="radio" class="inline" name="area" value="SLOT3" required />
             14:00</label>
-          <label for="slot4"><input id="slot4" type="radio" class="inline" name="area" value= "SLOT4" required />
+          <label for="slot4"><input id="slot4" type="radio" class="inline" name="area" value="SLOT4" required />
             17:00</label>
-          <label for="slot5"><input id="slot5" type="radio" class="inline" name="area" value= "SLOT5" required />
+          <label for="slot5"><input id="slot5" type="radio" class="inline" name="area" value="SLOT5" required />
             20:00</label>
         </div>
       </fieldset>
@@ -119,6 +119,9 @@
 
     return true;
   }
+  //Set the minimum date to the current date
+  document.getElementById('start').min = new Date().toISOString().split('T')[0];
+
 </script>
 
 </html>
