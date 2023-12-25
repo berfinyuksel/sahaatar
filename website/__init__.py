@@ -121,7 +121,8 @@ def insert_initial_data(app):
                         match_venue = venue.venue_name,
                         match_day = row['Day'],
                         match_slot = row['Slots'],
-                        match_date = row['Date']
+                        match_date = row['Date'],
+                        match_week = row['Week']
                     )
 
                     try:

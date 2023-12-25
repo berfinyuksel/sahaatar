@@ -29,6 +29,7 @@ class AssignedMatch(db.Model):
     match_day = db.Column(db.String(50))  
     match_slot = db.Column(db.String(50))
     match_date = db.Column(Date)
+    match_week = db.Column(db.String(50))
     # This line makes sure that no duplicates can be inserted
     __table_args__ = (
         UniqueConstraint('match_slot','match_venue','match_date', name='unique_match'),
