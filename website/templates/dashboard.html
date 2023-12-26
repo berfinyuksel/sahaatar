@@ -112,16 +112,16 @@
 
   <div class="second-row"> 
        
-        <div class="card700x300">
+        <div class="card700x500">
           <div class="card-header">
             <label class="header-content">Aylara Göre Oynanan Maç Sayısı</label>
           </div>
           <div class="card-content">
-            
+            <canvas id="lineChart" style="width: 40%; height: 40%;"></canvas>    
           </div>
         </div>
 
-        <div class="card300x300">
+        <div class="card300x500">
           <div class="card-header">
             <label class="header-content" >Oynanan Son 5 Maç</label>
           </div>
@@ -141,30 +141,109 @@
         <label class="header-content">Liglere Göre Oynanan Maç Sayısı</label>
       </div>
       <div class="card-content">
-        <p>
-        </p>
+        <canvas id="barChart"></canvas>
       </div>
 
     </div>
 
     <div class="card500x300">
-      
+
       <div class="card-header">
-        <label class="header-content">En Fazla Oynayan Takımlar</label>
+          <label class="header-content">En Fazla Oynayan Takımlar</label>
       </div>
-      <div class="card-content">
-        <p>
-
-        </p>
+      <div class="card-content" style="width: 80%; height: 80%; ">
+          <canvas id="pieChart" ></canvas>
       </div>
-
     </div>
-  </div>
 
   </div>
 
   </div>
-  
+    <p>{{second_row}}</p>
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Flask'ten gelen veriyi al
+    const second_row = {{ second_row|tojson|safe }};
+    // Chart.js konfigürasyonu (Line Chart)
+    const labelsLine = second_row[0];
+    const dataLine = {
+        labels: labelsLine,
+        datasets: [{
+            label: 'Maç Sayıları',
+            data: second_row[1],
+            fill: true,
+            borderColor: '#1D9375',
+            tension: 0.1
+        }]
+    };
+
+    const configLine = {
+        type: 'line',
+        data: dataLine,
+    };
+
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const myLineChart = new Chart(ctxLine, configLine);
+</script>
+
+<script>
+      const third_row = {{ third_row|tojson|safe }};
+
+    const league_name = ["1.GRUP", "2.GRUP", "3.GRUP", "4.GRUP", "5.GRUP", "6.GRUP", "7.GRUP", "8.GRUP", "9.GRUP", "10.GRUP"];
+    const dataBar = {
+        labels: league_name,
+        datasets: [{
+            label: 'Maç Sayıları',
+            data: third_row,
+            backgroundColor: ["#e60049", "#0bb4ff", "#50e991", "#e6d800", "#9b19f5", "#ffa300", "#dc0ab4", "#1a53ff", "#00bfa0", "#ffd700"],
+            borderWidth: 1
+        }]
+    };
+
+    const configBar = {
+        type: 'bar',
+        data: dataBar,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const myBarChart = new Chart(ctxBar, configBar);
+</script>
+<script>
+  const fourth_row = {{ fourth_row|tojson|safe }};
+
+  const dataPie = {
+      labels:fourth_row[0],
+      datasets: [{
+          label: 'Maç Sayısı',
+          data: fourth_row[1],
+          backgroundColor: ["#9552ea", "#93f03b", "#ffec21", "#f54f52", "#378aff"],
+      }]
+  };
+
+  const configPie = {
+        type: 'pie',
+        data: dataPie,
+        options: {
+            plugins: {
+                legend: {
+                    position: 'right', 
+                }
+            },            
+            maintainAspectRatio: false, 
+            responsive: true, 
+        }
+    };
+
+  const ctxPie = document.getElementById('pieChart').getContext('2d');
+  const myPieChart = new Chart(ctxPie, configPie);
+</script>

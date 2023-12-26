@@ -2,7 +2,8 @@ from flask import Blueprint,render_template,request,redirect,url_for,flash, curr
 from flask_bcrypt import Bcrypt
 from datetime import datetime 
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func
+from sqlalchemy import func,distinct
+from collections import defaultdict
 from .models import District,League,Match,Team,Venue, AssignedMatch
 import pandas as pd
 import os
@@ -318,6 +319,80 @@ def dashboard_firstrow(selected_venue):
 
     return first_row
 
+def dashboard_secondrow(selected_venue):
+
+    result = (
+    AssignedMatch.query
+    .filter(AssignedMatch.match_venue == selected_venue)
+    .with_entities(
+        distinct(func.strftime('%m', AssignedMatch.match_date)).label('ay'),
+        func.count().label('mac_sayisi')
+    )
+    .group_by(func.strftime('%Y-%m', AssignedMatch.match_date))
+    .order_by(func.strftime('%Y-%m', AssignedMatch.match_date)).all()
+    )
+    aylar = [datetime.strptime(ay, '%m').strftime('%B') for ay, _ in result]
+    mac_sayisi = [mac_sayisi for _, mac_sayisi in result]
+    
+    second_row = [aylar,mac_sayisi]
+    return second_row
+    
+def dashboard_third_row(selected_venue):
+    result = (
+    AssignedMatch.query
+    .filter(AssignedMatch.match_venue == selected_venue)
+    .group_by(AssignedMatch.league_id)
+    .with_entities(AssignedMatch.league_id, func.count().label('satir_sayisi'))
+    .all()
+    )
+
+    lig_mac_sayisi=[]
+    for lig in result:
+        lig_mac_sayisi.append(lig[1])
+
+    return lig_mac_sayisi
+
+def dashboard_fourth_row(selected_venue):
+    home_team_result = (
+    AssignedMatch.query
+    .with_entities(AssignedMatch.home_team_name.label('takim'), func.count().label('mac_sayisi'))
+    .filter(AssignedMatch.match_venue == selected_venue)
+    .group_by('takim')
+    .order_by(func.count().desc())
+    .all()
+    )
+
+    away_team_result = (
+    AssignedMatch.query
+    .with_entities(AssignedMatch.away_team_name.label('takim'), func.count().label('mac_sayisi'))
+    .filter(AssignedMatch.match_venue == selected_venue)
+    .group_by('takim')
+    .order_by(func.count().desc())
+    .all()
+    )
+
+    combined_result = defaultdict(int)
+
+    for row in home_team_result:
+        takim = row.takim
+        mac_sayisi = row.mac_sayisi
+        combined_result[takim] += mac_sayisi
+
+    for row in away_team_result:
+        takim = row.takim
+        mac_sayisi = row.mac_sayisi
+        combined_result[takim] += mac_sayisi
+    sorted_result = sorted(combined_result.items(), key=lambda x: x[1], reverse=True)
+    top_5_teams = [team[0] for team in sorted_result[:5]]
+    top_5_values = [team[1] for team in sorted_result[:5]]
+    print(sorted_result)
+    print()
+    print(top_5_teams)
+    print(top_5_values)
+    fourth_row=[]
+    return [top_5_teams,top_5_values]
+
+
 @views.route('/dashboard' , methods=['GET'])
 def dashboard():
     #saha verilerini veritabanından alınması
@@ -326,12 +401,15 @@ def dashboard():
     #seçilen sahanın URL parametresinden alınması
     selected_venue = request.args.get('selected_venue', '')
     first_row = dashboard_firstrow(selected_venue)
+    second_row = dashboard_secondrow(selected_venue)
+    third_row= dashboard_third_row(selected_venue)
+    fourth_row=dashboard_fourth_row(selected_venue)
     #seçili sahanın altında yazan text
     venue_info = ""
     if selected_venue!='':
         venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
 
-    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row)
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,second_row=second_row,third_row=third_row,fourth_row=fourth_row)
 
 #dropdown menuden saha seçiminin aktarımı
 @views.route('/dashboard_venue_selection', methods=['POST'])

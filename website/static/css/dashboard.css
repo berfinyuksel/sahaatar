@@ -188,18 +188,18 @@ select {
   border-radius: 10px;
 }
 
-.card300x300 {
+.card300x500 {
   width: 300px;
-  height: 300px;
+  height: 500px;
   margin: 0 50px;
   text-align: center;
   background-color: #f1f1f1;
   border-radius: 10px;
 }
 
-.card700x300 {
+.card700x500 {
   width: 700px;
-  height: 300px;
+  height: 500px;
   margin: 0 50px;
   text-align: center;
   background-color: #f1f1f1;
