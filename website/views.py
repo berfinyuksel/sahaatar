@@ -2,6 +2,7 @@ from flask import Blueprint,render_template,request,redirect,url_for,flash, curr
 from flask_bcrypt import Bcrypt
 from datetime import datetime 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 from .models import District,League,Match,Team,Venue, AssignedMatch
 import pandas as pd
 import os
@@ -276,6 +277,47 @@ def fillform():
     team = Team.query.all()
     return render_template('fillform.html', team=team)
 
+#dashboarda yer alan ilk satırın bilgileri
+def dashboard_firstrow(selected_venue):
+
+    #güncel ayı atar
+    current_month = datetime.now().month
+
+    #toplam oynanan maçların sorgusu
+    total_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue).count()
+
+    #bu haftayı istenilen formata çevirme
+    start_date = datetime.strptime(current_week[0], '%d/%m/%Y').strftime('%Y-%m-%d')
+    end_date = datetime.strptime(current_week[1], '%d/%m/%Y').strftime('%Y-%m-%d')
+
+    #bu ay oynanan maç sayıları
+    monthly_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue,func.extract('month', AssignedMatch.match_date) == current_month).count()
+
+    #bu hafta oynanan maç sayıları
+    weekly_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue, AssignedMatch.match_date.between(start_date, end_date)).count()
+
+    #sahalarda toplam yapılan maçları çeker
+    venue_ranked_list = (
+    AssignedMatch.query
+    .with_entities(AssignedMatch.match_venue, func.count().label('venue_count'))
+    .group_by(AssignedMatch.match_venue)
+    .order_by(func.count().desc())
+    .all()
+        )
+    
+    #sahaların en çok maç oynayanlara göre sıralar
+    ranked_num=1
+    for venue in venue_ranked_list:
+
+        if venue[0] == selected_venue:
+            break
+        else:
+            ranked_num += 1
+
+    first_row= [total_game,monthly_game,weekly_game,ranked_num]
+
+    return first_row
+
 @views.route('/dashboard' , methods=['GET'])
 def dashboard():
     #saha verilerini veritabanından alınması
@@ -283,14 +325,19 @@ def dashboard():
 
     #seçilen sahanın URL parametresinden alınması
     selected_venue = request.args.get('selected_venue', '')
+    first_row = dashboard_firstrow(selected_venue)
+    #seçili sahanın altında yazan text
+    venue_info = ""
+    if selected_venue!='':
+        venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
 
-    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue)
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row)
 
 #dropdown menuden saha seçiminin aktarımı
 @views.route('/dashboard_venue_selection', methods=['POST'])
 def dashboard_venue_selection():
     selected_venue_name = request.form['selected_venue']
-
+    selectinfo = selected_venue_name + " nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
     return redirect(url_for('views.dashboard', selected_venue=selected_venue_name))
 
 

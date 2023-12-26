@@ -133,7 +133,7 @@ nav a {
 
 h1 {
   color: #1d9375;
-  font-size: 5vw;
+  font-size: 3vw;
   margin-bottom: 20px;
   margin-top: 20px;
   padding-left: 0;
@@ -188,8 +188,8 @@ select {
   border-radius: 10px;
 }
 
-.card200x300 {
-  width: 200px;
+.card300x300 {
+  width: 300px;
   height: 300px;
   margin: 0 50px;
   text-align: center;
@@ -197,8 +197,8 @@ select {
   border-radius: 10px;
 }
 
-.card800x300 {
-  width: 800px;
+.card700x300 {
+  width: 700px;
   height: 300px;
   margin: 0 50px;
   text-align: center;
