@@ -233,3 +233,32 @@ select {
 .card-content {
   padding: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+table {
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+#home,#away{
+  width: auto;
+}
+
+td {
+  background-color: rgba(7, 27, 252, 0.2);
+  color: black;
+  padding: 15px;
+  width: 200px;
+}
+#matchtable{
+  padding: 20px;
+}

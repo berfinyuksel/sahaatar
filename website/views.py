@@ -394,7 +394,28 @@ def dashboard_mostplayed_team(selected_venue):
     fourth_row=[top_5_teams,top_5_values]
     return fourth_row
 
+def dashboard_lastfive_match(selected_venue):
+    # Match günlerini istenilen formata çevirme
+    today = datetime.now().strftime('%Y-%m-%d')
 
+    # Query ile seçili gündeki maçları çekme
+    lastmatch = AssignedMatch.query.filter(
+        AssignedMatch.match_venue == selected_venue,
+        AssignedMatch.match_date <= today).with_entities(
+        AssignedMatch.home_team_name,
+        AssignedMatch.away_team_name,
+        AssignedMatch.match_date
+    ).order_by(AssignedMatch.match_date.desc(),AssignedMatch.match_slot.desc()).limit(5)
+
+    # Her bir row'daki attributeleri string olarak birleştirme
+    result_strings = []
+    for match in lastmatch:
+        match_string = f"{match[0]} vs {match[1]} "
+        date_string = f"{match[2]}"
+        result_strings.append(date_string)
+        result_strings.append(match_string)
+
+    return result_strings
 @views.route('/dashboard' , methods=['GET'])
 def dashboard():
     #saha verilerini veritabanından alınması
@@ -406,12 +427,13 @@ def dashboard():
     montly_game = dashboard_montly_game(selected_venue)
     league_chart= dashboard_league_chart(selected_venue)
     mostplayed_team=dashboard_mostplayed_team(selected_venue)
+    lastmatch = dashboard_lastfive_match(selected_venue)
     #seçili sahanın altında yazan text
     venue_info = ""
     if selected_venue!='':
         venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
 
-    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team)
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team,lastmatch=lastmatch)
 
 #dropdown menuden saha seçiminin aktarımı
 @views.route('/dashboard_venue_selection', methods=['POST'])
@@ -509,10 +531,8 @@ def getWeekMatches(selected_venue_name, current_week):
         fake_day=getDayMatches(selected_venue_name,current_week,gun)
         gun +=1
         for slot in fake_day:
-            print(slot[2])
             if slot[2] == "SLOT1":
                 day[0] = slot[0] + " - " + slot[1]
-                print(day[0])
             elif slot[2] == "SLOT2":
                 day[1] = slot[0] + " - " + slot[1]
             elif slot[2] == "SLOT3":
