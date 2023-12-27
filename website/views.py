@@ -437,40 +437,40 @@ def export_match_to_csv():
         'Slots': [match.match_slot for match in matches],
         'Date': [str(match.match_date.strftime("%d/%m/%Y")) for match in matches]
     })
-    match_list= []
+
     # Convert each row to a list of values
     rows_as_lists = matches_df.values.tolist()
-    for rows in rows_as_lists:
-        match_list.append(rows)
 
-    # Write each row to the CSV file with double square brackets
+    # Write each row to the CSV file line by line
     with open('matches.csv', 'w') as csv_file:
-        csv_file.write(str(match_list))
+        for row in rows_as_lists:
+            csv_file.write(str(row) + '\n')
 
 def export_venue_to_csv():
     venues = Venue.query.all()
 
-    #Venue name , Venue availability, slot1 , slot2,slot3,slot4,slot5
-    venues_df = pd.DataFrame (
+    # Venue name , Venue availability, slot1 , slot2,slot3,slot4,slot5
+    venues_df = pd.DataFrame(
         {
-            "venue_id" : [venue.venue_id for venue in venues],
-            "venue_name" : [venue.venue_name for venue in venues],
-            "venue_availability" : [venue.venue_availability for venue in venues],
-            "slot_one" : [venue.slot_one for venue in venues],
-            "slot_two" : [venue.slot_two for venue in venues],
-            "slot_three" : [venue.slot_three for venue in venues],
-            "slot_four" : [venue.slot_four for venue in venues],
-            "slot_five" : [venue.slot_five for venue in venues],
+            "venue_id": [venue.venue_id for venue in venues],
+            "venue_name": [venue.venue_name for venue in venues],
+            "venue_availability": [venue.venue_availability for venue in venues],
+            "slot_one": [venue.slot_one for venue in venues],
+            "slot_two": [venue.slot_two for venue in venues],
+            "slot_three": [venue.slot_three for venue in venues],
+            "slot_four": [venue.slot_four for venue in venues],
+            "slot_five": [venue.slot_five for venue in venues],
         }
     )
+
+    # Convert each row to a list of values
     rows_as_lists = venues_df.values.tolist()
     venue_list = []
 
-    for rows in rows_as_lists:
-        venue_list.append(rows)
-
+    # Write each row to the CSV file line by line
     with open('venues.csv', 'w') as csv_file:
-        csv_file.write(str(venue_list))
+        for row in rows_as_lists:
+            csv_file.write(str(row) + '\n')
    
 @views.route('/calendar', methods=['GET', 'POST'])
 def calendar():
