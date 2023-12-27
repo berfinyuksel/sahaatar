@@ -283,44 +283,43 @@ def dashboard_firstrow(selected_venue):
 
     #güncel ayı atar
     current_month = datetime.now().month
-
-    #toplam oynanan maçların sorgusu
-    total_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue).count()
-
     #bu haftayı istenilen formata çevirme
     start_date = datetime.strptime(current_week[0], '%d/%m/%Y').strftime('%Y-%m-%d')
     end_date = datetime.strptime(current_week[1], '%d/%m/%Y').strftime('%Y-%m-%d')
 
-    #bu ay oynanan maç sayıları
-    monthly_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue,func.extract('month', AssignedMatch.match_date) == current_month).count()
+    #seçili sahada toplam oynanan maçların sorgusu
+    total_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue).count()
 
-    #bu hafta oynanan maç sayıları
-    weekly_game = AssignedMatch.query.filter(AssignedMatch.match_venue == selected_venue, AssignedMatch.match_date.between(start_date, end_date)).count()
-
-    #sahalarda toplam yapılan maçları çeker
-    venue_ranked_list = (
-    AssignedMatch.query
-    .with_entities(AssignedMatch.match_venue, func.count().label('venue_count'))
-    .group_by(AssignedMatch.match_venue)
-    .order_by(func.count().desc())
-    .all()
-        )
+    #seçili sahada bu ay oynanan maç sayıları
+    monthly_game = (AssignedMatch.query.filter
+                    (AssignedMatch.match_venue == selected_venue,
+                    func.extract('month', AssignedMatch.match_date) == current_month).count())
     
-    #sahaların en çok maç oynayanlara göre sıralar
+    #seçili sahada bu hafta oynanan maç sayıları
+    weekly_game = AssignedMatch.query.filter(
+                    AssignedMatch.match_venue == selected_venue, 
+                    AssignedMatch.match_date.between(start_date, end_date)).count()
+    
+    #sahalarda toplam yapılan maçları çeker
+    venue_ranked_list = (AssignedMatch.query
+                         .with_entities(AssignedMatch.match_venue, func.count().label('venue_count'))
+                         .group_by(AssignedMatch.match_venue).order_by(func.count().desc()).all())
+    
+    #sahaları en çok maç oynayanlara göre sıralar 
     ranked_num=1
     for venue in venue_ranked_list:
-
         if venue[0] == selected_venue:
             break
         else:
             ranked_num += 1
-
+    #toplam maç sayıları, aylık maç sayıları , haftalık maçsayıları 
+    #ve ranked_num içeren listeleri  first_row da birleştirme 
     first_row= [total_game,monthly_game,weekly_game,ranked_num]
 
     return first_row
 
-def dashboard_secondrow(selected_venue):
-
+def dashboard_montly_game(selected_venue):
+    #seçili sahada oynanan maçları filtreleme ve aylara göre gruplama
     result = (
     AssignedMatch.query
     .filter(AssignedMatch.match_venue == selected_venue)
@@ -331,13 +330,17 @@ def dashboard_secondrow(selected_venue):
     .group_by(func.strftime('%Y-%m', AssignedMatch.match_date))
     .order_by(func.strftime('%Y-%m', AssignedMatch.match_date)).all()
     )
+    #result listesindeki ayları ve maç sayılarını ayrı listelere ayırma
     aylar = [datetime.strptime(ay, '%m').strftime('%B') for ay, _ in result]
     mac_sayisi = [mac_sayisi for _, mac_sayisi in result]
     
+    #aylar ve maç sayılarını içeren listeleri birleştirme
     second_row = [aylar,mac_sayisi]
     return second_row
     
-def dashboard_third_row(selected_venue):
+def dashboard_league_chart(selected_venue):
+
+    #seçili sahada yapılan maçları liglere göre gruplandırma ve maç sayısını hesaplama
     result = (
     AssignedMatch.query
     .filter(AssignedMatch.match_venue == selected_venue)
@@ -345,14 +348,15 @@ def dashboard_third_row(selected_venue):
     .with_entities(AssignedMatch.league_id, func.count().label('satir_sayisi'))
     .all()
     )
-
+    #liglere göre maç sayılarını içeren bir liste oluşturma
     lig_mac_sayisi=[]
     for lig in result:
         lig_mac_sayisi.append(lig[1])
 
     return lig_mac_sayisi
 
-def dashboard_fourth_row(selected_venue):
+def dashboard_mostplayed_team(selected_venue):
+    # ev sahibi olan takımların seçili sahada yapılan maç sayılarını bulma
     home_team_result = (
     AssignedMatch.query
     .with_entities(AssignedMatch.home_team_name.label('takim'), func.count().label('mac_sayisi'))
@@ -361,7 +365,7 @@ def dashboard_fourth_row(selected_venue):
     .order_by(func.count().desc())
     .all()
     )
-
+     #deplasman takımlarının seçili sahada yapılan maç sayılarını bulma
     away_team_result = (
     AssignedMatch.query
     .with_entities(AssignedMatch.away_team_name.label('takim'), func.count().label('mac_sayisi'))
@@ -370,27 +374,25 @@ def dashboard_fourth_row(selected_venue):
     .order_by(func.count().desc())
     .all()
     )
-
+    #maç sayılarını defaultdict fonksiyonu ile  takım bazında toplanması
     combined_result = defaultdict(int)
-
     for row in home_team_result:
         takim = row.takim
         mac_sayisi = row.mac_sayisi
         combined_result[takim] += mac_sayisi
-
     for row in away_team_result:
         takim = row.takim
         mac_sayisi = row.mac_sayisi
         combined_result[takim] += mac_sayisi
+    #toplam maç sayılarına göre takımları sıralama    
     sorted_result = sorted(combined_result.items(), key=lambda x: x[1], reverse=True)
+
+    # İlk 5 takımı ve maç sayılarını ayrı listelere ayırma
     top_5_teams = [team[0] for team in sorted_result[:5]]
     top_5_values = [team[1] for team in sorted_result[:5]]
-    print(sorted_result)
-    print()
-    print(top_5_teams)
-    print(top_5_values)
-    fourth_row=[]
-    return [top_5_teams,top_5_values]
+
+    fourth_row=[top_5_teams,top_5_values]
+    return fourth_row
 
 
 @views.route('/dashboard' , methods=['GET'])
@@ -401,15 +403,15 @@ def dashboard():
     #seçilen sahanın URL parametresinden alınması
     selected_venue = request.args.get('selected_venue', '')
     first_row = dashboard_firstrow(selected_venue)
-    second_row = dashboard_secondrow(selected_venue)
-    third_row= dashboard_third_row(selected_venue)
-    fourth_row=dashboard_fourth_row(selected_venue)
+    montly_game = dashboard_montly_game(selected_venue)
+    league_chart= dashboard_league_chart(selected_venue)
+    mostplayed_team=dashboard_mostplayed_team(selected_venue)
     #seçili sahanın altında yazan text
     venue_info = ""
     if selected_venue!='':
         venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
 
-    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,second_row=second_row,third_row=third_row,fourth_row=fourth_row)
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team)
 
 #dropdown menuden saha seçiminin aktarımı
 @views.route('/dashboard_venue_selection', methods=['POST'])

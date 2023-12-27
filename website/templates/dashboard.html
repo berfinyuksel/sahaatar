@@ -159,21 +159,21 @@
   </div>
 
   </div>
-    <p>{{second_row}}</p>
+  
 </body>
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Flask'ten gelen veriyi al
-    const second_row = {{ second_row|tojson|safe }};
+    const montly_game = {{ montly_game|tojson|safe }};
     // Chart.js konfigürasyonu (Line Chart)
-    const labelsLine = second_row[0];
+    const labelsLine = montly_game[0];
     const dataLine = {
         labels: labelsLine,
         datasets: [{
             label: 'Maç Sayıları',
-            data: second_row[1],
+            data: montly_game[1],
             fill: true,
             borderColor: '#1D9375',
             tension: 0.1
@@ -190,14 +190,14 @@
 </script>
 
 <script>
-      const third_row = {{ third_row|tojson|safe }};
+      const league_chart = {{ league_chart|tojson|safe }};
 
     const league_name = ["1.GRUP", "2.GRUP", "3.GRUP", "4.GRUP", "5.GRUP", "6.GRUP", "7.GRUP", "8.GRUP", "9.GRUP", "10.GRUP"];
     const dataBar = {
         labels: league_name,
         datasets: [{
             label: 'Maç Sayıları',
-            data: third_row,
+            data: league_chart,
             backgroundColor: ["#e60049", "#0bb4ff", "#50e991", "#e6d800", "#9b19f5", "#ffa300", "#dc0ab4", "#1a53ff", "#00bfa0", "#ffd700"],
             borderWidth: 1
         }]
@@ -219,13 +219,13 @@
     const myBarChart = new Chart(ctxBar, configBar);
 </script>
 <script>
-  const fourth_row = {{ fourth_row|tojson|safe }};
+  const mostplayed_teams = {{ mostplayed_team|tojson|safe }};
 
   const dataPie = {
-      labels:fourth_row[0],
+      labels:mostplayed_teams[0],
       datasets: [{
           label: 'Maç Sayısı',
-          data: fourth_row[1],
+          data: mostplayed_teams[1],
           backgroundColor: ["#9552ea", "#93f03b", "#ffec21", "#f54f52", "#378aff"],
       }]
   };
