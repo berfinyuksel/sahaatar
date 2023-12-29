@@ -586,10 +586,14 @@ def handle_venue_selection():
 
 @views.route('/optimize', methods=['GET','POST'])
 def optimize():
-    league= League.query.all()
+    league = League.query.all()
     league_name = request.form.get("league_name")
+
     if request.method == 'POST':
         export_match_to_csv()
         export_venue_to_csv()
         run_gurobi()
+
+        flash("Assigned Successfully!", "success")
+
     return render_template('optimize.html', league=league)

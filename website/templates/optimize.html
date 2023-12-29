@@ -59,6 +59,17 @@
                         <input type="date" id="endDate" name="endDate" required>
                     </div>
                 </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
                 <button type="submit" id="submitButton">ASSIGN VENUES</button>
             </form>
     </main>
