@@ -30,14 +30,13 @@ def home():
     
     if assigned_matches or matches:
 
-
         df_assigned = pd.DataFrame([
          {
-              'time': match.match_slot,
-               'date': match.match_date,
+            'time': match.match_slot,
+            'date': match.match_date,
             'home_team': match.home_team_name,
             'away_team': match.away_team_name,
-             'League_name': match.league_id,
+            'League_name': match.league_id,
             'venue_name': match.match_venue if match in assigned_matches else "" 
          }
          for match in assigned_matches or matches])
@@ -45,18 +44,13 @@ def home():
 
         # Format the 'date' column
         df_assigned['date'] = pd.to_datetime(df_assigned['date']).dt.strftime('%d/%m/%Y')
+
         # Filter matches for the current week
-        today = datetime.now().date()
-        start_of_week = today - timedelta(days=today.weekday())
-        end_of_week = start_of_week + timedelta(days=6)
-        start_of_week = pd.to_datetime(start_of_week)
-        end_of_week = pd.to_datetime(end_of_week)
-        df_assigned = df_assigned[
-            (pd.to_datetime(df_assigned['date']) >= start_of_week) &
-            (pd.to_datetime(df_assigned['date']) <= end_of_week)
-        ]
+        df_assigned = current_week_filter(df_assigned)
+
         # Sort the DataFrame first by 'League_name' and then by 'date'
         df_assigned = df_assigned.sort_values(by=['League_name', 'date'], ascending=[True, False])
+
         return render_template(
             'home_page.html',
             time=df_assigned['time'].to_frame().to_html(header=False, index=False),
@@ -76,34 +70,20 @@ def home():
             df_selected['date'] = pd.to_datetime(df_selected['date']).dt.strftime('%d/%m/%Y')
 
             # Filter matches for the current week
-            today = datetime.now().date()
-            start_of_week = today - timedelta(days=today.weekday())
-            end_of_week = start_of_week + timedelta(days=6)
-            start_of_week = pd.to_datetime(start_of_week)
-            end_of_week = pd.to_datetime(end_of_week)
-            df_selected = df_selected[
-                (pd.to_datetime(df_selected['date']) >= start_of_week) &
-                (pd.to_datetime(df_selected['date']) <= end_of_week)
-            ]
+            df_selected = current_week_filter(df_selected)
 
             # Sort the DataFrame first by 'League_name' and then by 'date'
             df_selected = df_selected.sort_values(by=['League_name', 'date'], ascending=[True, False])
 
             # Her sütunu ayrı ayrı HTML sayfalarına gönder
-            time_html = df_selected['time'].to_frame().to_html(header=False, index=False)
-            date_html = df_selected['date'].to_frame().to_html(header=False, index=False)
-            home_team_html = df_selected['home_team'].to_frame().to_html(header=False, index=False)
-            away_team_html = df_selected['away_team'].to_frame().to_html(header=False, index=False)
-            league_name_html = df_selected['League_name'].to_frame().to_html(header=False, index=False)
-            venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False, index=False)
             return render_template(
                 'home_page.html',
-                time=time_html,
-                date=date_html,
-                home=home_team_html,
-                away=away_team_html,
-                league=league_name_html,
-                venue=venue_name_html,
+                time=df_selected['time'].to_frame().to_html(header=False, index=False),
+                date=df_selected['date'].to_frame().to_html(header=False, index=False),
+                home=df_selected['home_team'].to_frame().to_html(header=False, index=False),
+                away=df_selected['away_team'].to_frame().to_html(header=False, index=False),
+                league=df_selected['League_name'].to_frame().to_html(header=False, index=False),
+                venue=df_selected['venue_name'].to_frame().to_html(header=False, index=False),
                 data=df_selected.to_html(header=False, index=False)
             )
         except FileNotFoundError:
@@ -154,12 +134,9 @@ def venuesettings():
         slot_three_input = 'slot3' in request.form
         slot_four_input = 'slot4' in request.form
         slot_five_input = 'slot5' in request.form
-        print(selected_venue_name)
-        print(accept_input)
-        print(open_input)
+        
         if selected_venue_name and accept_input and open_input:
             venue_to_update = Venue.query.filter_by(venue_name = selected_venue_name).first()
-            print(venue_to_update)
         
             venue_to_update.accepts_outside_teams = accept_input == 'True'
             venue_to_update.venue_availability = open_input == 'True'
@@ -236,7 +213,7 @@ def submit():
         print(request.form)
         home_team_to_insert = request.form.get("home_team")
         away_team_to_insert = request.form.get("away_team")
-        selected_date = request.form.get("trip-start")
+        selected_date = request.form.get("start")
         selected_slot = request.form.get("area")
         
         home_team = Team.query.filter_by(team_name=home_team_to_insert).first()
@@ -248,15 +225,15 @@ def submit():
             return redirect(url_for("views.fillform"))
 
         if check_match_condition(home_team, away_team):
+
             new_match = Match(
                 home_team_name=home_team.team_name,
                 away_team_name=away_team.team_name,
                 league_id=match_league_id,
                 match_date = datetime.strptime(selected_date, '%Y-%m-%d').date(),
                 match_slot = selected_slot,
-                match_day = datetime.strptime(selected_date,"%Y-%m-%d").strftime('%A').upper()
-
-            )
+                match_day = datetime.strptime(selected_date,"%Y-%m-%d").strftime('%A').upper() )
+            
             try:
                 db.session.add(new_match)
                 db.session.commit()
@@ -277,6 +254,55 @@ def submit():
 def fillform():
     team = Team.query.all()
     return render_template('fillform.html', team=team)
+
+@views.route('/dashboard' , methods=['GET'])
+def dashboard():
+    #saha verilerini veritabanından alınması
+    venue = Venue.query.all()
+
+    #seçilen sahanın URL parametresinden alınması
+    selected_venue = request.args.get('selected_venue', '')
+    first_row = dashboard_firstrow(selected_venue)
+    montly_game = dashboard_montly_game(selected_venue)
+    league_chart= dashboard_league_chart(selected_venue)
+    mostplayed_team=dashboard_mostplayed_team(selected_venue)
+    lastmatch = dashboard_lastfive_match(selected_venue)
+    #seçili sahanın altında yazan text
+    venue_info = ""
+    if selected_venue!='':
+        venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
+
+    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team,lastmatch=lastmatch)
+
+#dropdown menuden saha seçiminin aktarımı
+@views.route('/dashboard_venue_selection', methods=['POST'])
+def dashboard_venue_selection():
+    selected_venue_name = request.form['selected_venue']
+    selectinfo = selected_venue_name + " nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
+    return redirect(url_for('views.dashboard', selected_venue=selected_venue_name))
+
+@views.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    global current_week
+    venue = Venue.query.all()
+    selected_venue_name = request.args.get('selected_venue', '')  # URL parametresinden seçili mekan adını al
+
+    weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
+
+    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
+
+@views.route('/optimize', methods=['GET','POST'])
+def optimize():
+    league = League.query.all()
+
+    if request.method == 'POST':
+        export_match_to_csv()
+        export_venue_to_csv()
+        run_gurobi()
+        extract_assigned_matches()
+        
+
+    return render_template('optimize.html', league=league)
 
 #dashboarda yer alan ilk satırın bilgileri
 def dashboard_firstrow(selected_venue):
@@ -416,32 +442,6 @@ def dashboard_lastfive_match(selected_venue):
         result_strings.append(match_string)
 
     return result_strings
-@views.route('/dashboard' , methods=['GET'])
-def dashboard():
-    #saha verilerini veritabanından alınması
-    venue = Venue.query.all()
-
-    #seçilen sahanın URL parametresinden alınması
-    selected_venue = request.args.get('selected_venue', '')
-    first_row = dashboard_firstrow(selected_venue)
-    montly_game = dashboard_montly_game(selected_venue)
-    league_chart= dashboard_league_chart(selected_venue)
-    mostplayed_team=dashboard_mostplayed_team(selected_venue)
-    lastmatch = dashboard_lastfive_match(selected_venue)
-    #seçili sahanın altında yazan text
-    venue_info = ""
-    if selected_venue!='':
-        venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
-
-    return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team,lastmatch=lastmatch)
-
-#dropdown menuden saha seçiminin aktarımı
-@views.route('/dashboard_venue_selection', methods=['POST'])
-def dashboard_venue_selection():
-    selected_venue_name = request.form['selected_venue']
-    selectinfo = selected_venue_name + " nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
-    return redirect(url_for('views.dashboard', selected_venue=selected_venue_name))
-
 
 # İki takımın aynı ligde olup olmadığını karşılaştırıyor
 def check_match_condition(team_one: Team, team_two: Team):
@@ -480,11 +480,9 @@ def export_match_to_csv():
 
     # Convert each row to a list of values
     rows_as_lists = matches_df.values.tolist()
-
+    
     # Write each row to the CSV file line by line
-    with open('website/gurobi input/matches.csv', 'w') as csv_file:
-        for row in rows_as_lists:
-            csv_file.write(str(row) + '\n')
+    save_csv(rows_as_lists,'website/gurobi input/matches.csv')
 
 def export_venue_to_csv():
     venues = Venue.query.all()
@@ -505,22 +503,11 @@ def export_venue_to_csv():
 
     # Convert each row to a list of values
     rows_as_lists = venues_df.values.tolist()
-    venue_list = []
 
     # Write each row to the CSV file line by line
-    with open('website/gurobi input/venues.csv', 'w') as csv_file:
-        for row in rows_as_lists:
-            csv_file.write(str(row) + '\n')
+    save_csv(rows_as_lists,'website/gurobi input/venues.csv')
+
    
-@views.route('/calendar', methods=['GET', 'POST'])
-def calendar():
-    global current_week
-    venue = Venue.query.all()
-    selected_venue_name = request.args.get('selected_venue', '')  # URL parametresinden seçili mekan adını al
-
-    weeklyMatchlist=getWeekMatches(selected_venue_name,current_week)    
-
-    return render_template('calendar.html', venue=venue, selected_venue_name=selected_venue_name,weeklyMatchlist=weeklyMatchlist,current_week=current_week)
 
 #tarih aralığını alma
 def getWeekRangeString(date):
@@ -600,15 +587,8 @@ def handle_venue_selection():
     current_week = getWeekRangeString(datetime.now())
     return redirect(url_for('views.calendar', selected_venue=selected_venue_name, current_week=current_week))
 
-@views.route('/optimize', methods=['GET','POST'])
-def optimize():
-    league = League.query.all()
-
-    if request.method == 'POST':
-        export_match_to_csv()
-        export_venue_to_csv()
-        run_gurobi()
-        # Load CSV data
+def extract_assigned_matches():
+    # Load CSV data
         match_data = load_csv('website/gurobi input/matches.csv')
 
         # Add a new column with the value "Not Assigned"
@@ -626,7 +606,7 @@ def optimize():
                         league_id = row[3],
                         match_day = row[4],
                         match_slot = row[5],
-                        match_date = datetime.strptime(row[6][:-1].strip(), "'%d/%m/%Y'").date()
+                        match_date = datetime.strptime(row[6].strip(), '%d/%m/%Y').date()
                     )
                 try:
                         db.session.add(match)
@@ -638,8 +618,6 @@ def optimize():
         db.session.commit()
         delete_all_matches()
         flash("Assigned Successfully!", "success")
-
-    return render_template('optimize.html', league=league)
 
 def delete_all_matches():
     try:
@@ -656,3 +634,15 @@ def delete_all_matches():
     finally:
         # Close the database session
         db.session.close()
+        
+def current_week_filter(df):
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    start_of_week = pd.to_datetime(start_of_week)
+    end_of_week = pd.to_datetime(end_of_week)
+    df = df[
+            (pd.to_datetime(df['date']) >= start_of_week) &
+            (pd.to_datetime(df['date']) <= end_of_week)
+        ]
+    return df        
