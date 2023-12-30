@@ -77,7 +77,7 @@ m.addConstrs(
 #                 "Demand[%d]" % w)
 
 # Save model
-m.write('facilityPY.lp')
+m.write('website/gurobi output/facilityPY.lp')
 
 # Guess at the starting point: close the plant with the highest fixed costs;
 # open_var all others
@@ -102,7 +102,7 @@ m.Params.Method = 2
 def run_gurobi():
     m.optimize()
 
-    with open('optimization_results.txt', 'w') as file:
+    with open('website/gurobi output/optimization_results.txt', 'w') as file:
         file.write('\nTOTAL COSTS: %g\n' % m.ObjVal)
         file.write('SOLUTION:\n')
         for p in plants:

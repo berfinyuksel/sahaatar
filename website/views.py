@@ -7,6 +7,7 @@ from collections import defaultdict
 from .models import District,League,Match,Team,Venue, AssignedMatch
 import pandas as pd
 import os
+import csv
 from . import db
 from ast import literal_eval
 from datetime import datetime, timedelta
@@ -25,23 +26,25 @@ def login_control():
 def home():
     file_path = 'website/static/excel/Matches.xlsx'
     assigned_matches = AssignedMatch.query.all()
+    matches = Match.query.all()
     
-    if assigned_matches:
+    if assigned_matches or matches:
+
+
         df_assigned = pd.DataFrame([
-            {
-                'time': match.match_slot,
-                'date': match.match_date,
-                'home_team': match.home_team_name,
-                'away_team': match.away_team_name,
-                'League_name': match.league_id,
-                'venue_name': match.match_venue
-            }
-            for match in assigned_matches
-        ])
+         {
+              'time': match.match_slot,
+               'date': match.match_date,
+            'home_team': match.home_team_name,
+            'away_team': match.away_team_name,
+             'League_name': match.league_id,
+            'venue_name': match.match_venue if match in assigned_matches else "" 
+         }
+         for match in assigned_matches or matches])
+        
 
         # Format the 'date' column
         df_assigned['date'] = pd.to_datetime(df_assigned['date']).dt.strftime('%d/%m/%Y')
-
         # Filter matches for the current week
         today = datetime.now().date()
         start_of_week = today - timedelta(days=today.weekday())
@@ -52,10 +55,8 @@ def home():
             (pd.to_datetime(df_assigned['date']) >= start_of_week) &
             (pd.to_datetime(df_assigned['date']) <= end_of_week)
         ]
-
         # Sort the DataFrame first by 'League_name' and then by 'date'
         df_assigned = df_assigned.sort_values(by=['League_name', 'date'], ascending=[True, False])
-
         return render_template(
             'home_page.html',
             time=df_assigned['time'].to_frame().to_html(header=False, index=False),
@@ -95,7 +96,6 @@ def home():
             away_team_html = df_selected['away_team'].to_frame().to_html(header=False, index=False)
             league_name_html = df_selected['League_name'].to_frame().to_html(header=False, index=False)
             venue_name_html = df_selected['venue_name'].to_frame().to_html(header=False, index=False)
-
             return render_template(
                 'home_page.html',
                 time=time_html,
@@ -447,6 +447,22 @@ def dashboard_venue_selection():
 def check_match_condition(team_one: Team, team_two: Team):
     return team_one.team_league_id == team_two.team_league_id
 
+def load_csv(file_path):
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        csv_data = list(csv_reader)
+    return csv_data
+
+def add_column(csv_data, default_value):
+    for row in csv_data:
+        row.append(default_value)
+    return csv_data
+
+def save_csv(csv_data, file_path):
+    with open(file_path, 'w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerows(csv_data)        
+
 def export_match_to_csv():
     # Match tablosundaki verileri çek
     matches = Match.query.all()
@@ -466,7 +482,7 @@ def export_match_to_csv():
     rows_as_lists = matches_df.values.tolist()
 
     # Write each row to the CSV file line by line
-    with open('matches.csv', 'w') as csv_file:
+    with open('website/gurobi input/matches.csv', 'w') as csv_file:
         for row in rows_as_lists:
             csv_file.write(str(row) + '\n')
 
@@ -492,7 +508,7 @@ def export_venue_to_csv():
     venue_list = []
 
     # Write each row to the CSV file line by line
-    with open('venues.csv', 'w') as csv_file:
+    with open('website/gurobi input/venues.csv', 'w') as csv_file:
         for row in rows_as_lists:
             csv_file.write(str(row) + '\n')
    
@@ -587,13 +603,56 @@ def handle_venue_selection():
 @views.route('/optimize', methods=['GET','POST'])
 def optimize():
     league = League.query.all()
-    league_name = request.form.get("league_name")
 
     if request.method == 'POST':
         export_match_to_csv()
         export_venue_to_csv()
         run_gurobi()
+        # Load CSV data
+        match_data = load_csv('website/gurobi input/matches.csv')
 
+        # Add a new column with the value "Not Assigned"
+        modified_data = add_column(match_data, 'Not Assigned')
+
+        # Save the modified data to a new CSV file
+        save_csv(modified_data, 'website/gurobi output/AssignedMatches.csv')
+
+        match_data = load_csv('website/gurobi output/AssignedMatches.csv')
+
+        for row in match_data[1:]:
+                match = AssignedMatch(
+                        home_team_name = row[1],
+                        away_team_name = row[2],
+                        league_id = row[3],
+                        match_day = row[4],
+                        match_slot = row[5],
+                        match_date = datetime.strptime(row[6][:-1].strip(), "'%d/%m/%Y'").date()
+                    )
+                try:
+                        db.session.add(match)
+                        db.session.commit()
+                except IntegrityError:
+                        print(f"You have already added this match: {match}")
+                        db.session.rollback()        
+
+        db.session.commit()
+        delete_all_matches()
         flash("Assigned Successfully!", "success")
 
     return render_template('optimize.html', league=league)
+
+def delete_all_matches():
+    try:
+        # Delete all records from the Matches table
+        db.session.query(Match).delete()
+
+        # Commit the changes to the database
+        db.session.commit()
+        print("All data deleted from Matches table.")
+    except Exception as e:
+        # Handle exceptions if any
+        db.session.rollback()
+        print(f"Error deleting data: {str(e)}")
+    finally:
+        # Close the database session
+        db.session.close()

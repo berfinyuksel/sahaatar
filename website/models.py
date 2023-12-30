@@ -25,14 +25,14 @@ class AssignedMatch(db.Model):
     away_team_name = db.Column(db.Integer, db.ForeignKey('team.team_name'))
     league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'))
 
-    match_venue = db.Column(db.Integer,db.ForeignKey('venue.venue_name'))
+    match_venue = db.Column(db.Integer,db.ForeignKey('venue.venue_name'), default = "Cebeci Sahasi")
     match_day = db.Column(db.String(50))  
     match_slot = db.Column(db.String(50))
     match_date = db.Column(Date)
-    match_week = db.Column(db.String(50))
+    match_week = db.Column(db.String(50), default = "DUNNO")
     # This line makes sure that no duplicates can be inserted
     __table_args__ = (
-        UniqueConstraint('match_slot','match_venue','match_date', name='unique_match'),
+        UniqueConstraint('home_team_name','away_team_name','match_slot','match_venue','match_date', name='unique_match'),
     )    
      
 class Venue(db.Model):
