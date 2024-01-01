@@ -48,225 +48,225 @@
       <div id="dropdown">
         <form action="{{ url_for('views.dashboard_venue_selection') }}" method="post">
           <select id="dropdown" name="selected_venue" onchange="submitForm()" style="background-color: white;">
-              <option value="" selected disabled>Select A Venue</option>
-              {% for venue in venue %}
-              <option value="{{ venue.venue_name }}" {% if selected_venue==venue.venue_name %}selected{% endif
-                  %}>{{ venue.venue_name }}</option>
-              {% endfor %}
+            <option value="" selected disabled>Select A Venue</option>
+            {% for venue in venue %}
+            <option value="{{ venue.venue_name }}" {% if selected_venue==venue.venue_name %}selected{% endif %}>{{
+              venue.venue_name }}</option>
+            {% endfor %}
           </select>
-      </form>
-      <script>
+        </form>
+        <script>
           function submitForm() {
-              document.forms[0].submit();
+            document.forms[0].submit();
           }
-      </script>
+        </script>
       </div>
       <div class="venue_info">
         <h2>{{selected_venue}}</h2>
         <p>{{venue_info}}</p>
       </div>
     </div>
-   
+
     <br>
     <hr>
     <br>
     <div class="first-row">
-   
-        <div class="card200x200">
-          <div class="card-header">
-            <label class="header-content">Toplam Oynanan Maç</label>
-          </div>
-          <div class="card-content">
-            <h1>{{first_row[0]}}</h1>
-          </div>
-        </div>
 
-        <div class="card200x200">
-          <div class="card-header">
-            <label class="header-content">Bu Ay Oynanan Maç</label>
-          </div>
-          <div class="card-content">
-            <h1>{{first_row[1]}}</h1>
-          </div>
+      <div class="card200x200">
+        <div class="card-header">
+          <label class="header-content">Total Matches Played</label>
         </div>
-
-        <div class="card200x200">
-          <div class="card-header">
-            <label class="header-content">Bu Hafta Oynanan</label>
-          </div>
-          <div class="card-content">
-            <h1>{{first_row[2]}}</h1>
-          </div>
+        <div class="card-content">
+          <h1>{{first_row[0]}}</h1>
         </div>
-
-        <div class="card200x200">
-          <div class="card-header">
-            <label class="header-content">Aktif Saha Sıralaması</label>
-          </div>
-          <div class="card-content">
-            <h1>{{first_row[3]}}</h1>
-          </div>
-        </div>
-
       </div>
 
-  <div class="second-row"> 
-       
-        <div class="card700x500">
-          <div class="card-header">
-            <label class="header-content">Aylara Göre Oynanan Maç Sayısı</label>
-          </div>
-          <div class="card-content">
-            <canvas id="lineChart" style="width: 40%; height: 40%;"></canvas>    
-          </div>
+      <div class="card200x200">
+        <div class="card-header">
+          <label class="header-content">Matches of Month</label>
         </div>
+        <div class="card-content">
+          <h1>{{first_row[1]}}</h1>
+        </div>
+      </div>
 
-        <div class="card300x500">
-          <div class="card-header">
-            <label class="header-content" >Oynanan Son 5 Maç</label>
-          </div>
-          <div class="card-content" style="font-size: small;">
+      <div class="card200x200">
+        <div class="card-header">
+          <label class="header-content">Matches of Week</label>
+        </div>
+        <div class="card-content">
+          <h1>{{first_row[2]}}</h1>
+        </div>
+      </div>
 
-            <table border="1">
-              <tbody>
-                  <tr>
-                      <td id="timetable">{{lastmatch[0]}}</td>
-                      <td id="matchtable">{{lastmatch[1]}}</td>
-                  </tr>
-                  <tr>
-                      <td id="timetable">{{lastmatch[2]}}</td>
-                      <td id="matchtable">{{lastmatch[3]}}</td>
-                  </tr>
-                  <tr>
-                      <td id="timetable">{{lastmatch[4]}}</td>
-                      <td id="matchtable">{{lastmatch[5]}}</td>
-                  </tr>
-                  <tr>
-                      <td id="timetable">{{lastmatch[6]}}</td>
-                      <td id="matchtable">{{lastmatch[7]}}</td>
-                  </tr>
-                  <tr>
-                      <td id="timetable">{{lastmatch[8]}}</td>
-                      <td id="matchtable">{{lastmatch[9]}}</td> 
-                </tr>
-              </tbody>
+      <div class="card200x200">
+        <div class="card-header">
+          <label class="header-content">Active Venue Rank</label>
+        </div>
+        <div class="card-content">
+          <h1>{{first_row[3]}}</h1>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="second-row">
+
+      <div class="card700x500">
+        <div class="card-header">
+          <label class="header-content">Number of Matches by Month</label>
+        </div>
+        <div class="card-content">
+          <canvas id="lineChart" style="width: 40%; height: 40%;"></canvas>
+        </div>
+      </div>
+
+      <div class="card300x500">
+        <div class="card-header">
+          <label class="header-content">Last 5 Matches</label>
+        </div>
+        <div class="card-content" style="font-size: small;">
+
+          <table border="1">
+            <tbody>
+              <tr>
+                <td id="timetable">{{lastmatch[0]}}</td>
+                <td id="matchtable">{{lastmatch[1]}}</td>
+              </tr>
+              <tr>
+                <td id="timetable">{{lastmatch[2]}}</td>
+                <td id="matchtable">{{lastmatch[3]}}</td>
+              </tr>
+              <tr>
+                <td id="timetable">{{lastmatch[4]}}</td>
+                <td id="matchtable">{{lastmatch[5]}}</td>
+              </tr>
+              <tr>
+                <td id="timetable">{{lastmatch[6]}}</td>
+                <td id="matchtable">{{lastmatch[7]}}</td>
+              </tr>
+              <tr>
+                <td id="timetable">{{lastmatch[8]}}</td>
+                <td id="matchtable">{{lastmatch[9]}}</td>
+              </tr>
+            </tbody>
           </table>
-          </div>
         </div>
-  
-  </div>
-
-  <div class="third-row">
-
-    <div class="card500x300">
-
-      
-      <div class="card-header" >
-        <label class="header-content">Liglere Göre Oynanan Maç Sayısı</label>
-      </div>
-      <div class="card-content">
-        <canvas id="barChart"></canvas>
       </div>
 
     </div>
 
-    <div class="card500x300">
+    <div class="third-row">
 
-      <div class="card-header">
-          <label class="header-content">En Fazla Oynayan Takımlar</label>
+      <div class="card500x300">
+
+
+        <div class="card-header">
+          <label class="header-content">Number of Matches by Leagues</label>
+        </div>
+        <div class="card-content">
+          <canvas id="barChart"></canvas>
+        </div>
+
       </div>
-      <div class="card-content" style="width: 80%; height: 80%; ">
-          <canvas id="pieChart" ></canvas>
+
+      <div class="card500x300">
+
+        <div class="card-header">
+          <label class="header-content">Most Played Teams</label>
+        </div>
+        <div class="card-content" style="width: 80%; height: 80%; ">
+          <canvas id="pieChart"></canvas>
+        </div>
       </div>
+
     </div>
 
   </div>
 
-  </div>
-  
 </body>
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Flask'ten gelen veriyi al
-    const montly_game = {{ montly_game|tojson|safe }};
-    // Chart.js konfigürasyonu (Line Chart)
-    const labelsLine = montly_game[0];
-    const dataLine = {
-        labels: labelsLine,
-        datasets: [{
-            label: 'Maç Sayıları',
-            data: montly_game[1],
-            fill: true,
-            borderColor: '#1D9375',
-            tension: 0.1
-        }]
-    };
+  // Flask'ten gelen veriyi al
+  const montly_game = {{ montly_game| tojson | safe }};
+  // Chart.js konfigürasyonu (Line Chart)
+  const labelsLine = montly_game[0];
+  const dataLine = {
+    labels: labelsLine,
+    datasets: [{
+      label: 'Maç Sayıları',
+      data: montly_game[1],
+      fill: true,
+      borderColor: '#1D9375',
+      tension: 0.1
+    }]
+  };
 
-    const configLine = {
-        type: 'line',
-        data: dataLine,
-    };
+  const configLine = {
+    type: 'line',
+    data: dataLine,
+  };
 
-    const ctxLine = document.getElementById('lineChart').getContext('2d');
-    const myLineChart = new Chart(ctxLine, configLine);
+  const ctxLine = document.getElementById('lineChart').getContext('2d');
+  const myLineChart = new Chart(ctxLine, configLine);
 </script>
 
 <script>
-      const league_chart = {{ league_chart|tojson|safe }};
+  const league_chart = {{ league_chart| tojson | safe }};
 
-    const league_name = ["1.GRUP", "2.GRUP", "3.GRUP", "4.GRUP", "5.GRUP", "6.GRUP", "7.GRUP", "8.GRUP", "9.GRUP", "10.GRUP"];
-    const dataBar = {
-        labels: league_name,
-        datasets: [{
-            label: 'Maç Sayıları',
-            data: league_chart,
-            backgroundColor: ["#e60049", "#0bb4ff", "#50e991", "#e6d800", "#9b19f5", "#ffa300", "#dc0ab4", "#1a53ff", "#00bfa0", "#ffd700"],
-            borderWidth: 1
-        }]
-    };
+  const league_name = ["1.GRUP", "2.GRUP", "3.GRUP", "4.GRUP", "5.GRUP", "6.GRUP", "7.GRUP", "8.GRUP", "9.GRUP", "10.GRUP"];
+  const dataBar = {
+    labels: league_name,
+    datasets: [{
+      label: 'Maç Sayıları',
+      data: league_chart,
+      backgroundColor: ["#e60049", "#0bb4ff", "#50e991", "#e6d800", "#9b19f5", "#ffa300", "#dc0ab4", "#1a53ff", "#00bfa0", "#ffd700"],
+      borderWidth: 1
+    }]
+  };
 
-    const configBar = {
-        type: 'bar',
-        data: dataBar,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        },
-    };
+  const configBar = {
+    type: 'bar',
+    data: dataBar,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
 
-    const ctxBar = document.getElementById('barChart').getContext('2d');
-    const myBarChart = new Chart(ctxBar, configBar);
+  const ctxBar = document.getElementById('barChart').getContext('2d');
+  const myBarChart = new Chart(ctxBar, configBar);
 </script>
 <script>
-  const mostplayed_teams = {{ mostplayed_team|tojson|safe }};
+  const mostplayed_teams = {{ mostplayed_team| tojson | safe }};
 
   const dataPie = {
-      labels:mostplayed_teams[0],
-      datasets: [{
-          label: 'Maç Sayısı',
-          data: mostplayed_teams[1],
-          backgroundColor: ["#9552ea", "#93f03b", "#ffec21", "#f54f52", "#378aff"],
-      }]
+    labels: mostplayed_teams[0],
+    datasets: [{
+      label: 'Maç Sayısı',
+      data: mostplayed_teams[1],
+      backgroundColor: ["#9552ea", "#93f03b", "#ffec21", "#f54f52", "#378aff"],
+    }]
   };
 
   const configPie = {
-        type: 'pie',
-        data: dataPie,
-        options: {
-            plugins: {
-                legend: {
-                    position: 'right', 
-                }
-            },            
-            maintainAspectRatio: false, 
-            responsive: true, 
+    type: 'pie',
+    data: dataPie,
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
         }
-    };
+      },
+      maintainAspectRatio: false,
+      responsive: true,
+    }
+  };
 
   const ctxPie = document.getElementById('pieChart').getContext('2d');
   const myPieChart = new Chart(ctxPie, configPie);

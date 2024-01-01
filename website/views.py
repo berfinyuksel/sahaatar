@@ -270,7 +270,7 @@ def dashboard():
     #seçili sahanın altında yazan text
     venue_info = ""
     if selected_venue!='':
-        venue_info = selected_venue + "'nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
+        venue_info = "The analysis report of the matches played on this field is given below."
 
     return render_template('dashboard.html', venue=venue,selected_venue=selected_venue, venue_info=venue_info, first_row=first_row,montly_game=montly_game,league_chart=league_chart,mostplayed_team=mostplayed_team,lastmatch=lastmatch)
 
@@ -278,7 +278,7 @@ def dashboard():
 @views.route('/dashboard_venue_selection', methods=['POST'])
 def dashboard_venue_selection():
     selected_venue_name = request.form['selected_venue']
-    selectinfo = selected_venue_name + " nda oynanan maçlarının analiz raporu aşağıda yer almaktadır."
+    selectinfo = "The analysis report of the matches played on this field is given below."
     return redirect(url_for('views.dashboard', selected_venue=selected_venue_name))
 
 @views.route('/calendar', methods=['GET', 'POST'])
