@@ -10,10 +10,13 @@
 
 <body>
   <header>
+
     <nav>
+
       <div class="brand">
-        <a href="/"><img src="static/images/logo1.png" alt="" width="120px" /></a>
+        <a href="/"><img id="icon" src="static/images/logo1.png" alt="" /></a>
       </div>
+
       <div class="navbar-pages">
         <ul class="navigation">
           <li><a href="/">Homepage</a></li>
@@ -30,7 +33,7 @@
           <li><a href="optimize">Optimize</a></li>
         </ul>
       </div>
-      <div>
+      <div class="log-in">
         {% if 'logged_in' in session %}
         <a class="btn btn-primary" href="{{ url_for('views.logout') }}">Logout</a>
         {% else %}
@@ -38,6 +41,7 @@
         {% endif %}
       </div>
     </nav>
+
   </header>
   <main>
     <div class="main">

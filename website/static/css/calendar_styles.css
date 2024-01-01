@@ -10,6 +10,10 @@ body {
     background-image: url("/static/images/background.jpg");
 }
 
+#icon {
+    width: 7.5rem;
+}
+
 .main {
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
@@ -25,7 +29,7 @@ body {
 }
 
 nav {
-    padding: 0 25px;
+    padding: 0 1.5625rem;
     background-color: #505050;
     display: flex;
     justify-content: space-between;
@@ -35,24 +39,24 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: #03b5aa;
-    font-size: 20px;
+    color: #03B5AA;
+    font-size: 1.25rem;
     align-self: self;
 }
 
 .brand {
-    padding-left: 25px;
+    padding-left: 1.5625rem;
     justify-self: left;
 }
 
 .btn {
     text-align: center;
     text-decoration: none;
-    padding: 10px 40px;
-    font-size: 18px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
     cursor: pointer;
     border: none;
-    border-radius: 15px;
+    border-radius: 0.9375rem;
     transition-duration: 0.6s;
 }
 
@@ -63,7 +67,7 @@ nav a {
 
 .navigation a {
     display: block;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .navigation a:hover {
@@ -74,13 +78,13 @@ nav a {
 .btn-primary {
     background: #1d9375;
     color: #dbfe87;
-    border: 2px solid #1d9375;
+    border: 0.125rem solid #1d9375;
 }
 
 .btn-primary:hover {
     background: #dbfe87;
     color: #1d9375;
-    border: 2px solid #1d9375;
+    border: 0.125rem solid #1d9375;
 }
 
 .dropdown {
@@ -92,14 +96,14 @@ nav a {
     display: none;
     position: absolute;
     background-color: #505050;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    min-width: 10rem;
+    box-shadow: 0px 0.5rem 1rem 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: #03b5aa;
-    padding: 12px 16px;
+    color: #03B5AA;
+    padding: 0.75rem 1rem;
     display: block;
     text-decoration: none;
 }
@@ -129,7 +133,7 @@ nav a {
     height: 100px;
     text-align: center;
     /* line-height: 100px; */
-    font-size: small;
+    font-size: 30px;
 }
 
 .days {
@@ -226,4 +230,54 @@ p {
 #time {
     line-height: 100px;
     font-size: 1vw;
+}
+
+@media (max-width: 37.5rem) {
+    main {
+        max-width: 30rem;
+        padding: 1rem;
+    }
+
+    #icon {
+        width: 3.75rem;
+    }
+
+    .days {
+        height: 25px;
+        color: #fff;
+        line-height: 25px;
+        font-size: 10px;
+    }
+
+    nav {
+        padding: 0 0.78125rem;
+    }
+
+    nav a {
+        font-size: 0.625rem;
+    }
+
+    .brand {
+        padding-left: 0.78125rem;
+        justify-self: left;
+    }
+
+    .btn {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.5rem;
+        border-radius: 0.46875rem;
+    }
+
+    .navigation a {
+        padding: 0.625rem;
+    }
+
+    .dropdown-content {
+        min-width: 5rem;
+        box-shadow: 0px 0.25rem 0.5rem 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+        padding: 0.375rem 0.5rem;
+    }
 }
