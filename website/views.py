@@ -19,6 +19,7 @@ views = Blueprint('views',__name__)
 def login_control():
     admin_pages = ['/venuesettings', '/addfile', '/fillform', '/optimize']
 
+    #kullanici giris yapmis mi kontrol et yapmamissa admin sayfalarinda logine yönlendir
     if request.path in admin_pages and 'logged_in' not in session:
         return redirect(url_for('views.login'))
 
@@ -42,7 +43,7 @@ def home():
          for match in assigned_matches or matches])
         
 
-        # Format the 'date' column
+        #tarihi gün ay yil olarak goster
         df_assigned['date'] = pd.to_datetime(df_assigned['date']).dt.strftime('%d/%m/%Y')
 
         # Filter matches for the current week
@@ -100,6 +101,7 @@ def home():
 
 @views.route('/Login', methods=['GET', 'POST'])
 def login():
+    #login attempt olunca id ve password dogruysa homepage'e gönder
     if request.method == 'POST':
         idInput = request.form.get('userID')
         passwordInput = request.form.get('password')
@@ -108,7 +110,7 @@ def login():
             return redirect(url_for('views.home'))
         else:
             flash("Check your login information!")
-
+    #login bilgileri dogru degilse login.htmlde kal ve flash mesaji göster
     return render_template('login_page.html')
 
 @views.route('/Logout')
