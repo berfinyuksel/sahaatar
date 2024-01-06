@@ -1,6 +1,5 @@
 from .extensions import db
-from sqlalchemy import Time,Boolean,UniqueConstraint,Date
-from flask_login import UserMixin
+from sqlalchemy import Boolean,UniqueConstraint,Date
 
 class Match(db.Model):
     match_id = db.Column(db.Integer, primary_key=True)
@@ -29,7 +28,7 @@ class AssignedMatch(db.Model):
     match_slot = db.Column(db.String(50))
     match_date = db.Column(Date)
     match_week = db.Column(db.String(50), default = "DUNNO")
-    # This line makes sure that no duplicates can be inserted
+
     __table_args__ = (
         UniqueConstraint('home_team_name','away_team_name','match_slot','match_venue','match_date', name='unique_match'),
     )    
@@ -49,6 +48,7 @@ class Venue(db.Model):
     
     matches = db.relationship('AssignedMatch', backref = 'venue')
     venue_district_id = db.Column(db.Integer, db.ForeignKey('district.district_id'))
+    
     __table_args__ = (
         UniqueConstraint('venue_name', name='unique_venue'),
     )  

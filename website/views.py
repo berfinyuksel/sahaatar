@@ -1,15 +1,12 @@
-from flask import Blueprint,render_template,request,redirect,url_for,flash, current_app, session
-from flask_bcrypt import Bcrypt
+from flask import Blueprint,render_template,request,redirect,url_for,flash,session
 from datetime import datetime 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func,distinct
 from collections import defaultdict
-from .models import District,League,Match,Team,Venue, AssignedMatch
+from .models import League,Match,Team,Venue, AssignedMatch
 import pandas as pd
-import os
 import csv
 from . import db
-from ast import literal_eval
 from datetime import datetime, timedelta
 from .gurobi_test import run_gurobi
 
@@ -30,7 +27,9 @@ def home():
     matches = Match.query.all()
     
     if assigned_matches or matches:
-
+        
+        # Veritabanındaki maçları bir DataFrame'e dönüştürür
+        # Veriyi ise AssignedMatches'te maçın olup olmadığına göre aktarır
         df_assigned = pd.DataFrame([
          {
             'time': match.match_slot,
@@ -46,10 +45,10 @@ def home():
         #tarihi gün ay yil olarak goster
         df_assigned['date'] = pd.to_datetime(df_assigned['date']).dt.strftime('%d/%m/%Y')
 
-        # Filter matches for the current week
+        # Bulunduğumuz haftaya göre maçları filtrele
         df_assigned = current_week_filter(df_assigned)
 
-        # Sort the DataFrame first by 'League_name' and then by 'date'
+        # DataFrame'i League_name ve tarihe göre sırala
         df_assigned = df_assigned.sort_values(by=['League_name', 'date'], ascending=[True, False])
 
         return render_template(
@@ -70,10 +69,10 @@ def home():
             df_selected = df[selected_columns]
             df_selected['date'] = pd.to_datetime(df_selected['date']).dt.strftime('%d/%m/%Y')
 
-            # Filter matches for the current week
+            # Bulunduğumuz haftaya göre maçları filtrele
             df_selected = current_week_filter(df_selected)
 
-            # Sort the DataFrame first by 'League_name' and then by 'date'
+            # DataFrame'i League_name ve tarihe göre sırala
             df_selected = df_selected.sort_values(by=['League_name', 'date'], ascending=[True, False])
 
             # Her sütunu ayrı ayrı HTML sayfalarına gönder
@@ -120,17 +119,20 @@ def logout():
 
 @views.route('/venuesettings',methods=['GET','POST'])
 def venuesettings():
+    # Veritabanından tüm sahaları al
     venue = Venue.query.all()
 
     if request.method == "POST":
+        # Form verilerini al
         selected_venue_name = request.form.get('venue', '')
         accept_input = request.form.get('area', 'False')
         open_input = request.form.get('open', 'False')
-
+        
+        # Bir sahanın seçilip seçilmediğini doğrula
         if not selected_venue_name:
             flash("Venue is not selected. Please choose a venue.", "warning")
             return redirect(url_for("views.venuesettings"))
-
+        # Her bir zaman dilimi için slot bilgilerini al
         slot_one_input = 'slot1' in request.form
         slot_two_input = 'slot2' in request.form
         slot_three_input = 'slot3' in request.form
@@ -147,7 +149,8 @@ def venuesettings():
             venue_to_update.slot_three = slot_three_input
             venue_to_update.slot_four = slot_four_input
             venue_to_update.slot_five = slot_five_input
-
+            
+            # Değişiklikleri veritabanına kaydet
             db.session.commit()
             flash("Changes saved Successfully!", "success")
         elif not selected_venue_name:
@@ -166,16 +169,20 @@ def venue_settings_selection():
 @views.route('/addfile', methods=['POST', 'GET'])
 def addfile():
     if request.method == 'POST':
+                # Kullanıcının seçtiği dosyayı alır
                 file = request.files['file']
 
                 df = pd.read_excel(file, engine='openpyxl')
                 try:
+                    # Veri çerçevesinde her bir satır için döngü oluştur
                     for index, row in df.iterrows():
+                        # Satırdaki ev sahibi ve deplasman takımlarını sorgular
                         home_team_to_insert = Team.query.filter_by(team_name=row["home_team"]).first()
                         away_team_to_insert = Team.query.filter_by(team_name=row["away_team"]).first()
                         league = League.query.filter_by(league_name=row['League_name']).first()
 
                         if home_team_to_insert and away_team_to_insert and league:
+                            # Yeni bir maç objesi oluştur
                             match = Match(
                                 home_team_name=home_team_to_insert.team_name,
                                 away_team_name=away_team_to_insert.team_name,
@@ -212,16 +219,16 @@ def delete_file():
 @views.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
-        print(request.form)
+        # Formdan ev sahibi, deplasman, tarih ve slot bilgilerini al
         home_team_to_insert = request.form.get("home_team")
         away_team_to_insert = request.form.get("away_team")
         selected_date = request.form.get("start")
         selected_slot = request.form.get("area")
-        
+        # Ev sahibi ve deplasman takımlarını sorgula
         home_team = Team.query.filter_by(team_name=home_team_to_insert).first()
         away_team = Team.query.filter_by(team_name=away_team_to_insert).first()
         match_league_id = Team.query.filter_by(team_name=home_team_to_insert).first().team_league_id
-
+        # Seçilen Ev sahibi ve deplasman takımları aynı mı diye kontrol et
         if home_team_to_insert == away_team_to_insert:
             flash("Home team and away team cannot be the same.", "danger")
             return redirect(url_for("views.fillform"))
@@ -449,22 +456,24 @@ def dashboard_lastfive_match(selected_venue):
 def check_match_condition(team_one: Team, team_two: Team):
     return team_one.team_league_id == team_two.team_league_id
 
+# Csv dosyasını açıp içindeki verileri aktarmak için bir fonksiyon
 def load_csv(file_path):
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         csv_data = list(csv_reader)
     return csv_data
-
+# Csv dosyalarına ekstra column ekler
 def add_column(csv_data, default_value):
     for row in csv_data:
         row.append(default_value)
     return csv_data
-
+# Csv dosyası yazdırır
 def save_csv(csv_data, file_path):
     with open(file_path, 'w', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
-        csv_writer.writerows(csv_data)        
+        csv_writer.writerows(csv_data)    
 
+# Maç verilerini Csv'e aktarır
 def export_match_to_csv():
     # Match tablosundaki verileri çek
     matches = Match.query.all()
@@ -486,6 +495,7 @@ def export_match_to_csv():
     # Write each row to the CSV file line by line
     save_csv(rows_as_lists,'website/gurobi input/matches.csv')
 
+# Saha verilerini Csv'e aktarır
 def export_venue_to_csv():
     venues = Venue.query.all()
 
@@ -509,14 +519,13 @@ def export_venue_to_csv():
     # Write each row to the CSV file line by line
     save_csv(rows_as_lists,'website/gurobi input/venues.csv')
 
-   
-
 #tarih aralığını alma
 def getWeekRangeString(date):
     start_of_week = date - timedelta(days=date.weekday())
     end_of_week = start_of_week + timedelta(days=6)
     current_week=[start_of_week.strftime("%d/%m/%Y") , end_of_week.strftime("%d/%m/%Y")]
     return current_week
+
 #seçili haftanın maç takviminin oluşturulması
 def getWeekMatches(selected_venue_name, current_week):
     monday = ["-", "-", "-", "-", "-"]
@@ -548,6 +557,7 @@ def getWeekMatches(selected_venue_name, current_week):
                 day[4] = slot[0] + " - " + slot[1]
 
     return week
+
 #seçili günün maç takviminin oluşturulması
 def getDayMatches(selected_venue_name, current_week,gun):
     gunler = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY","SUNDAY"]
@@ -589,19 +599,19 @@ def handle_venue_selection():
     current_week = getWeekRangeString(datetime.now())
     return redirect(url_for('views.calendar', selected_venue=selected_venue_name, current_week=current_week))
 
+# AssignedMatches.csv dosyasından atanmış maçları veritabanına aktarır
 def extract_assigned_matches():
-    # Load CSV data
         match_data = load_csv('website/gurobi input/matches.csv')
 
-        # Add a new column with the value "Not Assigned"
+        # Gurobi kodu olmadığı için yeni column olarak "Not Assigned" ekler
         modified_data = add_column(match_data, 'Not Assigned')
 
-        # Save the modified data to a new CSV file
+        # Eklenilmiş veriyi yeni bir csv olarak yazdırır
         save_csv(modified_data, 'website/gurobi output/AssignedMatches.csv')
 
         match_data = load_csv('website/gurobi output/AssignedMatches.csv')
 
-        for row in match_data[0:]:
+        for row in match_data[1:]:
                 match = AssignedMatch(
                         home_team_name = row[1],
                         away_team_name = row[2],
@@ -623,18 +633,17 @@ def extract_assigned_matches():
 
 def delete_all_matches():
     try:
-        # Delete all records from the Matches table
+        # Veritabanındaki maçları siler
         db.session.query(Match).delete()
 
-        # Commit the changes to the database
+        # Değişiklikleri veritabanına aktarır
         db.session.commit()
         print("All data deleted from Matches table.")
     except Exception as e:
-        # Handle exceptions if any
+        # Exception atarsa geç
         db.session.rollback()
         print(f"Error deleting data: {str(e)}")
     finally:
-        # Close the database session
         db.session.close()
         
 def current_week_filter(df):

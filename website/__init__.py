@@ -4,19 +4,20 @@ from os import path
 from .models import Venue,District,Team,League,AssignedMatch
 from .extensions import db
 from .data import districts,groups,venue_data
-from datetime import datetime, time
 from sqlalchemy.exc import IntegrityError
 
 DB_NAME = "database.db"
 
+# Burada uygulamayı çalıştırmak ve ayarlamalarını yapmak için fonksiyon yazıyoruz
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "Mama mia"
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    # Veritabanını uygulama çağrılırken aynı bağlamda çalıştırmak için init_app() fonksiyonunu çağırıyoruz
     db.init_app(app)
 
     from .views import views
-
+    # Burada ise uygulama çağrılırken front-end kısmı ile iletişime geçtiğimiz views objesini bağlıyoruz
     app.register_blueprint(views,url_prefix = '/')
 
     create_database(app)
@@ -24,14 +25,14 @@ def create_app():
     
 
     return app
-
+# Veritabanını oluşturmak için ayrı bir fonksiyon
 def create_database(app):
     if not path.exists('website/' + DB_NAME):
         with app.app_context():
             db.create_all()
         
         print("Created DB!")
-
+# Veritabanına ilk verileri eklemek için ayrı bir fonksiyon
 def insert_initial_data(app):  
     with app.app_context():
         if not (District.query.all() and League.query.all() and Venue.query.all()):
@@ -75,11 +76,11 @@ def insert_initial_data(app):
                    print("Please enter the right template!")
 
            for venue in venues_to_insert:
-               # Check if the venue already exists
+               # Veritabanında böyle bir sahanın olup olmadığını kontrol eder 
                existing_venue = Venue.query.filter_by(venue_name=venue['venue_name']).first()
                
                if not existing_venue:
-                   # Find district by name
+                   # Sahanın ismini veritabında sorguluyor
                    district = District.query.filter_by(district_name=venue['district_name']).first()
 
                    if district:
