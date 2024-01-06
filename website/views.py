@@ -611,7 +611,7 @@ def extract_assigned_matches():
 
         match_data = load_csv('website/gurobi output/AssignedMatches.csv')
 
-        for row in match_data[1:]:
+        for row in match_data[0:]:
                 match = AssignedMatch(
                         home_team_name = row[1],
                         away_team_name = row[2],
