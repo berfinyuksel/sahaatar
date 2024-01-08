@@ -604,7 +604,7 @@ def extract_assigned_matches():
         match_data = load_csv('website/gurobi input/matches.csv')
 
         # Gurobi kodu olmadığı için yeni column olarak "Not Assigned" ekler
-        modified_data = add_column(match_data, 'Not Assigned')
+        modified_data = add_column(match_data, 'Cebeci Sahasi')
 
         # Eklenilmiş veriyi yeni bir csv olarak yazdırır
         save_csv(modified_data, 'website/gurobi output/AssignedMatches.csv')
