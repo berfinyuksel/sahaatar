@@ -4,7 +4,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main  # Her push'ta çalışır
+      - main 
 
 jobs:
   deploy:
